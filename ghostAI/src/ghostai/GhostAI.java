@@ -1,8 +1,7 @@
-
 package ghostai;
 
 /**
- *
+ * Main-class, sisältää juttuja.
  * @author Larppa
  */
 public class GhostAI {
@@ -19,16 +18,17 @@ public class GhostAI {
     /**
      * Lyhin polku startista maaliin.
      */
-    public static int[][] path;
+    public static Koordinaatti[][] path;
 
     /**
      * Tekee oikeankokoiset apumatriisit käytettävän labyrintin pohjalta.
+     *
      * @param verkko Labyrintti, jossa reittiä etsitään.
      */
     static void alustaTaulukot(int[][] verkko) {
         alkuun = new int[verkko.length][verkko[0].length];
         loppuun = new int[verkko.length][verkko[0].length];
-        path = new int[verkko.length][verkko[0].length];
+        path = new Koordinaatti[verkko.length][verkko[0].length];
     }
 //    /**
 //     * Laskee kahden pisteen suorat etäisyydet labyrintissä.
@@ -70,7 +70,7 @@ public class GhostAI {
         for (int i = 0; i < loppuun.length; i++) {
             for (int j = 0; j < loppuun[0].length; j++) {
 //                loppuun[i][j] = laskeEtaisyys(j, i, loppux, loppuy);
-                loppuun[i][j] = Math.abs(loppuy-j)+Math.abs(loppux-i);
+                loppuun[i][j] = Math.abs(loppuy - j) + Math.abs(loppux - i);
             }
         }
         alkuun[alkuy][alkux] = 0;
@@ -86,13 +86,15 @@ public class GhostAI {
      */
     static void relax(int[][] verkko, int[][] alkuun, int x, int y) {
         int vx, vy;
+        Koordinaatti crd = new Koordinaatti();
 
         if (x - 1 >= 0) {
             vx = x - 1;
             if (verkko[y][vx] == 0) {
                 if (alkuun[y][vx] > alkuun[y][x] + 1) {
                     alkuun[y][vx] = alkuun[y][x] + 1;
-                    // path[y][vx] = 
+                    crd.setKoordinaatit(x, y);
+                    path[y][vx] = crd;
                 }
             }
         }
@@ -101,7 +103,8 @@ public class GhostAI {
             if (verkko[y][vx] == 0) {
                 if (alkuun[y][vx] > alkuun[y][x] + 1) {
                     alkuun[y][vx] = alkuun[y][x] + 1;
-                    //path[y][vx] = 
+                    crd.setKoordinaatit(x, y);
+                    path[y][vx] = crd;
                 }
             }
         }
@@ -110,7 +113,8 @@ public class GhostAI {
             if (verkko[vy][x] == 0) {
                 if (alkuun[vy][x] > alkuun[y][x] + 1) {
                     alkuun[vy][x] = alkuun[y][x] + 1;
-                    //  path[vy][x] = 
+                    crd.setKoordinaatit(x, y);
+                    path[vy][x] = crd;
                 }
             }
         }
@@ -119,7 +123,8 @@ public class GhostAI {
             if (verkko[vy][x] == 0) {
                 if (alkuun[vy][x] > alkuun[y][x] + 1) {
                     alkuun[vy][x] = alkuun[y][x] + 1;
-                    //  path[y][vx] = 
+                    crd.setKoordinaatit(x, y);
+                    path[vy][x] = crd;
                 }
             }
         }
@@ -164,7 +169,7 @@ public class GhostAI {
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
-    
+
     public static void main(String[] args) {
         // TODO code application logic here
     }
