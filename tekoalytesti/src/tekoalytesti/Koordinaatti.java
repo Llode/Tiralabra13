@@ -2,17 +2,25 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ghostai;
+package tekoalytesti;
 
 /**
- * Koordinaattien säilytystä mm. lyhimmän reitin tallentamista/tulostamista/piirtämistä varten.
+ * Koordinaattien säilytystä mm. lyhimmän reitin
+ * tallentamista/tulostamista/piirtämistä varten.
+ *
  * @author Larppa
  */
-public class Koordinaatti {
+public class Koordinaatti implements Comparable<Koordinaatti> {
 
-    int x;
-    int y;
-    int heurestiikka;
+    private int x;
+    private int y;
+    private int heurestiikka;
+
+    public Koordinaatti() {
+        int x = this.x;
+        int y = this.y;
+        int heurestiikka = this.heurestiikka;
+    }
 
     public void setKoordinaatit(int x, int y) {
         this.x = x;
@@ -26,15 +34,16 @@ public class Koordinaatti {
     public void setY(int y) {
         this.y = y;
     }
+
     /**
-     * 
+     *
      * @param alkuun arvioitu etäisyys solmusta lähtösolmuun
      * @param loppuun arvioitu etäisyys solmusta maalisolmuun
      */
     public void setEtaisyys(int alkuun, int loppuun) {
         heurestiikka = alkuun + loppuun;
     }
-    
+
     public int getX() {
         return x;
     }
@@ -42,7 +51,8 @@ public class Koordinaatti {
     public int getY() {
         return y;
     }
-    public int getEtaisyys(){
+
+    public int getEtaisyys() {
         return heurestiikka;
     }
 
@@ -50,5 +60,9 @@ public class Koordinaatti {
     public String toString() {
         return "(" + x + ", " + y + ")";
     }
-}
 
+    @Override
+    public int compareTo(Koordinaatti o) {
+        return o.heurestiikka - this.heurestiikka;
+    }
+}

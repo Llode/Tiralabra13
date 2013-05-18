@@ -2,16 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ghostai;
+package tekoalytesti;
 
 /**
- * Maini. Pitäisi toimia. MUTTA EI TOIMI
+ *
  * @author Larppa
  */
-public class GhostAI {
+public class Tekoalytesti {
 
     /**
-     * (Toistaiseksi) käytettävä labyrintti. Koko 21x19, 1=seinää 0=lattiaa.
+     * @param args the command line arguments
      */
     public static int[][] labyrintti = new int[][]{
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -38,8 +38,13 @@ public class GhostAI {
     };
 
     public static void main(String[] args) {
+        // TODO code application logic here
+        int aloitusx = 1;
+        int aloitusy = 2;
+        int maalix = 10;
+        int maaliy = 2;
         Astar algo = new Astar();
-        algo.Astar(labyrintti, 1, 1, 17, 1);
+        algo.Astar(labyrintti, aloitusx, aloitusy, maalix, maaliy);
         algo.TulostaReitti(17, 1);
     }
 }
