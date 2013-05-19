@@ -63,6 +63,6 @@ public class Koordinaatti implements Comparable<Koordinaatti> {
 
     @Override
     public int compareTo(Koordinaatti o) {
-        return o.heurestiikka - this.heurestiikka;
+        return this.heurestiikka - o.heurestiikka;
     }
 }

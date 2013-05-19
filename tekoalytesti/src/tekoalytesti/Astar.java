@@ -4,8 +4,8 @@
  */
 package tekoalytesti;
 
+import java.util.PriorityQueue;
 import java.util.Stack;
-import java.util.TreeSet;
 
 
 /**
@@ -29,14 +29,14 @@ public class Astar {
      * apumatriisi etäisyysarvioita varten
      */
     public int[][] etaisyysLoppuun;
-    /**
-     * Lyhin polku startista maaliin.
-     */
-    public Koordinaatti[][] path;
+//    /**
+//     * Lyhin polku startista maaliin.
+//     */
+//    public Koordinaatti[][] path;
 
     
     public Stack<Koordinaatti> polku = new Stack<Koordinaatti>();
-    public TreeSet<Koordinaatti> pino = new TreeSet<Koordinaatti>();
+    public PriorityQueue<Koordinaatti> pino = new PriorityQueue<Koordinaatti>();
     public Koordinaatti solmu = new Koordinaatti();
 
     
@@ -49,7 +49,7 @@ public class Astar {
     public void alustaTaulukot(int[][] verkko) {
         etaisyysAlkuun = new int[verkko.length][verkko[0].length];
         etaisyysLoppuun = new int[verkko.length][verkko[0].length];
-        path = new Koordinaatti[verkko.length][verkko[0].length];
+//        path = new Koordinaatti[verkko.length][verkko[0].length];
     }
 
     /**
@@ -79,7 +79,7 @@ public class Astar {
      * Kaarien löysäysoperaatio. Labyrintissa liikutaan vain pääilmansuuntiin,
      * joten käsiteltävällä solmulla on vain neljä vierussolmua.
      *
-     * @param etaisyysAlkuun etäisyysarviot
+     * @param verkko tutkittava verkko/labyrintti/juttu
      * @param x tutkittavan solmun koordinaatit
      * @param y tutkittavan solmun koordinaatit
      */
@@ -94,8 +94,8 @@ public class Astar {
                 if (etaisyysAlkuun[y][vx] > etaisyysAlkuun[y][x] + 1) {
                     etaisyysAlkuun[y][vx] = etaisyysAlkuun[y][x] + 1;
                     crd.setKoordinaatit(x, y);
-                    path[y][vx] = crd;
-                    polku.addElement(crd);
+//                    path[y][vx] = crd;
+                    polku.push(crd);
                 }
             }
         }
@@ -105,8 +105,8 @@ public class Astar {
                 if (etaisyysAlkuun[y][vx] > etaisyysAlkuun[y][x] + 1) {
                     etaisyysAlkuun[y][vx] = etaisyysAlkuun[y][x] + 1;
                     crd.setKoordinaatit(x, y);
-                    path[y][vx] = crd;
-                    polku.addElement(crd);
+//                    path[y][vx] = crd;
+                    polku.push(crd);
                 }
             }
         }
@@ -116,8 +116,8 @@ public class Astar {
                 if (etaisyysAlkuun[vy][x] > etaisyysAlkuun[y][x] + 1) {
                     etaisyysAlkuun[vy][x] = etaisyysAlkuun[y][x] + 1;
                     crd.setKoordinaatit(x, y);
-                    path[vy][x] = crd;
-                    polku.addElement(crd);
+//                    path[vy][x] = crd;
+                    polku.push(crd);
                 }
             }
         }
@@ -127,8 +127,8 @@ public class Astar {
                 if (etaisyysAlkuun[vy][x] > etaisyysAlkuun[y][x] + 1) {
                     etaisyysAlkuun[vy][x] = etaisyysAlkuun[y][x] + 1;
                     crd.setKoordinaatit(x, y);
-                    path[vy][x] = crd;
-                    polku.addElement(crd);
+//                    path[vy][x] = crd;
+                    polku.push(crd);
                 }
             }
         }
@@ -147,7 +147,7 @@ public class Astar {
         alustaTaulukot(verkko);
         alustaEtaisyydet(verkko, maalix, maaliy, alkux, alkuy);
         while (pino.isEmpty() == false) {
-            solmu = pino.pollFirst();
+            solmu = pino.poll();
             relax(verkko, solmu.getX(), solmu.getY());
         }
     }
@@ -159,12 +159,10 @@ public class Astar {
      * @param mx maalin koordinaatit.
      * @param my maalin koordinaatit.
      */
-    public void TulostaReitti(int mx, int my) {
-        int x = mx;
-        int y = my;
-        while (polku.empty() == false) {
-            System.out.println(polku.pop());
-
+    public void TulostaReitti() {
+        while (polku.isEmpty() == false) {
+            Koordinaatti asd = polku.pop();
+            System.out.println(asd);
         }
 //        while(path[y][x] != null) {
 //            System.out.println(path[y][x]);

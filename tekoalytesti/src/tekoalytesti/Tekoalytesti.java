@@ -40,11 +40,11 @@ public class Tekoalytesti {
     public static void main(String[] args) {
         // TODO code application logic here
         int aloitusx = 1;
-        int aloitusy = 2;
-        int maalix = 10;
-        int maaliy = 2;
+        int aloitusy = 1;
+        int maalix = 20;
+        int maaliy = 100;
         Astar algo = new Astar();
         algo.Astar(labyrintti, aloitusx, aloitusy, maalix, maaliy);
-        algo.TulostaReitti(17, 1);
+        algo.TulostaReitti();
     }
 }
