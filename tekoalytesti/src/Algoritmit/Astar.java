@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tekoalytesti;
+package Algoritmit;
 
+import Tietorakenteet.Koordinaatti;
 import java.util.PriorityQueue;
 import java.util.Stack;
-
 
 /**
  * REitinhakualgoritmi
@@ -29,17 +29,10 @@ public class Astar {
      * apumatriisi etäisyysarvioita varten
      */
     public int[][] etaisyysLoppuun;
-//    /**
-//     * Lyhin polku startista maaliin.
-//     */
-//    public Koordinaatti[][] path;
-
-    
+    public Koordinaatti[][] sailio;
     public Stack<Koordinaatti> polku = new Stack<Koordinaatti>();
     public PriorityQueue<Koordinaatti> pino = new PriorityQueue<Koordinaatti>();
     public Koordinaatti solmu = new Koordinaatti();
-
-    
 
     /**
      * Tekee oikeankokoiset apumatriisit käytettävän labyrintin pohjalta.
@@ -47,8 +40,9 @@ public class Astar {
      * @param verkko Labyrintti, jossa reittiä etsitään.
      */
     public void alustaTaulukot(int[][] verkko) {
-        etaisyysAlkuun = new int[verkko.length][verkko[0].length];
-        etaisyysLoppuun = new int[verkko.length][verkko[0].length];
+        sailio = new Koordinaatti[verkko.length][verkko[0].length];
+//        etaisyysAlkuun = new int[verkko.length][verkko[0].length];
+//        etaisyysLoppuun = new int[verkko.length][verkko[0].length];
 //        path = new Koordinaatti[verkko.length][verkko[0].length];
     }
 
@@ -61,18 +55,40 @@ public class Astar {
      * @param alkuy aloituskoordinaatit
      */
     public void alustaEtaisyydet(int[][] verkko, int maalix, int maaliy, int alkux, int alkuy) {
-        for (int i = 0; i < verkko.length; i++) {
-            for (int j = 0; j < verkko[0].length; j++) {
-                etaisyysAlkuun[i][j] = max;
-                etaisyysLoppuun[i][j] = Math.abs(maaliy - i) + Math.abs(maalix - j);
+        Koordinaatti koord;
 
-                Koordinaatti crd = new Koordinaatti();
-                crd.setKoordinaatit(j, i);
-                crd.setEtaisyys(etaisyysAlkuun[i][j], etaisyysLoppuun[i][j]);
-                pino.add(crd);
+        for (int i = 0; i < verkko.length; i++) { // i = 'y'
+            for (int j = 0; j < verkko[0].length; j++) { // j = 'x'
+
+                if (i == alkuy) {
+                    if (j == alkux) {
+                        koord = new Koordinaatti();
+                        koord.setKoordinaatit(j, i);
+                        koord.setAlkuun(0);
+                        koord.setLoppuun(Math.abs(maaliy - i) + Math.abs(maalix - j));
+                        koord.laskeEtaisyys();
+                        pino.add(koord);
+                        sailio[alkuy][alkux] = koord;
+                    }
+                }
+
+                koord = new Koordinaatti();
+                koord.setKoordinaatit(j, i);
+                koord.setAlkuun(max);
+                koord.setLoppuun(Math.abs(maaliy - i) + Math.abs(maalix - j));
+                koord.laskeEtaisyys();
+                pino.add(koord);
+                sailio[i][j] = koord;
+
+//                etaisyysAlkuun[i][j] = max;
+//                etaisyysLoppuun[i][j] = Math.abs(maaliy - i) + Math.abs(maalix - j);
+//
+//                Koordinaatti crd = new Koordinaatti();
+//                crd.setKoordinaatit(j, i);
+//                crd.setEtaisyys(etaisyysAlkuun[i][j], etaisyysLoppuun[i][j]);
+//                pino.add(crd);
             }
         }
-        etaisyysAlkuun[alkuy][alkux] = 0;
     }
 
     /**
@@ -91,44 +107,44 @@ public class Astar {
         if (x - 1 >= 0) {
             vx = x - 1;
             if (verkko[y][vx] == 0) {
-                if (etaisyysAlkuun[y][vx] > etaisyysAlkuun[y][x] + 1) {
-                    etaisyysAlkuun[y][vx] = etaisyysAlkuun[y][x] + 1;
+                if (sailio[y][vx].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
+                    sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     crd.setKoordinaatit(x, y);
-//                    path[y][vx] = crd;
                     polku.push(crd);
+                    pino.add(sailio[y][vx]);
                 }
             }
         }
-        if (x + 1 < etaisyysAlkuun[0].length) {
+        if (x + 1 < verkko[0].length) {
             vx = x + 1;
             if (verkko[y][vx] == 0) {
-                if (etaisyysAlkuun[y][vx] > etaisyysAlkuun[y][x] + 1) {
-                    etaisyysAlkuun[y][vx] = etaisyysAlkuun[y][x] + 1;
+                if (sailio[y][vx].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
+                    sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     crd.setKoordinaatit(x, y);
-//                    path[y][vx] = crd;
                     polku.push(crd);
+                    pino.add(sailio[y][vx]);
                 }
             }
         }
         if (y - 1 >= 0) {
             vy = y - 1;
             if (verkko[vy][x] == 0) {
-                if (etaisyysAlkuun[vy][x] > etaisyysAlkuun[y][x] + 1) {
-                    etaisyysAlkuun[vy][x] = etaisyysAlkuun[y][x] + 1;
+                if (sailio[vy][x].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
+                    sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     crd.setKoordinaatit(x, y);
-//                    path[vy][x] = crd;
                     polku.push(crd);
+                    pino.add(sailio[vy][x]);
                 }
             }
         }
-        if (y + 1 < etaisyysAlkuun.length) {
+        if (y + 1 < verkko.length) {
             vy = y + 1;
             if (verkko[vy][x] == 0) {
-                if (etaisyysAlkuun[vy][x] > etaisyysAlkuun[y][x] + 1) {
-                    etaisyysAlkuun[vy][x] = etaisyysAlkuun[y][x] + 1;
+                if (sailio[vy][x].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
+                    sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     crd.setKoordinaatit(x, y);
-//                    path[vy][x] = crd;
                     polku.push(crd);
+                    pino.add(sailio[vy][x]);
                 }
             }
         }

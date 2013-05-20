@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tekoalytesti;
+package Tietorakenteet;
 
 /**
  * Koordinaattien säilytystä mm. lyhimmän reitin
@@ -14,12 +14,32 @@ public class Koordinaatti implements Comparable<Koordinaatti> {
 
     private int x;
     private int y;
-    private int heurestiikka;
+    private int etaisyysarvio;
+    private int alkuun;
+    private int loppuun;
 
     public Koordinaatti() {
         int x = this.x;
         int y = this.y;
-        int heurestiikka = this.heurestiikka;
+        int etaisyysarvio = this.etaisyysarvio;
+        int alkuun = this.alkuun;
+        int loppuun = this.loppuun;
+    }
+
+    public void setAlkuun(int alkuun) {
+        this.alkuun = alkuun;
+    }
+
+    public void setLoppuun(int loppuun) {
+        this.loppuun = loppuun;
+    }
+
+    public int getAlkuun() {
+        return alkuun;
+    }
+
+    public int getLoppuun() {
+        return loppuun;
     }
 
     public void setKoordinaatit(int x, int y) {
@@ -41,9 +61,12 @@ public class Koordinaatti implements Comparable<Koordinaatti> {
      * @param loppuun arvioitu etäisyys solmusta maalisolmuun
      */
     public void setEtaisyys(int alkuun, int loppuun) {
-        heurestiikka = alkuun + loppuun;
+        etaisyysarvio = alkuun + loppuun;
     }
 
+    public void laskeEtaisyys(){
+        etaisyysarvio = alkuun + loppuun;
+    }
     public int getX() {
         return x;
     }
@@ -53,7 +76,7 @@ public class Koordinaatti implements Comparable<Koordinaatti> {
     }
 
     public int getEtaisyys() {
-        return heurestiikka;
+        return etaisyysarvio;
     }
 
     @Override
@@ -63,6 +86,6 @@ public class Koordinaatti implements Comparable<Koordinaatti> {
 
     @Override
     public int compareTo(Koordinaatti o) {
-        return this.heurestiikka - o.heurestiikka;
+        return this.etaisyysarvio - o.etaisyysarvio;
     }
 }

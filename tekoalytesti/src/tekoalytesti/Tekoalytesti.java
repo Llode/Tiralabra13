@@ -4,6 +4,8 @@
  */
 package tekoalytesti;
 
+import Algoritmit.Astar;
+
 /**
  *
  * @author Larppa
@@ -41,8 +43,8 @@ public class Tekoalytesti {
         // TODO code application logic here
         int aloitusx = 1;
         int aloitusy = 1;
-        int maalix = 20;
-        int maaliy = 100;
+        int maalix = 1;
+        int maaliy = 2;
         Astar algo = new Astar();
         algo.Astar(labyrintti, aloitusx, aloitusy, maalix, maaliy);
         algo.TulostaReitti();
