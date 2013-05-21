@@ -7,6 +7,8 @@ package Tietorakenteet;
 /**
  * Koordinaattien säilytystä mm. lyhimmän reitin
  * tallentamista/tulostamista/piirtämistä varten.
+ * Getterit ja setterit ovat suurelta osin itsestäänselviä,
+ * ja tuskin tarvitsevat dokumentointia.
  *
  * @author Larppa
  */
@@ -17,6 +19,7 @@ public class Koordinaatti implements Comparable<Koordinaatti> {
     private int etaisyysarvio;
     private int alkuun;
     private int loppuun;
+    private Koordinaatti path;
 
     public Koordinaatti() {
         int x = this.x;
@@ -24,14 +27,57 @@ public class Koordinaatti implements Comparable<Koordinaatti> {
         int etaisyysarvio = this.etaisyysarvio;
         int alkuun = this.alkuun;
         int loppuun = this.loppuun;
+        Koordinaatti path = this.path;
+    }
+
+    public Koordinaatti(int x, int y) {
+        this.x = x;
+        this.y = y;
+        int etaisyysarvio = this.etaisyysarvio;
+        int alkuun = this.alkuun;
+        int loppuun = this.loppuun;
+        Koordinaatti path = this.path;
+    }
+/**
+ * Path osoittaa aina edeltävään solmuun.
+ * @param solmu Solmu, joka johtaa tähän solmuun. 
+ */
+    public void setPath(Koordinaatti solmu) {
+        path = solmu;
+    }
+    
+    public Koordinaatti getPath(){
+        return path;
+    }
+    /**
+     * Asettaa koordinaatille etäisyysarviot alku- ja maalikoordinaatteihin.
+     * Laskee myös näiden pisteiden etäisyyden.
+     * 
+     * @param alkuun arvioitu etäisyys solmusta lähtösolmuun
+     * @param loppuun arvioitu etäisyys solmusta maalisolmuun
+     */
+    public void setEtaisyys(int alkuun, int loppuun) {
+        this.alkuun = alkuun;
+        this.loppuun = loppuun;
+        laskeEtaisyys();
+    }
+
+    public int getEtaisyys() {
+        return etaisyysarvio;
+    }
+
+    public void laskeEtaisyys() {
+        etaisyysarvio = alkuun + loppuun;
     }
 
     public void setAlkuun(int alkuun) {
         this.alkuun = alkuun;
+        laskeEtaisyys();
     }
 
     public void setLoppuun(int loppuun) {
         this.loppuun = loppuun;
+        laskeEtaisyys();
     }
 
     public int getAlkuun() {
@@ -55,28 +101,12 @@ public class Koordinaatti implements Comparable<Koordinaatti> {
         this.y = y;
     }
 
-    /**
-     *
-     * @param alkuun arvioitu etäisyys solmusta lähtösolmuun
-     * @param loppuun arvioitu etäisyys solmusta maalisolmuun
-     */
-    public void setEtaisyys(int alkuun, int loppuun) {
-        etaisyysarvio = alkuun + loppuun;
-    }
-
-    public void laskeEtaisyys(){
-        etaisyysarvio = alkuun + loppuun;
-    }
     public int getX() {
         return x;
     }
 
     public int getY() {
         return y;
-    }
-
-    public int getEtaisyys() {
-        return etaisyysarvio;
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 /**
- * REitinhakualgoritmi
+ * Reitinhakualgoritmi
  *
  * @author Larppa
  */
@@ -20,170 +20,201 @@ public class Astar {
      * alussa. Maksimietäisyys (labyrintin korkeus + leveys) on poistettu, ettei
      * etaisyysAlkuun[y][x]+etaisyysLoppuun[y][x] aiheuttaisi virhettä.
      */
-    public int max = Integer.MAX_VALUE - (19 + 21);
+    private final int max = Integer.MAX_VALUE - (19 + 21);
     /**
-     * apumatriisi etäisyysarvioita varten
+     * Säilöö koordinaatit tietoinen omille paikoilleen matriisiin.
      */
-    public int[][] etaisyysAlkuun;
+    private Koordinaatti[][] sailio;
+
     /**
-     * apumatriisi etäisyysarvioita varten
+     * minimikeon korvike reitinhakua varten.
      */
-    public int[][] etaisyysLoppuun;
-    public Koordinaatti[][] sailio;
-    public Stack<Koordinaatti> polku = new Stack<Koordinaatti>();
-    public PriorityQueue<Koordinaatti> pino = new PriorityQueue<Koordinaatti>();
-    public Koordinaatti solmu = new Koordinaatti();
+    private PriorityQueue<Koordinaatti> keko = new PriorityQueue<Koordinaatti>();
+    private Koordinaatti solmu = new Koordinaatti();
+    private int alkux;
+    private int alkuy;
+    private int maalix;
+    private int maaliy;
+    private int[][] verkko;
+
+    /**
+     * Konstruktori
+     *
+     * @param labyrintti tutkittava verkko
+     * @param aloitusx aloituskoordinaatti
+     * @param aloitusy aloituskoordinaatti
+     * @param maalix maalikoordinaatti
+     * @param maaliy lottoapa
+     */
+    public Astar(int[][] labyrintti, int aloitusx, int aloitusy, int maalix, int maaliy) {
+        this.verkko = labyrintti;
+        this.alkux = aloitusx;
+        this.alkuy = aloitusy;
+        this.maalix = maalix;
+        this.maaliy = maaliy;
+    }
+
+    /**
+     * Taulukoiden ja etäisyyksien alustaminen samassa paketissa.
+     */
+    public void Init() {
+        AlustaTaulukot();
+        AlustaEtaisyydet();
+    }
 
     /**
      * Tekee oikeankokoiset apumatriisit käytettävän labyrintin pohjalta.
      *
-     * @param verkko Labyrintti, jossa reittiä etsitään.
      */
-    public void alustaTaulukot(int[][] verkko) {
+    public void AlustaTaulukot() {
         sailio = new Koordinaatti[verkko.length][verkko[0].length];
-//        etaisyysAlkuun = new int[verkko.length][verkko[0].length];
-//        etaisyysLoppuun = new int[verkko.length][verkko[0].length];
-//        path = new Koordinaatti[verkko.length][verkko[0].length];
+
     }
 
     /**
      * Alustaa etäisyysarvioihin käytettävät matriisit
      *
-     * @param maalix maalin koordinaatit
-     * @param maaliy maalin koordinaatit
-     * @param alkux aloituskoordinaatit
-     * @param alkuy aloituskoordinaatit
      */
-    public void alustaEtaisyydet(int[][] verkko, int maalix, int maaliy, int alkux, int alkuy) {
+    public void AlustaEtaisyydet() {
         Koordinaatti koord;
+        int loppuun;
 
-        for (int i = 0; i < verkko.length; i++) { // i = 'y'
-            for (int j = 0; j < verkko[0].length; j++) { // j = 'x'
+        for (int y = 0; y < verkko.length; y++) {
+            for (int x = 0; x < verkko[0].length; x++) {
+                loppuun = Math.abs(maaliy - y) + Math.abs(maalix - x);
+                koord = new Koordinaatti(x, y);
 
-                if (i == alkuy) {
-                    if (j == alkux) {
-                        koord = new Koordinaatti();
-                        koord.setKoordinaatit(j, i);
-                        koord.setAlkuun(0);
-                        koord.setLoppuun(Math.abs(maaliy - i) + Math.abs(maalix - j));
-                        koord.laskeEtaisyys();
-                        pino.add(koord);
-                        sailio[alkuy][alkux] = koord;
-                    }
+                if (OllaankoStartissa(koord)) {
+                    koord.setEtaisyys(0, loppuun);
+                } else {
+                    koord.setEtaisyys(max, loppuun);
                 }
 
-                koord = new Koordinaatti();
-                koord.setKoordinaatit(j, i);
-                koord.setAlkuun(max);
-                koord.setLoppuun(Math.abs(maaliy - i) + Math.abs(maalix - j));
-                koord.laskeEtaisyys();
-                pino.add(koord);
-                sailio[i][j] = koord;
+                if (verkko[y][x] == 0) {
+                    keko.add(koord);
+                }
+                sailio[y][x] = koord;
 
-//                etaisyysAlkuun[i][j] = max;
-//                etaisyysLoppuun[i][j] = Math.abs(maaliy - i) + Math.abs(maalix - j);
-//
-//                Koordinaatti crd = new Koordinaatti();
-//                crd.setKoordinaatit(j, i);
-//                crd.setEtaisyys(etaisyysAlkuun[i][j], etaisyysLoppuun[i][j]);
-//                pino.add(crd);
             }
         }
+    }
+
+    /**
+     * True, jos tutkittava koordinaatti on aloituskoordinaatti
+     *
+     * @param crd Tutkittava koordinaatti.
+     * @return
+     */
+    public boolean OllaankoStartissa(Koordinaatti crd) {
+        if (crd.getX() == alkux) {
+            if (crd.getY() == alkuy) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      * Kaarien löysäysoperaatio. Labyrintissa liikutaan vain pääilmansuuntiin,
      * joten käsiteltävällä solmulla on vain neljä vierussolmua.
      *
-     * @param verkko tutkittava verkko/labyrintti/juttu
-     * @param x tutkittavan solmun koordinaatit
-     * @param y tutkittavan solmun koordinaatit
+     * @param solmu Keosta popattu tutkittava solmu.
      */
-    public void relax(int[][] verkko, int x, int y) {
+    public void Relax(Koordinaatti solmu) {
+        int x = solmu.getX();
+        int y = solmu.getY();
+
         int vx;
         int vy;
-        Koordinaatti crd = new Koordinaatti();
 
         if (x - 1 >= 0) {
             vx = x - 1;
             if (verkko[y][vx] == 0) {
                 if (sailio[y][vx].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
+                    
                     sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
-                    crd.setKoordinaatit(x, y);
-                    polku.push(crd);
-                    pino.add(sailio[y][vx]);
+                    sailio[y][vx].setPath(sailio[y][x]);
+                    keko.add(sailio[y][vx]);
+                    
                 }
             }
         }
+
         if (x + 1 < verkko[0].length) {
             vx = x + 1;
             if (verkko[y][vx] == 0) {
                 if (sailio[y][vx].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
+                    
                     sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
-                    crd.setKoordinaatit(x, y);
-                    polku.push(crd);
-                    pino.add(sailio[y][vx]);
+                    sailio[y][vx].setPath(sailio[y][x]);
+                    keko.add(sailio[y][vx]);
                 }
             }
         }
+
         if (y - 1 >= 0) {
             vy = y - 1;
             if (verkko[vy][x] == 0) {
                 if (sailio[vy][x].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
+                    
                     sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
-                    crd.setKoordinaatit(x, y);
-                    polku.push(crd);
-                    pino.add(sailio[vy][x]);
+                    sailio[vy][x].setPath(sailio[y][x]);
+                    keko.add(sailio[vy][y]);
                 }
             }
         }
+
         if (y + 1 < verkko.length) {
             vy = y + 1;
             if (verkko[vy][x] == 0) {
                 if (sailio[vy][x].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
+                    
                     sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
-                    crd.setKoordinaatit(x, y);
-                    polku.push(crd);
-                    pino.add(sailio[vy][x]);
+                    sailio[vy][x].setPath(sailio[y][x]);
+                    keko.add(sailio[vy][x]);
                 }
             }
         }
     }
 
     /**
-     * Reitihakualgoritmi
-     *
-     * @param verkko Toisin sanoen labyrintti.
-     * @param alkux aloituskoordinaatit
-     * @param alkuy aloituskoordinaatit
-     * @param maalix maalikoordinaatit
-     * @param maaliy maalikoordinaatit
+     * Itse Reitihakualgoritmi. Kaiken pitäisi toimia tästä.
      */
-    public void Astar(int[][] verkko, int alkux, int alkuy, int maalix, int maaliy) {
-        alustaTaulukot(verkko);
-        alustaEtaisyydet(verkko, maalix, maaliy, alkux, alkuy);
-        while (pino.isEmpty() == false) {
-            solmu = pino.poll();
-            relax(verkko, solmu.getX(), solmu.getY());
+    public void Reitinhaku() {
+        Init();
+        while (!OllaankoMaalissa(solmu)) {
+            solmu = keko.poll();
+            Relax(solmu);
         }
+    }
+
+    /**
+     * True, jos tutkittava solmu on maalisolmu.
+     *
+     * @param solmu tutkittava solmu
+     * @return
+     */
+    public boolean OllaankoMaalissa(Koordinaatti solmu) {
+        if (solmu.getX() == maalix) {
+            if (solmu.getY() == maaliy) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      * Printtaa reitin koordinaatit. Jossain vaiheessa jopa piirtää ne
      * labyrinttiin.
      *
-     * @param mx maalin koordinaatit.
-     * @param my maalin koordinaatit.
      */
     public void TulostaReitti() {
-        while (polku.isEmpty() == false) {
-            Koordinaatti asd = polku.pop();
-            System.out.println(asd);
+        Koordinaatti reitti = sailio[maaliy][maalix].getPath();
+        System.out.println(reitti);
+
+        while (reitti != null) {
+            System.out.println(reitti);
+            reitti = reitti.getPath();
         }
-//        while(path[y][x] != null) {
-//            System.out.println(path[y][x]);
-//            x = path[y][x].getX();
-//            y = path[y][x].getY();
-//        }
     }
 }
