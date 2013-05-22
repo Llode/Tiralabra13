@@ -5,8 +5,8 @@
 package Algoritmit;
 
 import Tietorakenteet.Koordinaatti;
+import Tietorakenteet.Minimikeko;
 import java.util.PriorityQueue;
-import java.util.Stack;
 
 /**
  * Reitinhakualgoritmi
@@ -25,11 +25,10 @@ public class Astar {
      * Säilöö koordinaatit tietoinen omille paikoilleen matriisiin.
      */
     private Koordinaatti[][] sailio;
-
     /**
      * minimikeon korvike reitinhakua varten.
      */
-    private PriorityQueue<Koordinaatti> keko = new PriorityQueue<Koordinaatti>();
+    private Minimikeko keko;
     private Koordinaatti solmu = new Koordinaatti();
     private int alkux;
     private int alkuy;
@@ -67,7 +66,9 @@ public class Astar {
      *
      */
     public void AlustaTaulukot() {
+        int keonkoko = verkko.length * verkko[0].length;
         sailio = new Koordinaatti[verkko.length][verkko[0].length];
+        keko = new Minimikeko(keonkoko);
 
     }
 
@@ -91,7 +92,7 @@ public class Astar {
                 }
 
                 if (verkko[y][x] == 0) {
-                    keko.add(koord);
+                    keko.insert(koord);
                 }
                 sailio[y][x] = koord;
 
@@ -131,11 +132,11 @@ public class Astar {
             vx = x - 1;
             if (verkko[y][vx] == 0) {
                 if (sailio[y][vx].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
-                    
+
                     sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[y][vx].setPath(sailio[y][x]);
-                    keko.add(sailio[y][vx]);
-                    
+                    keko.insert(sailio[y][vx]);
+
                 }
             }
         }
@@ -144,10 +145,10 @@ public class Astar {
             vx = x + 1;
             if (verkko[y][vx] == 0) {
                 if (sailio[y][vx].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
-                    
+
                     sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[y][vx].setPath(sailio[y][x]);
-                    keko.add(sailio[y][vx]);
+                    keko.insert(sailio[y][vx]);
                 }
             }
         }
@@ -156,10 +157,10 @@ public class Astar {
             vy = y - 1;
             if (verkko[vy][x] == 0) {
                 if (sailio[vy][x].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
-                    
+
                     sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[vy][x].setPath(sailio[y][x]);
-                    keko.add(sailio[vy][y]);
+                    keko.insert(sailio[vy][y]);
                 }
             }
         }
@@ -168,10 +169,10 @@ public class Astar {
             vy = y + 1;
             if (verkko[vy][x] == 0) {
                 if (sailio[vy][x].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
-                    
+
                     sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[vy][x].setPath(sailio[y][x]);
-                    keko.add(sailio[vy][x]);
+                    keko.insert(sailio[vy][x]);
                 }
             }
         }
@@ -183,7 +184,7 @@ public class Astar {
     public void Reitinhaku() {
         Init();
         while (!OllaankoMaalissa(solmu)) {
-            solmu = keko.poll();
+            solmu = keko.removeMin();
             Relax(solmu);
         }
     }

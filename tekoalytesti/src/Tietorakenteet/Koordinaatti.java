@@ -116,6 +116,6 @@ public class Koordinaatti implements Comparable<Koordinaatti> {
 
     @Override
     public int compareTo(Koordinaatti o) {
-        return this.etaisyysarvio - o.etaisyysarvio;
+        return this.getEtaisyys() - o.getEtaisyys();
     }
 }
