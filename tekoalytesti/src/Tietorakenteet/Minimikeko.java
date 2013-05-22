@@ -4,14 +4,12 @@
  */
 package Tietorakenteet;
 
-import java.util.Comparator;
-
 /**
  * Koordinaateille spesialisoitu minimikeko, yritys uno.
  *
  * @author Larppa
  */
-public class Minimikeko implements Comparator<Koordinaatti> {
+public class Minimikeko {
 
     private Koordinaatti[] A;
     private int maxkoko;
@@ -133,21 +131,6 @@ public class Minimikeko implements Comparator<Koordinaatti> {
     }
 
     /**
-     * Tarkastaa, onko solmulla vanhempaa.
-     *
-     * @param pos tarkasteltavan solmun sijainti keossa.
-     * @return true, jos tarkasteltava alkio on lehti, false muulloin.
-     */
-    private boolean onkoLehti(int pos) {
-        if (pos > koko / 2) {
-            if (pos <= koko) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Laskee alkion arvoa (=koordinaatin etäisyyttä alkuun ja siten sen
      * etäisyysarviota)
      *
@@ -156,12 +139,18 @@ public class Minimikeko implements Comparator<Koordinaatti> {
      */
     public void laskeArvoa(int avain, int newk) {
         int i = getPos(avain);
-        if (newk < A[i].getAlkuun()) {
-            A[i].setAlkuun(newk);
-            heapify(i);
+//        if (i != -1) {
+            if (newk < A[i].getAlkuun()) {
+                A[i].setAlkuun(newk);
+                heapify(i);
+            }
         }
-    }
-
+//    }
+/**
+ * Etsii avainta vastaavan alkion keosta.
+ * @param avain etsittävän alkion avain
+ * @return alkion indeksi keossa.
+ */
     private int getPos(int avain) {
         for (int i = 1; i <= koko; i++) {
             if (A[i].getID() == avain) {
@@ -171,9 +160,6 @@ public class Minimikeko implements Comparator<Koordinaatti> {
         }
         return -1;
     }
-
-    @Override
-    public int compare(Koordinaatti o1, Koordinaatti o2) {
-        return o1.getEtaisyys() - o2.getEtaisyys();
-    }
 }
+
+

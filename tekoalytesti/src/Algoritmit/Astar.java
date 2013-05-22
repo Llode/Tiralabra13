@@ -90,9 +90,9 @@ public class Astar {
                     koord.setEtaisyys(max, loppuun);
                 }
 
-                if (verkko[y][x] == 0) {
+//                if (verkko[y][x] == 0) {
                     keko.insert(koord);
-                }
+//                }
                 sailio[y][x] = koord;
                 
             }
