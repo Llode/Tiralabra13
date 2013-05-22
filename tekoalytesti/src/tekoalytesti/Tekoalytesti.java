@@ -7,7 +7,7 @@ package tekoalytesti;
 import Algoritmit.Astar;
 
 /**
- *
+ * Maini,
  * @author Larppa
  */
 public class Tekoalytesti {
@@ -39,6 +39,10 @@ public class Tekoalytesti {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
 
+    /**
+     * Main. 
+     * @param args
+     */
     public static void main(String[] args) {
         // TODO code application logic here
         int aloitusx = 1;

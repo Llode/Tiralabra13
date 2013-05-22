@@ -4,6 +4,8 @@
  */
 package Tietorakenteet;
 
+import java.util.Comparator;
+
 /**
  * Koordinaattien säilytystä mm. lyhimmän reitin
  * tallentamista/tulostamista/piirtämistä varten.
@@ -12,8 +14,10 @@ package Tietorakenteet;
  *
  * @author Larppa
  */
-public class Koordinaatti implements Comparable<Koordinaatti> {
+public class Koordinaatti {
 
+    private static int avain = 0;
+    private int id;
     private int x;
     private int y;
     private int etaisyysarvio;
@@ -21,22 +25,46 @@ public class Koordinaatti implements Comparable<Koordinaatti> {
     private int loppuun;
     private Koordinaatti path;
 
+    /**
+     *
+     */
     public Koordinaatti() {
         int x = this.x;
         int y = this.y;
         int etaisyysarvio = this.etaisyysarvio;
         int alkuun = this.alkuun;
         int loppuun = this.loppuun;
+        int id = this.id;
         Koordinaatti path = this.path;
     }
 
+    /**
+     *
+     * @param x Uuden koordinaatin koordinaatit
+     * @param y Uuden koordinaatin koordinaatit
+     */
     public Koordinaatti(int x, int y) {
         this.x = x;
         this.y = y;
-        int etaisyysarvio = this.etaisyysarvio;
-        int alkuun = this.alkuun;
-        int loppuun = this.loppuun;
-        Koordinaatti path = this.path;
+        this.id = numeroJuoksee();
+//        int etaisyysarvio = this.etaisyysarvio;
+//        int alkuun = this.alkuun;
+//        int loppuun = this.loppuun;
+//        Koordinaatti path = this.path; 
+   }
+    /**
+     * Toivottavasti antaa jokaiselle koordinaatille oman avaimen.
+     */
+    private int numeroJuoksee(){
+        avain++;
+        return avain;
+    }
+    /**
+     *
+     * @return
+     */
+    public int getID(){
+        return id;
     }
 /**
  * Path osoittaa aina edeltävään solmuun.
@@ -46,6 +74,10 @@ public class Koordinaatti implements Comparable<Koordinaatti> {
         path = solmu;
     }
     
+    /**
+     *
+     * @return
+     */
     public Koordinaatti getPath(){
         return path;
     }
@@ -61,50 +93,96 @@ public class Koordinaatti implements Comparable<Koordinaatti> {
         this.loppuun = loppuun;
         laskeEtaisyys();
     }
-
+    public void setEtaisyys(int etaisyys){
+        this.etaisyysarvio = etaisyys;
+    }
+    /**
+     *
+     * @return
+     */
     public int getEtaisyys() {
         return etaisyysarvio;
     }
 
+    /**
+     *
+     */
     public void laskeEtaisyys() {
         etaisyysarvio = alkuun + loppuun;
     }
 
+    /**
+     *
+     * @param alkuun
+     */
     public void setAlkuun(int alkuun) {
         this.alkuun = alkuun;
         laskeEtaisyys();
     }
 
+    /**
+     *
+     * @param loppuun
+     */
     public void setLoppuun(int loppuun) {
         this.loppuun = loppuun;
         laskeEtaisyys();
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAlkuun() {
         return alkuun;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLoppuun() {
         return loppuun;
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public void setKoordinaatit(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     *
+     * @param x
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     *
+     * @param y
+     */
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getY() {
         return y;
     }
@@ -112,10 +190,5 @@ public class Koordinaatti implements Comparable<Koordinaatti> {
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";
-    }
-
-    @Override
-    public int compareTo(Koordinaatti o) {
-        return this.getEtaisyys() - o.getEtaisyys();
     }
 }

@@ -4,7 +4,6 @@ package Tietorakenteet;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,43 +16,38 @@ import static org.junit.Assert.*;
  * @author Larppa
  */
 public class KoordinaattiTest {
+
     Koordinaatti naatti, varanaatti;
     double vertailutarkkuus = 0.0001;
-    
+
     public KoordinaattiTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         naatti = new Koordinaatti();
         naatti.setKoordinaatit(5, 10);
         naatti.setEtaisyys(12, 8);
-        
+
         varanaatti = new Koordinaatti();
         varanaatti.setKoordinaatit(4, 10);
         varanaatti.setEtaisyys(11, 7);
     }
-    
-    
+
     @Test
-    public void EtaisyysOnOikein(){
+    public void EtaisyysOnOikein() {
         assertEquals(20, naatti.getEtaisyys(), vertailutarkkuus);
     }
-    @Test
-    public void CompareToToimii(){
-        int peijooni = naatti.compareTo(varanaatti);
-        assertEquals(2, peijooni, vertailutarkkuus);
-        peijooni = naatti.compareTo(naatti);
-        assertEquals(0, peijooni);
-    }
+
+
     @After
     public void tearDown() {
     }
@@ -81,7 +75,7 @@ public class KoordinaattiTest {
     @Test
     public void testGetPath() {
         System.out.println("getPath");
-        Koordinaatti instance = new Koordinaatti(2,2);
+        Koordinaatti instance = new Koordinaatti(2, 2);
         instance.setPath(naatti);
         Koordinaatti expResult = naatti;
         Koordinaatti result = instance.getPath();

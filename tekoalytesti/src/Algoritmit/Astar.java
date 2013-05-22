@@ -6,7 +6,6 @@ package Algoritmit;
 
 import Tietorakenteet.Koordinaatti;
 import Tietorakenteet.Minimikeko;
-import java.util.PriorityQueue;
 
 /**
  * Reitinhakualgoritmi
@@ -66,7 +65,7 @@ public class Astar {
      *
      */
     public void AlustaTaulukot() {
-        int keonkoko = verkko.length * verkko[0].length;
+        int keonkoko = verkko.length * verkko[0].length +1;
         sailio = new Koordinaatti[verkko.length][verkko[0].length];
         keko = new Minimikeko(keonkoko);
 
@@ -95,9 +94,10 @@ public class Astar {
                     keko.insert(koord);
                 }
                 sailio[y][x] = koord;
-
+                
             }
         }
+//        keko.removeMin();
     }
 
     /**
@@ -135,7 +135,7 @@ public class Astar {
 
                     sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[y][vx].setPath(sailio[y][x]);
-                    keko.insert(sailio[y][vx]);
+                    keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
 
                 }
             }
@@ -148,7 +148,7 @@ public class Astar {
 
                     sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[y][vx].setPath(sailio[y][x]);
-                    keko.insert(sailio[y][vx]);
+                    keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
                 }
             }
         }
@@ -160,7 +160,7 @@ public class Astar {
 
                     sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[vy][x].setPath(sailio[y][x]);
-                    keko.insert(sailio[vy][y]);
+                    keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
                 }
             }
         }
@@ -172,7 +172,7 @@ public class Astar {
 
                     sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[vy][x].setPath(sailio[y][x]);
-                    keko.insert(sailio[vy][x]);
+                    keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
                 }
             }
         }
@@ -212,7 +212,6 @@ public class Astar {
     public void TulostaReitti() {
         Koordinaatti reitti = sailio[maaliy][maalix].getPath();
         System.out.println(reitti);
-
         while (reitti != null) {
             System.out.println(reitti);
             reitti = reitti.getPath();

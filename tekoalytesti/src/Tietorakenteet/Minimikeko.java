@@ -4,14 +4,16 @@
  */
 package Tietorakenteet;
 
+import java.util.Comparator;
+
 /**
  * Koordinaateille spesialisoitu minimikeko, yritys uno.
  *
  * @author Larppa
  */
-public class Minimikeko {
+public class Minimikeko implements Comparator<Koordinaatti> {
 
-    private Koordinaatti[] keko;
+    private Koordinaatti[] A;
     private int maxkoko;
     private int koko;
 
@@ -22,11 +24,11 @@ public class Minimikeko {
      */
     public Minimikeko(int max) {
         maxkoko = max;
-        keko = new Koordinaatti[maxkoko];
+        A = new Koordinaatti[maxkoko];
         koko = 0;
         Koordinaatti dummycrd = new Koordinaatti();
-        dummycrd.setEtaisyys(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        keko[0] = dummycrd;
+        dummycrd.setEtaisyys(-1);
+        A[0] = dummycrd;
     }
 
     /**
@@ -35,7 +37,7 @@ public class Minimikeko {
      * @param pos tutkittavan solmun indeksi.
      * @return vasemman lapsen sijainti keossa.
      */
-    private int getVasenLapsi(int pos) {
+    private int Left(int pos) {
         return 2 * pos;
     }
 
@@ -45,8 +47,8 @@ public class Minimikeko {
      * @param pos tutkittavan solmun indeksi.
      * @return Oikean lapsen sijainti keossa.
      */
-    private int getOikeaLapsi(int pos) {
-        return 2 * pos + 1;
+    private int Right(int pos) {
+        return (2 * pos) + 1;
     }
 
     /**
@@ -55,7 +57,7 @@ public class Minimikeko {
      * @param pos Lapsisolmun indeksi.
      * @return Vanhemman sijainti keossa.
      */
-    private int getParent(int pos) {
+    private int Parent(int pos) {
         return pos / 2;
     }
 
@@ -66,25 +68,25 @@ public class Minimikeko {
      * @param pos2 toisen solmun indeksi.
      */
     private void swap(int pos1, int pos2) {
-        Koordinaatti tmp = keko[pos1];
-        keko[pos1] = keko[pos2];
-        keko[pos2] = tmp;
+        Koordinaatti tmp = A[pos1];
+        A[pos1] = A[pos2];
+        A[pos2] = tmp;
     }
 
     /**
      * Sijoittaa kekoon uuden koordinaatin.
      *
-     * @param juttu Lisättävä koordinaatti.
+     * @param k Lisättävä koordinaatti.
      */
-    public void insert(Koordinaatti juttu) {
+    public void insert(Koordinaatti k) {
         koko++;
-        keko[koko] = juttu;
-        int index = koko;
+        int i = koko;
 
-        while (keko[index].getEtaisyys() < keko[getParent(index)].getEtaisyys()) {
-            swap(index, getParent(index));
-            index = getParent(index);
+        while (i > 1 && A[Parent(i)].getEtaisyys() > k.getEtaisyys()) {
+            A[i] = A[Parent(i)];
+            i = Parent(i);
         }
+        A[i] = k;
     }
 
     /**
@@ -94,34 +96,39 @@ public class Minimikeko {
      * @return keon pienin alkio.
      */
     public Koordinaatti removeMin() {
-        swap(1, koko);
+        Koordinaatti min = A[1];
+        A[1] = A[koko];
         koko--;
         if (koko != 0) {
             heapify(1);
         }
-        return keko[koko + 1];
+        return min;
     }
 
     /**
      * Pitää keon järjestyksessä. Kuljettaa pieniä alkioita alaspäin.
      *
-     * @param pos tarkasteltavan alkion sijainti keossa.
+     * @param i tarkasteltavan alkion sijainti keossa.
      */
-    private void heapify(int pos) {
-        int pieninlapsi;
-        while (!onkoLehti(pos)) {
-            pieninlapsi = getVasenLapsi(pos);
-            if (pieninlapsi < koko) {
-                if (keko[pieninlapsi].getEtaisyys() > keko[pieninlapsi + 1].getEtaisyys()) {
-                    pieninlapsi++;
-                }
+    private void heapify(int i) {
+        int l = Left(i);
+        int r = Right(i);
+        int largest;
+
+        if (r <= koko) {
+            if (A[l].getEtaisyys() > A[r].getEtaisyys()) {
+                largest = l;
+            } else {
+                largest = r;
             }
-            if (keko[pos].getEtaisyys() <= keko[pieninlapsi].getEtaisyys()) {
-                return;
+            if (A[l].getEtaisyys() < A[largest].getEtaisyys()) {
+                swap(i, largest);
+                heapify(largest);
             }
-            swap(pos, pieninlapsi);
-            pos = pieninlapsi;
+        } else if (l == koko && A[i].getEtaisyys() < A[l].getEtaisyys()) {
+            swap(i, l);
         }
+
 
     }
 
@@ -132,23 +139,41 @@ public class Minimikeko {
      * @return true, jos tarkasteltava alkio on lehti, false muulloin.
      */
     private boolean onkoLehti(int pos) {
-        return ((pos > koko / 2) && (pos <= koko));
+        if (pos > koko / 2) {
+            if (pos <= koko) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      * Laskee alkion arvoa (=koordinaatin etäisyyttä alkuun ja siten sen
      * etäisyysarviota)
      *
-     * @param pos tutkittavan alkion sijainti keossa.
-     * @param uusiArvo uusi etäisyysarvio alkuun.
+     * @param avain Tutkittavan alkion avain.
+     * @param newk uusi etäisyysarvio alkuun.
      */
-    public void laskeArvoa(int pos, int uusiArvo) {
-        if (uusiArvo < keko[pos].getAlkuun()) {
-            keko[pos].setAlkuun(uusiArvo);
-            while (pos > 1 && keko[getParent(pos)].getEtaisyys() < keko[pos].getEtaisyys()) {
-                swap(pos, getParent(pos));
-                pos = getParent(pos);
+    public void laskeArvoa(int avain, int newk) {
+        int i = getPos(avain);
+        if (newk < A[i].getAlkuun()) {
+            A[i].setAlkuun(newk);
+            heapify(i);
+        }
+    }
+
+    private int getPos(int avain) {
+        for (int i = 1; i <= koko; i++) {
+            if (A[i].getID() == avain) {
+                System.out.println(A[i]);
+                return i;
             }
         }
+        return -1;
+    }
+
+    @Override
+    public int compare(Koordinaatti o1, Koordinaatti o2) {
+        return o1.getEtaisyys() - o2.getEtaisyys();
     }
 }
