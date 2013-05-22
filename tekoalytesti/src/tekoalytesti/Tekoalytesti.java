@@ -47,7 +47,7 @@ public class Tekoalytesti {
         // TODO code application logic here
         int aloitusx = 1;
         int aloitusy = 1;
-        int maalix = 8;
+        int maalix = 4;
         int maaliy = 2;
         Astar algo = new Astar(labyrintti, aloitusx, aloitusy, maalix, maaliy);
         algo.Reitinhaku();

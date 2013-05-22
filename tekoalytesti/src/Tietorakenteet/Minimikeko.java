@@ -139,13 +139,12 @@ public class Minimikeko {
      */
     public void laskeArvoa(int avain, int newk) {
         int i = getPos(avain);
-//        if (i != -1) {
             if (newk < A[i].getAlkuun()) {
                 A[i].setAlkuun(newk);
                 heapify(i);
             }
         }
-//    }
+
 /**
  * Etsii avainta vastaavan alkion keosta.
  * @param avain etsittävän alkion avain
@@ -154,7 +153,6 @@ public class Minimikeko {
     private int getPos(int avain) {
         for (int i = 1; i <= koko; i++) {
             if (A[i].getID() == avain) {
-                System.out.println(A[i]);
                 return i;
             }
         }

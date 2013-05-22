@@ -65,7 +65,7 @@ public class Astar {
      *
      */
     public void AlustaTaulukot() {
-        int keonkoko = verkko.length * verkko[0].length +1;
+        int keonkoko = verkko.length * verkko[0].length + 1;
         sailio = new Koordinaatti[verkko.length][verkko[0].length];
         keko = new Minimikeko(keonkoko);
 
@@ -91,10 +91,10 @@ public class Astar {
                 }
 
 //                if (verkko[y][x] == 0) {
-                    keko.insert(koord);
+                keko.insert(koord);
 //                }
                 sailio[y][x] = koord;
-                
+
             }
         }
     }
@@ -127,6 +127,7 @@ public class Astar {
         int vx;
         int vy;
 
+        sailio[y][x].tutkittu();
         if (x - 1 >= 0) {
             vx = x - 1;
             if (verkko[y][vx] == 0) {
@@ -134,7 +135,10 @@ public class Astar {
 
                     sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[y][vx].setPath(sailio[y][x]);
-                    keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
+
+                    if (sailio[y][vx].onkoTutkittu() == false) {
+                        keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
+                    }
                 }
             }
         }
@@ -146,7 +150,10 @@ public class Astar {
 
                     sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[y][vx].setPath(sailio[y][x]);
-                    keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
+
+                    if (sailio[y][vx].onkoTutkittu() == false) {
+                        keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
+                    }
                 }
             }
         }
@@ -158,7 +165,10 @@ public class Astar {
 
                     sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[vy][x].setPath(sailio[y][x]);
-                    keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
+
+                    if (sailio[vy][x].onkoTutkittu() == false) {
+                        keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
+                    }
                 }
             }
         }
@@ -170,7 +180,10 @@ public class Astar {
 
                     sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[vy][x].setPath(sailio[y][x]);
-                    keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
+
+                    if (sailio[vy][x].onkoTutkittu() == false) {
+                        keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
+                    }
                 }
             }
         }
