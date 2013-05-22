@@ -97,7 +97,6 @@ public class Astar {
                 
             }
         }
-//        keko.removeMin();
     }
 
     /**
@@ -136,7 +135,6 @@ public class Astar {
                     sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[y][vx].setPath(sailio[y][x]);
                     keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
-
                 }
             }
         }
