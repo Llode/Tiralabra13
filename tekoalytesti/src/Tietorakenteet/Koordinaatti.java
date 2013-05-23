@@ -24,7 +24,7 @@ public class Koordinaatti {
     private int alkuun;
     private int loppuun;
     private Koordinaatti path;
-    private boolean onkoTutkittu;
+
 
     /**
      *
@@ -36,7 +36,6 @@ public class Koordinaatti {
         int alkuun = this.alkuun;
         int loppuun = this.loppuun;
         int id = this.id;
-        boolean onkoTutkittu = false;
         Koordinaatti path = this.path;
     }
 
@@ -75,12 +74,6 @@ public class Koordinaatti {
     public void setPath(Koordinaatti solmu) {
         path = solmu;
     }
-    public boolean onkoTutkittu(){
-        return onkoTutkittu;
-    }
-    public void tutkittu(){
-        onkoTutkittu = true;
-    }
     /**
      *
      * @return
@@ -100,6 +93,10 @@ public class Koordinaatti {
         this.loppuun = loppuun;
         laskeEtaisyys();
     }
+    /**
+     * Asettaa koordinaatille uuden etäisyyden ilman muuta härväämistä. Lähinnä debugaamista varten.
+     * @param etaisyys 
+     */
     public void setEtaisyys(int etaisyys){
         this.etaisyysarvio = etaisyys;
     }
@@ -153,7 +150,7 @@ public class Koordinaatti {
     }
 
     /**
-     *
+     * ASettaa kaikki koordinaatit!
      * @param x
      * @param y
      */
@@ -163,7 +160,7 @@ public class Koordinaatti {
     }
 
     /**
-     *
+     * ASettaa x-koordinaatin
      * @param x
      */
     public void setX(int x) {
@@ -171,7 +168,7 @@ public class Koordinaatti {
     }
 
     /**
-     *
+     * asettaa y-koordinaatin
      * @param y
      */
     public void setY(int y) {

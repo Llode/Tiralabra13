@@ -5,15 +5,17 @@
 package Tietorakenteet;
 
 /**
- * Koordinaateille spesialisoitu minimikeko, yritys uno.
+ * Koordinaateille spesialisoitu minimikeko, yritys dos.
  *
  * @author Larppa
  */
 public class Minimikeko {
 
     private Koordinaatti[] A;
+    private int[] avaintaulu;
     private int maxkoko;
     private int koko;
+    private int index;
 
     /**
      * Konstruktori
@@ -23,6 +25,7 @@ public class Minimikeko {
     public Minimikeko(int max) {
         maxkoko = max;
         A = new Koordinaatti[maxkoko];
+        avaintaulu = new int[maxkoko];
         koko = 0;
         Koordinaatti dummycrd = new Koordinaatti();
         dummycrd.setEtaisyys(-1);
@@ -69,6 +72,10 @@ public class Minimikeko {
         Koordinaatti tmp = A[pos1];
         A[pos1] = A[pos2];
         A[pos2] = tmp;
+
+        int ktmp = avaintaulu[pos1];
+        avaintaulu[pos1] = avaintaulu[pos2];
+        avaintaulu[pos2] = ktmp;
     }
 
     /**
@@ -85,6 +92,7 @@ public class Minimikeko {
             i = Parent(i);
         }
         A[i] = k;
+        avaintaulu[k.getID()] = i;
     }
 
     /**
@@ -97,6 +105,7 @@ public class Minimikeko {
         Koordinaatti min = A[1];
         A[1] = A[koko];
         koko--;
+        avaintaulu[A[1].getID()] = -1;
         if (koko != 0) {
             heapify(1);
         }
@@ -138,26 +147,25 @@ public class Minimikeko {
      * @param newk uusi etäisyysarvio alkuun.
      */
     public void laskeArvoa(int avain, int newk) {
-        int i = getPos(avain);
-            if (newk < A[i].getAlkuun()) {
-                A[i].setAlkuun(newk);
-                heapify(i);
+        if (getPos(avain) == true) {
+            if (newk < A[index].getAlkuun()) {
+                A[index].setAlkuun(newk);
+                heapify(index);
             }
         }
+    }
 
 /**
- * Etsii avainta vastaavan alkion keosta.
- * @param avain etsittävän alkion avain
- * @return alkion indeksi keossa.
+ * Etsii avainta vastaavan koordinaatin indeksin aputaulukosta.
+ * @param avain etsittävän koordinaatin avain.
+ * @return true, jos koordinaatti on vielä keossa ja indeksi löytyy, false muulloin.
  */
-    private int getPos(int avain) {
-        for (int i = 1; i <= koko; i++) {
-            if (A[i].getID() == avain) {
-                return i;
-            }
+    private boolean getPos(int avain) {
+        index = avaintaulu[avain];
+        if (index == -1) {
+            return false;
+        } else {
+            return true;
         }
-        return -1;
     }
 }
-
-

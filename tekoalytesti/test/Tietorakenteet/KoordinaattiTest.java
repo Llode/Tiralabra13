@@ -47,7 +47,6 @@ public class KoordinaattiTest {
         assertEquals(20, naatti.getEtaisyys(), vertailutarkkuus);
     }
 
-
     @After
     public void tearDown() {
     }
@@ -183,67 +182,38 @@ public class KoordinaattiTest {
     @Test
     public void testSetKoordinaatit() {
         System.out.println("setKoordinaatit");
-        int x = 0;
-        int y = 0;
+        int x = 1;
+        int y = 2;
         Koordinaatti instance = new Koordinaatti();
         instance.setKoordinaatit(x, y);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int resultx = 1;
+        int resulty = 2;
+        assertEquals(instance.getX(), resultx, vertailutarkkuus);
+        assertEquals(instance.getY(), resulty, vertailutarkkuus);
+        
     }
 
-    /**
-     * Test of setX method, of class Koordinaatti.
-     */
-    @Test
-    public void testSetX() {
-        System.out.println("setX");
-        int x = 0;
-        Koordinaatti instance = new Koordinaatti();
-        instance.setX(x);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of setY method, of class Koordinaatti.
      */
     @Test
-    public void testSetY() {
+    public void testSetGetXY() {
         System.out.println("setY");
-        int y = 0;
+        int y = 10;
+        int x = 5;
         Koordinaatti instance = new Koordinaatti();
         instance.setY(y);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getX method, of class Koordinaatti.
-     */
-    @Test
-    public void testGetX() {
-        System.out.println("getX");
-        Koordinaatti instance = new Koordinaatti();
-        int expResult = 0;
+        instance.setX(x);
         int result = instance.getX();
+        int expResult = 5;
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        expResult = 10;
+        result = instance.getY();
+        assertEquals(expResult, result);
     }
 
-    /**
-     * Test of getY method, of class Koordinaatti.
-     */
-    @Test
-    public void testGetY() {
-        System.out.println("getY");
-        Koordinaatti instance = new Koordinaatti();
-        int expResult = 0;
-        int result = instance.getY();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of toString method, of class Koordinaatti.
@@ -251,26 +221,9 @@ public class KoordinaattiTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Koordinaatti instance = new Koordinaatti();
-        String expResult = "";
+        Koordinaatti instance = new Koordinaatti(1, 2);
+        String expResult = "(1, 2)";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of compareTo method, of class Koordinaatti.
-     */
-    @Test
-    public void testCompareTo() {
-        System.out.println("compareTo");
-        Koordinaatti o = null;
-        Koordinaatti instance = new Koordinaatti();
-        int expResult = 0;
-        int result = instance.compareTo(o);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 }

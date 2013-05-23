@@ -90,9 +90,9 @@ public class Astar {
                     koord.setEtaisyys(max, loppuun);
                 }
 
-//                if (verkko[y][x] == 0) {
-                keko.insert(koord);
-//                }
+                if (verkko[y][x] == 0) {
+                    keko.insert(koord);
+                }
                 sailio[y][x] = koord;
 
             }
@@ -124,10 +124,20 @@ public class Astar {
         int x = solmu.getX();
         int y = solmu.getY();
 
-        int vx;
-        int vy;
+        RelaxVasen(x, y);
+        RelaxOikea(x, y);
+        RelaxYlos(y, x);
+        RelaxAlas(y, x);
+    }
 
-        sailio[y][x].tutkittu();
+    /**
+     * Operoi tutkittavan solmun vasemmanpuoleisen solmun.
+     *
+     * @param x
+     * @param y
+     */
+    public void RelaxVasen(int x, int y) {
+        int vx;
         if (x - 1 >= 0) {
             vx = x - 1;
             if (verkko[y][vx] == 0) {
@@ -135,14 +145,20 @@ public class Astar {
 
                     sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[y][vx].setPath(sailio[y][x]);
-
-                    if (sailio[y][vx].onkoTutkittu() == false) {
-                        keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
-                    }
+                    keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
                 }
             }
         }
+    }
 
+    /**
+     * Operoi tutkittavan solmun oikeanpuoleisen solmun.
+     *
+     * @param x
+     * @param y
+     */
+    public void RelaxOikea(int x, int y) {
+        int vx;
         if (x + 1 < verkko[0].length) {
             vx = x + 1;
             if (verkko[y][vx] == 0) {
@@ -150,14 +166,20 @@ public class Astar {
 
                     sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[y][vx].setPath(sailio[y][x]);
-
-                    if (sailio[y][vx].onkoTutkittu() == false) {
-                        keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
-                    }
+                    keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
                 }
             }
         }
+    }
 
+    /**
+     * Operoi tutkittavan solmun yläpuolella olevan solmun.
+     *
+     * @param x
+     * @param y
+     */
+    public void RelaxYlos(int y, int x) {
+        int vy;
         if (y - 1 >= 0) {
             vy = y - 1;
             if (verkko[vy][x] == 0) {
@@ -165,14 +187,20 @@ public class Astar {
 
                     sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[vy][x].setPath(sailio[y][x]);
-
-                    if (sailio[vy][x].onkoTutkittu() == false) {
-                        keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
-                    }
+                    keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
                 }
             }
         }
+    }
 
+    /**
+     * Operoi tutkittavan solmun alapuolella olevan solmun.
+     *
+     * @param x
+     * @param y
+     */
+    public void RelaxAlas(int y, int x) {
+        int vy;
         if (y + 1 < verkko.length) {
             vy = y + 1;
             if (verkko[vy][x] == 0) {
@@ -180,10 +208,7 @@ public class Astar {
 
                     sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[vy][x].setPath(sailio[y][x]);
-
-                    if (sailio[vy][x].onkoTutkittu() == false) {
-                        keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
-                    }
+                    keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
                 }
             }
         }
