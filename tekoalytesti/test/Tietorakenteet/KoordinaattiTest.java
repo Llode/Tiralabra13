@@ -88,12 +88,11 @@ public class KoordinaattiTest {
     @Test
     public void testSetEtaisyys() {
         System.out.println("setEtaisyys");
-        int alkuun = 0;
-        int loppuun = 0;
+        int alkuun = 10;
+        int loppuun = 20;
         Koordinaatti instance = new Koordinaatti();
         instance.setEtaisyys(alkuun, loppuun);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(instance.getEtaisyys(), 30);
     }
 
     /**
@@ -103,77 +102,35 @@ public class KoordinaattiTest {
     public void testGetEtaisyys() {
         System.out.println("getEtaisyys");
         Koordinaatti instance = new Koordinaatti();
-        int expResult = 0;
+        instance.setEtaisyys(10, 20);
+        int expResult = 30;
         int result = instance.getEtaisyys();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of laskeEtaisyys method, of class Koordinaatti.
+     * Test of setAlkuun and getAlkuun methods, of class Koordinaatti.
      */
     @Test
-    public void testLaskeEtaisyys() {
-        System.out.println("laskeEtaisyys");
-        Koordinaatti instance = new Koordinaatti();
-        instance.laskeEtaisyys();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setAlkuun method, of class Koordinaatti.
-     */
-    @Test
-    public void testSetAlkuun() {
+    public void testSetGetAlkuun() {
         System.out.println("setAlkuun");
-        int alkuun = 0;
+        int alkuun = 10;
         Koordinaatti instance = new Koordinaatti();
         instance.setAlkuun(alkuun);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int expresult = instance.getAlkuun();
+        assertEquals(expresult, alkuun);
     }
 
     /**
-     * Test of setLoppuun method, of class Koordinaatti.
+     * Test of setLoppuun and getLoppuun methods, of class Koordinaatti.
      */
     @Test
-    public void testSetLoppuun() {
+    public void testSetGetLoppuun() {
         System.out.println("setLoppuun");
-        int loppuun = 0;
+        int loppuun = 20;
         Koordinaatti instance = new Koordinaatti();
         instance.setLoppuun(loppuun);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getAlkuun method, of class Koordinaatti.
-     */
-    @Test
-    public void testGetAlkuun() {
-        System.out.println("getAlkuun");
-        Koordinaatti instance = new Koordinaatti();
-        int expResult = 0;
-        int result = instance.getAlkuun();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getLoppuun method, of class Koordinaatti.
-     */
-    @Test
-    public void testGetLoppuun() {
-        System.out.println("getLoppuun");
-        Koordinaatti instance = new Koordinaatti();
-        int expResult = 0;
-        int result = instance.getLoppuun();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(instance.getLoppuun(), loppuun);
     }
 
     /**
@@ -190,9 +147,8 @@ public class KoordinaattiTest {
         int resulty = 2;
         assertEquals(instance.getX(), resultx, vertailutarkkuus);
         assertEquals(instance.getY(), resulty, vertailutarkkuus);
-        
-    }
 
+    }
 
     /**
      * Test of setY method, of class Koordinaatti.
@@ -208,12 +164,11 @@ public class KoordinaattiTest {
         int result = instance.getX();
         int expResult = 5;
         assertEquals(expResult, result);
-        
+
         expResult = 10;
         result = instance.getY();
         assertEquals(expResult, result);
     }
-
 
     /**
      * Test of toString method, of class Koordinaatti.

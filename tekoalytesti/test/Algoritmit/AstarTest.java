@@ -12,6 +12,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import tekoalytesti.Tekoalytesti;
+import Algoritmit.Astar;
+import Tietorakenteet.*;
 
 /**
  *
@@ -53,29 +55,9 @@ public class AstarTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of Init method, of class Astar.
-     */
-    @Test
-    public void testInit() {
-        System.out.println("Init");
-        Astar instance = null;
-        instance.Init();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
-    /**
-     * Test of AlustaTaulukot method, of class Astar.
-     */
-    @Test
-    public void testAlustaTaulukot() {
-        System.out.println("AlustaTaulukot");
-        Astar instance = null;
-        instance.AlustaTaulukot();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+
+
 
     /**
      * Test of AlustaEtaisyydet method, of class Astar.
@@ -83,7 +65,7 @@ public class AstarTest {
     @Test
     public void testAlustaEtaisyydet() {
         System.out.println("AlustaEtaisyydet");
-        Astar instance = null;
+        Astar instance = algo;
         instance.AlustaEtaisyydet();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

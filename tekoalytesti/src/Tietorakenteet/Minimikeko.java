@@ -146,13 +146,15 @@ public class Minimikeko {
      * @param avain Tutkittavan alkion avain.
      * @param newk uusi etäisyysarvio alkuun.
      */
-    public void laskeArvoa(int avain, int newk) {
+    public boolean laskeArvoa(int avain, int newk) {
         if (getPos(avain) == true) {
             if (newk < A[index].getAlkuun()) {
                 A[index].setAlkuun(newk);
                 heapify(index);
+                return true;
             }
         }
+        return false;
     }
 
 /**
@@ -160,7 +162,7 @@ public class Minimikeko {
  * @param avain etsittävän koordinaatin avain.
  * @return true, jos koordinaatti on vielä keossa ja indeksi löytyy, false muulloin.
  */
-    private boolean getPos(int avain) {
+    public boolean getPos(int avain) {
         index = avaintaulu[avain];
         if (index == -1) {
             return false;
