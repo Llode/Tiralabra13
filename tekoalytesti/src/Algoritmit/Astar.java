@@ -16,7 +16,7 @@ public class Astar {
 
     /**
      * Teoreettinen maksimiarvo, joka annetaan etaisyysAlkuun-taulukon alkioille
-     * alussa. Maksimietäisyys (labyrintin korkeus + leveys) on poistettu, ettei
+     * alussa. Maksimietäisyys (labyrintin korkeus + leveys) on vähennetty, ettei
      * etaisyysAlkuun[y][x]+etaisyysLoppuun[y][x] aiheuttaisi virhettä.
      */
     private final int max = Integer.MAX_VALUE - (19 + 21);
@@ -27,7 +27,7 @@ public class Astar {
     /**
      * minimikeon korvike reitinhakua varten.
      */
-    private Minimikeko keko;
+    Minimikeko keko;
     private Koordinaatti solmu = new Koordinaatti();
     private int alkux;
     private int alkuy;
@@ -55,7 +55,7 @@ public class Astar {
     /**
      * Taulukoiden ja etäisyyksien alustaminen samassa paketissa.
      */
-    public void Init() {
+    private void Init() {
         AlustaTaulukot();
         AlustaEtaisyydet();
     }
@@ -64,7 +64,7 @@ public class Astar {
      * Tekee oikeankokoiset apumatriisit käytettävän labyrintin pohjalta.
      *
      */
-    public void AlustaTaulukot() {
+    private void AlustaTaulukot() {
         int keonkoko = verkko.length * verkko[0].length + 1;
         sailio = new Koordinaatti[verkko.length][verkko[0].length];
         keko = new Minimikeko(keonkoko);
@@ -75,7 +75,7 @@ public class Astar {
      * Alustaa etäisyysarvioihin käytettävät matriisit
      *
      */
-    public void AlustaEtaisyydet() {
+    private void AlustaEtaisyydet() {
         Koordinaatti koord;
         int loppuun;
 
@@ -105,7 +105,7 @@ public class Astar {
      * @param crd Tutkittava koordinaatti.
      * @return
      */
-    public boolean OllaankoStartissa(Koordinaatti crd) {
+    private boolean OllaankoStartissa(Koordinaatti crd) {
         if (crd.getX() == alkux) {
             if (crd.getY() == alkuy) {
                 return true;
@@ -120,7 +120,7 @@ public class Astar {
      *
      * @param solmu Keosta popattu tutkittava solmu.
      */
-    public void Relax(Koordinaatti solmu) {
+    private void Relax(Koordinaatti solmu) {
         int x = solmu.getX();
         int y = solmu.getY();
 
@@ -136,7 +136,7 @@ public class Astar {
      * @param x
      * @param y
      */
-    public void RelaxVasen(int x, int y) {
+    private void RelaxVasen(int x, int y) {
         int vx;
         if (x - 1 >= 0) {
             vx = x - 1;
@@ -157,7 +157,7 @@ public class Astar {
      * @param x
      * @param y
      */
-    public void RelaxOikea(int x, int y) {
+    private void RelaxOikea(int x, int y) {
         int vx;
         if (x + 1 < verkko[0].length) {
             vx = x + 1;
@@ -178,7 +178,7 @@ public class Astar {
      * @param x
      * @param y
      */
-    public void RelaxYlos(int y, int x) {
+    private void RelaxYlos(int y, int x) {
         int vy;
         if (y - 1 >= 0) {
             vy = y - 1;
@@ -199,7 +199,7 @@ public class Astar {
      * @param x
      * @param y
      */
-    public void RelaxAlas(int y, int x) {
+    private void RelaxAlas(int y, int x) {
         int vy;
         if (y + 1 < verkko.length) {
             vy = y + 1;
@@ -231,7 +231,7 @@ public class Astar {
      * @param solmu tutkittava solmu
      * @return
      */
-    public boolean OllaankoMaalissa(Koordinaatti solmu) {
+    private boolean OllaankoMaalissa(Koordinaatti solmu) {
         if (solmu.getX() == maalix) {
             if (solmu.getY() == maaliy) {
                 return true;

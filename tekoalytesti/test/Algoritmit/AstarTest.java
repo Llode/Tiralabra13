@@ -4,7 +4,6 @@
  */
 package Algoritmit;
 
-import Tietorakenteet.Koordinaatti;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -12,78 +11,32 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import tekoalytesti.Tekoalytesti;
-import Algoritmit.Astar;
-import Tietorakenteet.*;
 
 /**
  *
  * @author Larppa
  */
 public class AstarTest {
-    Astar algo;
-    Koordinaatti naatti, varanaatti;
-    double vertailutarkkuus = 0.0001;
     
-
     public AstarTest() {
     }
-
+    
     @BeforeClass
     public static void setUpClass() {
-        
     }
-
+    
     @AfterClass
     public static void tearDownClass() {
     }
-
+    
     @Before
     public void setUp() {
-        naatti = new Koordinaatti(2, 2);
-        algo = new Astar(Tekoalytesti.labyrintti, 2, 2, 3, 3);
     }
-
-    @Test
-    public void maalinJaStartinTarkastusToimii(){
-        boolean Testi = algo.OllaankoStartissa(naatti);
-        assertEquals(true, Testi);
-        naatti.setKoordinaatit(3, 3);
-        Testi = algo.OllaankoMaalissa(naatti);
-        assertEquals(true, Testi);
-   }
+    
     @After
     public void tearDown() {
     }
 
-
-
-
-
-    /**
-     * Test of AlustaEtaisyydet method, of class Astar.
-     */
-    @Test
-    public void testAlustaEtaisyydet() {
-        System.out.println("AlustaEtaisyydet");
-        Astar instance = algo;
-        instance.AlustaEtaisyydet();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-
-    /**
-     * Test of Relax method, of class Astar.
-     */
-    @Test
-    public void testRelax() {
-        System.out.println("Relax");
-        Koordinaatti solmu = null;
-        Astar instance = null;
-        instance.Relax(solmu);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of Reitinhaku method, of class Astar.
@@ -91,13 +44,10 @@ public class AstarTest {
     @Test
     public void testReitinhaku() {
         System.out.println("Reitinhaku");
-        Astar instance = null;
+        Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 10, 1);
         instance.Reitinhaku();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
-
-
 
     /**
      * Test of TulostaReitti method, of class Astar.
@@ -105,8 +55,11 @@ public class AstarTest {
     @Test
     public void testTulostaReitti() {
         System.out.println("TulostaReitti");
-        Astar instance = null;
+        Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 1, 2);
+        instance.Reitinhaku();
         instance.TulostaReitti();
+        assertEquals(instance, this);
+        
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
