@@ -6,6 +6,7 @@ package Algoritmit;
 
 import Tietorakenteet.Koordinaatti;
 import Tietorakenteet.Minimikeko;
+import java.util.Stack;
 
 /**
  * Reitinhakualgoritmi
@@ -34,6 +35,8 @@ public class Astar {
     private int maalix;
     private int maaliy;
     private int[][] verkko;
+    private Koordinaatti[][] polku = new Koordinaatti[25][25];
+    private Koordinaatti startti;
 
     /**
      * Konstruktori
@@ -86,6 +89,7 @@ public class Astar {
 
                 if (OllaankoStartissa(koord)) {
                     koord.setEtaisyys(0, loppuun);
+                    startti = koord;
                 } else {
                     koord.setEtaisyys(max, loppuun);
                 }
@@ -145,6 +149,7 @@ public class Astar {
 
                     sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[y][vx].setPath(sailio[y][x]);
+                    polku[y][vx] = sailio[y][x];
                     keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
                 }
             }
@@ -166,6 +171,7 @@ public class Astar {
 
                     sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[y][vx].setPath(sailio[y][x]);
+                    polku[y][vx] = sailio[y][x];
                     keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
                 }
             }
@@ -187,6 +193,7 @@ public class Astar {
 
                     sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[vy][x].setPath(sailio[y][x]);
+                    polku[vy][x] = sailio[y][x];
                     keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
                 }
             }
@@ -208,6 +215,7 @@ public class Astar {
 
                     sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
                     sailio[vy][x].setPath(sailio[y][x]);
+                    polku[vy][x] = sailio[y][x];
                     keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
                 }
             }
@@ -246,11 +254,16 @@ public class Astar {
      *
      */
     public void TulostaReitti() {
-        Koordinaatti reitti = sailio[maaliy][maalix].getPath();
+        Koordinaatti reitti = polku[maaliy][maalix];
+        Stack<Koordinaatti> pino = new Stack();
+        while(reitti != startti){
+            pino.push(reitti);
+            reitti = polku[reitti.getY()][reitti.getX()];
+        }
         System.out.println(reitti);
-        while (reitti != null) {
+        while (!pino.empty()) {
+            reitti = pino.pop();
             System.out.println(reitti);
-            reitti = reitti.getPath();
         }
     }
 }
