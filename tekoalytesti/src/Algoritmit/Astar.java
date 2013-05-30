@@ -17,8 +17,8 @@ public class Astar {
 
     /**
      * Teoreettinen maksimiarvo, joka annetaan etaisyysAlkuun-taulukon alkioille
-     * alussa. Maksimietäisyys (labyrintin korkeus + leveys) on vähennetty, ettei
-     * etaisyysAlkuun[y][x]+etaisyysLoppuun[y][x] aiheuttaisi virhettä.
+     * alussa. Maksimietäisyys (labyrintin korkeus + leveys) on vähennetty,
+     * ettei etaisyysAlkuun[y][x]+etaisyysLoppuun[y][x] aiheuttaisi virhettä.
      */
     private final int max = Integer.MAX_VALUE - (19 + 21);
     /**
@@ -227,9 +227,11 @@ public class Astar {
      */
     public void Reitinhaku() {
         Init();
-        while (!OllaankoMaalissa(solmu)) {
+        boolean stoppi = false;
+        while (!stoppi) {
             solmu = keko.removeMin();
             Relax(solmu);
+            stoppi = OllaankoMaalissa(solmu);
         }
     }
 
@@ -254,16 +256,21 @@ public class Astar {
      *
      */
     public void TulostaReitti() {
-        Koordinaatti reitti = polku[maaliy][maalix];
-        Stack<Koordinaatti> pino = new Stack();
-        while(reitti != startti){
-            pino.push(reitti);
-            reitti = polku[reitti.getY()][reitti.getX()];
-        }
+        Koordinaatti reitti = sailio[maaliy][maalix];
         System.out.println(reitti);
-        while (!pino.empty()) {
-            reitti = pino.pop();
-            System.out.println(reitti);
+//        Stack<Koordinaatti> pino = new Stack();
+////        while (reitti != startti) {
+////            pino.push(reitti);
+////            reitti = polku[reitti.getY()][reitti.getX()];
+////        }
+//        System.out.println(reitti);
+//        while (!pino.empty()) {
+//            reitti = pino.pop();
+//            System.out.println(reitti);
+//        }
+        while(reitti != null){
+            System.out.println(reitti.getPath());
+            reitti = reitti.getPath();
         }
     }
 }
