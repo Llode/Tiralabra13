@@ -6,7 +6,6 @@ package Algoritmit;
 
 import Tietorakenteet.Koordinaatti;
 import Tietorakenteet.Minimikeko;
-import java.util.Stack;
 
 /**
  * Reitinhakualgoritmi
@@ -101,11 +100,11 @@ public class Astar {
 
             }
         }
-        Koordinaatti crd = keko.removeMin();
-       while(crd != null){
-           System.out.println(crd);
-           crd = keko.removeMin();
-       }
+//        Koordinaatti crd = keko.removeMin();
+//       while(crd != null){
+//           System.out.println(crd.getEtaisyys());
+//           crd = keko.removeMin();
+//       }
 //        for (int i = 0; i < sailio.length; i++) {
 //            for (int j = 0; j < sailio[0].length; j++) {
 //                System.out.println(keko.removeMin());

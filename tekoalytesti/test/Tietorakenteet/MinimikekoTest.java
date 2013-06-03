@@ -92,4 +92,32 @@ public class MinimikekoTest {
         assertTrue(asd);
         
     }
+
+    /**
+     * Test of heapify method, of class Minimikeko.
+     */
+    @Test
+    public void testHeapify() {
+        System.out.println("heapify");
+        int i = 0;
+        Minimikeko instance = null;
+        instance.heapify(i);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getPos method, of class Minimikeko.
+     */
+    @Test
+    public void testGetPos() {
+        System.out.println("getPos");
+        int avain = 0;
+        Minimikeko instance = null;
+        boolean expResult = false;
+        boolean result = instance.getPos(avain);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 }

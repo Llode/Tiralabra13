@@ -38,7 +38,7 @@ public class Minimikeko {
      * @param pos tutkittavan solmun indeksi.
      * @return vasemman lapsen sijainti keossa.
      */
-    private int Left(int pos) {
+    public int getLeft(int pos) {
         return 2 * pos;
     }
 
@@ -48,7 +48,7 @@ public class Minimikeko {
      * @param pos tutkittavan solmun indeksi.
      * @return Oikean lapsen sijainti keossa.
      */
-    private int Right(int pos) {
+    public int getRight(int pos) {
         return (2 * pos) + 1;
     }
 
@@ -58,7 +58,7 @@ public class Minimikeko {
      * @param pos Lapsisolmun indeksi.
      * @return Vanhemman sijainti keossa.
      */
-    private int Parent(int pos) {
+    public int getParent(int pos) {
         return pos / 2;
     }
 
@@ -68,7 +68,7 @@ public class Minimikeko {
      * @param pos1 ensimmäisen solmun indeksi.
      * @param pos2 toisen solmun indeksi.
      */
-    private void swap(int pos1, int pos2) {
+    void swap(int pos1, int pos2) {
         Koordinaatti tmp = A[pos1];
         A[pos1] = A[pos2];
         A[pos2] = tmp;
@@ -87,9 +87,9 @@ public class Minimikeko {
         koko++;
         int i = koko;
 
-        while (i > 1 && A[Parent(i)].getEtaisyys() > k.getEtaisyys()) {
-            A[i] = A[Parent(i)];
-            i = Parent(i);
+        while (i > 1 && A[getParent(i)].getEtaisyys() < k.getEtaisyys()) {
+            A[i] = A[getParent(i)];
+            i = getParent(i);
         }
         A[i] = k;
         avaintaulu[k.getID()] = i;
@@ -101,15 +101,16 @@ public class Minimikeko {
      *
      * @return keon pienin alkio.
      */
-    public Koordinaatti removeMin() {
+    public Koordinaatti removeMin() { // atm removemax
         Koordinaatti min = A[1];
+
         A[1] = A[koko];
         koko--;
-        avaintaulu[A[1].getID()] = -1;
-        if (koko != 0) {
-            heapify(1);
-        }
+        avaintaulu[min.getID()] = -1;
+        avaintaulu[A[1].getID()] = 1;
+        heapify(1);
         return min;
+
     }
 
     /**
@@ -117,9 +118,9 @@ public class Minimikeko {
      *
      * @param i tarkasteltavan alkion sijainti keossa.
      */
-    private void heapify(int i) {
-        int l = Left(i);
-        int r = Right(i);
+     void heapify(int i) {
+        int l = getLeft(i);
+        int r = getRight(i);
         int largest;
 
         if (r <= koko) {
@@ -157,11 +158,13 @@ public class Minimikeko {
         return false;
     }
 
-/**
- * Etsii avainta vastaavan koordinaatin indeksin aputaulukosta.
- * @param avain etsittävän koordinaatin avain.
- * @return true, jos koordinaatti on vielä keossa ja indeksi löytyy, false muulloin.
- */
+    /**
+     * Etsii avainta vastaavan koordinaatin indeksin aputaulukosta.
+     *
+     * @param avain etsittävän koordinaatin avain.
+     * @return true, jos koordinaatti on vielä keossa ja indeksi löytyy, false
+     * muulloin.
+     */
     public boolean getPos(int avain) {
         index = avaintaulu[avain];
         if (index == -1) {
