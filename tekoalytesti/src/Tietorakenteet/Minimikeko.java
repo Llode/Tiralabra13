@@ -151,13 +151,13 @@ public class Minimikeko {
      * Laskee alkion arvoa (=koordinaatin etäisyyttä alkuun ja siten sen
      * etäisyysarviota)
      *
-     * @param avain Tutkittavan alkion avain.
-     * @param newk uusi etäisyysarvio alkuun.
+     * @param ID Tutkittavan alkion tunniste.
+     * @param uusiAlkuun uusi etäisyysarvio alkuun.
      */
-    public boolean  laskeArvoa(int avain, int newk) {
-        if (getPos(avain) == true) {
-            if (newk < keko[index].getAlkuun()) {
-                keko[index].setAlkuun(newk);
+    public boolean  laskeArvoa(int ID, int uusiAlkuun) {
+        if (getPos(ID) == true) {
+            if (uusiAlkuun < keko[index].getAlkuun()) {
+                keko[index].setAlkuun(uusiAlkuun);
                 heapify(index);
                 return true;
             }

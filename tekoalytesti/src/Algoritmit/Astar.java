@@ -100,11 +100,11 @@ public class Astar {
 
             }
         }
-//        Koordinaatti crd = keko.removeMin();
-//        while (!keko.isEmpty()) {
-//            System.out.println(crd.getEtaisyys());
-//            crd = keko.removeMin();
-//        }
+        Koordinaatti crd = keko.removeMin();
+        while (!keko.isEmpty()) {
+            System.out.println(crd.getEtaisyys());
+            crd = keko.removeMin();
+        }
     }
 
     /**

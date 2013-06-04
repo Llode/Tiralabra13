@@ -77,22 +77,22 @@ public class MinimikekoTest {
     public void testLaskeArvoa() {
         System.out.println("laskeArvoa");
         Minimikeko instance = new Minimikeko(20);
+        Koordinaatti juttu;
+        int expResult = 2;
 
-        Koordinaatti juttu = new Koordinaatti(20, 20);
-        juttu.setAlkuun(15);
-        int avain = juttu.getID();
-        instance.insert(juttu);
-
-        for (int i = 0; i < 9; i++) {
-            juttu = new Koordinaatti(1 + i, 2 + i);
-            juttu.setAlkuun(i + 10);
+        for (int i = 0; i < 14; i++) {
+            juttu = new Koordinaatti(1 + i, 2);
+            juttu.setEtaisyys(i+2, i + 30);
             instance.insert(juttu);
         }
 
-        int expResult = 2;
+        juttu = new Koordinaatti(20, 20);
+        juttu.setEtaisyys(10, 25);
+        int avain = juttu.getID();
+        instance.insert(juttu);
 
-        boolean asd = instance.laskeArvoa(avain, expResult);
-        assertTrue(asd);
+        boolean testi = instance.laskeArvoa(avain, expResult);
+        assertTrue(testi);
 
         Koordinaatti result = new Koordinaatti();
         while (true) {
@@ -101,7 +101,7 @@ public class MinimikekoTest {
                 break;
             }
         }
-        assertEquals(result.getAlkuun(), 2);
+        assertEquals(result.getAlkuun(), expResult);
     }
 
     /**
