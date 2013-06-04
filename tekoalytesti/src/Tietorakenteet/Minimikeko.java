@@ -11,7 +11,10 @@ package Tietorakenteet;
  */
 public class Minimikeko {
 
-    private Koordinaatti[] A;
+    Koordinaatti[] keko;
+    /**
+     * Avaintaulun indeksi on koordinaatin ID ja alkio sen paikka itse keossa.
+     */
     private int[] avaintaulu;
     private int maxkoko;
     private int koko;
@@ -24,12 +27,12 @@ public class Minimikeko {
      */
     public Minimikeko(int max) {
         maxkoko = max;
-        A = new Koordinaatti[maxkoko];
+        keko = new Koordinaatti[maxkoko];
         avaintaulu = new int[maxkoko];
         koko = 0;
         Koordinaatti dummycrd = new Koordinaatti();
         dummycrd.setEtaisyys(-1);
-        A[0] = dummycrd;
+        keko[0] = dummycrd;
     }
 
     /**
@@ -69,9 +72,9 @@ public class Minimikeko {
      * @param pos2 toisen solmun indeksi.
      */
     void swap(int pos1, int pos2) {
-        Koordinaatti tmp = A[pos1];
-        A[pos1] = A[pos2];
-        A[pos2] = tmp;
+        Koordinaatti tmp = keko[pos1];
+        keko[pos1] = keko[pos2];
+        keko[pos2] = tmp;
 
         int ktmp = avaintaulu[pos1];
         avaintaulu[pos1] = avaintaulu[pos2];
@@ -81,18 +84,19 @@ public class Minimikeko {
     /**
      * Sijoittaa kekoon uuden koordinaatin.
      *
-     * @param k Lisättävä koordinaatti.
+     * @param koord Lisättävä koordinaatti.
      */
-    public void insert(Koordinaatti k) {
+    public void insert(Koordinaatti koord) {
         koko++;
-        int i = koko;
+        int index = koko;
 
-        while (i > 1 && A[getParent(i)].getEtaisyys() < k.getEtaisyys()) {
-            A[i] = A[getParent(i)];
-            i = getParent(i);
+        while (index > 1 && keko[getParent(index)].getEtaisyys() > koord.getEtaisyys()) {
+            keko[index] = keko[getParent(index)];
+            index = getParent(index);
         }
-        A[i] = k;
-        avaintaulu[k.getID()] = i;
+        keko[index] = koord;
+
+        avaintaulu[koord.getID()] = index;
     }
 
     /**
@@ -101,40 +105,43 @@ public class Minimikeko {
      *
      * @return keon pienin alkio.
      */
-    public Koordinaatti removeMin() { // atm removemax
-        Koordinaatti min = A[1];
+    public Koordinaatti removeMin() {
+        if (!isEmpty()) {
+            Koordinaatti min = keko[1];
+            keko[1] = keko[koko];
 
-        A[1] = A[koko];
-        koko--;
-        avaintaulu[min.getID()] = -1;
-        avaintaulu[A[1].getID()] = 1;
-        heapify(1);
-        return min;
+            avaintaulu[min.getID()] = -1;
+            avaintaulu[keko[1].getID()] = 1;
 
+            koko--;
+            heapify(1);
+            return min;
+        }
+        return keko[0];
     }
 
     /**
      * Pitää keon järjestyksessä. Kuljettaa pieniä alkioita alaspäin.
      *
-     * @param i tarkasteltavan alkion sijainti keossa.
+     * @param index tarkasteltavan alkion sijainti keossa.
      */
-     void heapify(int i) {
-        int l = getLeft(i);
-        int r = getRight(i);
-        int largest;
+    void heapify(int index) {
+        int left = getLeft(index);
+        int right = getRight(index);
+        int smallest;
 
-        if (r <= koko) {
-            if (A[l].getEtaisyys() > A[r].getEtaisyys()) {
-                largest = l;
+        if (right <= koko) {
+            if (keko[left].getEtaisyys() < keko[right].getEtaisyys()) {
+                smallest = left;
             } else {
-                largest = r;
+                smallest = right;
             }
-            if (A[l].getEtaisyys() < A[largest].getEtaisyys()) {
-                swap(i, largest);
-                heapify(largest);
+            if (keko[index].getEtaisyys() > keko[smallest].getEtaisyys()) {
+                swap(index, smallest);
+                heapify(smallest);
             }
-        } else if (l == koko && A[i].getEtaisyys() < A[l].getEtaisyys()) {
-            swap(i, l);
+        } else if (left == koko && keko[index].getEtaisyys() > keko[left].getEtaisyys()) {
+            swap(index, left);
         }
 
 
@@ -147,10 +154,10 @@ public class Minimikeko {
      * @param avain Tutkittavan alkion avain.
      * @param newk uusi etäisyysarvio alkuun.
      */
-    public boolean laskeArvoa(int avain, int newk) {
+    public boolean  laskeArvoa(int avain, int newk) {
         if (getPos(avain) == true) {
-            if (newk < A[index].getAlkuun()) {
-                A[index].setAlkuun(newk);
+            if (newk < keko[index].getAlkuun()) {
+                keko[index].setAlkuun(newk);
                 heapify(index);
                 return true;
             }
@@ -172,5 +179,25 @@ public class Minimikeko {
         } else {
             return true;
         }
+    }
+
+    /**
+     * Tarkastaa, onko keko tyhjä. Mikäli keossa on vain 'tyhjä koordinaatti',
+     * se palauttaa true.
+     *
+     * @return
+     */
+    public boolean isEmpty() {
+        if (koko < 1) {
+            return true;
+        }
+        return false;
+    }
+    /**
+     * getPosin testausta varten.
+     * @return 
+     */
+    public int getIndex(){
+        return index;
     }
 }

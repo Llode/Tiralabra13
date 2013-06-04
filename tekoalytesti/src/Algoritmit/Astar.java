@@ -101,14 +101,9 @@ public class Astar {
             }
         }
 //        Koordinaatti crd = keko.removeMin();
-//       while(crd != null){
-//           System.out.println(crd.getEtaisyys());
-//           crd = keko.removeMin();
-//       }
-//        for (int i = 0; i < sailio.length; i++) {
-//            for (int j = 0; j < sailio[0].length; j++) {
-//                System.out.println(keko.removeMin());
-//            }
+//        while (!keko.isEmpty()) {
+//            System.out.println(crd.getEtaisyys());
+//            crd = keko.removeMin();
 //        }
     }
 
@@ -154,13 +149,7 @@ public class Astar {
         if (x - 1 >= 0) {
             vx = x - 1;
             if (verkko[y][vx] == 0) {
-                if (sailio[y][vx].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
-
-                    sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
-                    sailio[y][vx].setPath(sailio[y][x]);
-                    polku[y][vx] = sailio[y][x];
-                    keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
-                }
+                RelaxMekaniikka(y, vx, x, y);
             }
         }
     }
@@ -176,13 +165,7 @@ public class Astar {
         if (x + 1 < verkko[0].length) {
             vx = x + 1;
             if (verkko[y][vx] == 0) {
-                if (sailio[y][vx].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
-
-                    sailio[y][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
-                    sailio[y][vx].setPath(sailio[y][x]);
-                    polku[y][vx] = sailio[y][x];
-                    keko.laskeArvoa(sailio[y][vx].getID(), sailio[y][vx].getAlkuun());
-                }
+                RelaxMekaniikka(y, vx, x, y);
             }
         }
     }
@@ -198,13 +181,7 @@ public class Astar {
         if (y - 1 >= 0) {
             vy = y - 1;
             if (verkko[vy][x] == 0) {
-                if (sailio[vy][x].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
-
-                    sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
-                    sailio[vy][x].setPath(sailio[y][x]);
-                    polku[vy][x] = sailio[y][x];
-                    keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
-                }
+                RelaxMekaniikka(vy, x, x, y);
             }
         }
     }
@@ -220,14 +197,26 @@ public class Astar {
         if (y + 1 < verkko.length) {
             vy = y + 1;
             if (verkko[vy][x] == 0) {
-                if (sailio[vy][x].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
-
-                    sailio[vy][x].setAlkuun(sailio[y][x].getAlkuun() + 1);
-                    sailio[vy][x].setPath(sailio[y][x]);
-                    polku[vy][x] = sailio[y][x];
-                    keko.laskeArvoa(sailio[vy][x].getID(), sailio[vy][x].getAlkuun());
-                }
+                RelaxMekaniikka(vy, x, x, y);
             }
+        }
+    }
+
+    /**
+     * Itse löysäysoperaatio
+     *
+     * @param vy Muuttuva y-arvo
+     * @param vx Muuttuva x-arvo
+     * @param x alkup. x-arvo
+     * @param y alkup. y-arvo
+     */
+    void RelaxMekaniikka(int vy, int vx, int x, int y) {
+        if (sailio[vy][vx].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
+
+            sailio[vy][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
+            sailio[vy][vx].setPath(sailio[y][x]);
+            polku[vy][vx] = sailio[y][x];
+            keko.laskeArvoa(sailio[vy][vx].getID(), sailio[vy][vx].getAlkuun());
         }
     }
 
@@ -285,4 +274,3 @@ public class Astar {
 
     }
 }
-//setPath

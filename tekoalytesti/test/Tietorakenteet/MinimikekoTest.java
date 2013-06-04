@@ -77,20 +77,31 @@ public class MinimikekoTest {
     public void testLaskeArvoa() {
         System.out.println("laskeArvoa");
         Minimikeko instance = new Minimikeko(20);
-        Koordinaatti juttu = new Koordinaatti(20,20);
+
+        Koordinaatti juttu = new Koordinaatti(20, 20);
         juttu.setAlkuun(15);
         int avain = juttu.getID();
         instance.insert(juttu);
-        
+
         for (int i = 0; i < 9; i++) {
-            juttu = new Koordinaatti(1+i, 2+i);
-            juttu.setAlkuun(i+10);
+            juttu = new Koordinaatti(1 + i, 2 + i);
+            juttu.setAlkuun(i + 10);
             instance.insert(juttu);
         }
 
-        boolean asd = instance.laskeArvoa(avain, 2);
+        int expResult = 2;
+
+        boolean asd = instance.laskeArvoa(avain, expResult);
         assertTrue(asd);
-        
+
+        Koordinaatti result = new Koordinaatti();
+        while (true) {
+            result = instance.removeMin();
+            if (result.getID() == avain) {
+                break;
+            }
+        }
+        assertEquals(result.getAlkuun(), 2);
     }
 
     /**
@@ -112,12 +123,22 @@ public class MinimikekoTest {
     @Test
     public void testGetPos() {
         System.out.println("getPos");
-        int avain = 0;
-        Minimikeko instance = null;
-        boolean expResult = false;
+        Minimikeko instance = new Minimikeko(300);
+        Koordinaatti juttu = null;
+
+        for (int i = 0; i < 9; i++) {
+            juttu = new Koordinaatti(1 + i, 2 + i);
+            juttu.setAlkuun(i + 10);
+            instance.insert(juttu);
+        }
+        int avain = juttu.getID();
+
+        boolean expResult = true;
         boolean result = instance.getPos(avain);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        int i = instance.getIndex();
+        assertEquals(instance.keko[i].getID(), avain);
+
     }
 }
