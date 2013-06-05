@@ -148,19 +148,43 @@ public class Minimikeko {
     }
 
     /**
+     * Nostaa alkion arvoa (=koordinaatin etäisyyttä alkuun ja siten sen
+     * etäisyysarviota)
+     *
+     * @param avain Tutkittavan alkion avain.
+     * @param newk uusi etäisyysarvio alkuun.
+     */
+    public boolean nostaArvoa(int avain, int newk) {
+        if (getPos(avain) == true) {
+            if (newk > keko[index].getAlkuun()) {
+                keko[index].setAlkuun(newk);
+                heapify(index);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Laskee alkion arvoa (=koordinaatin etäisyyttä alkuun ja siten sen
      * etäisyysarviota)
      *
      * @param avain Tutkittavan alkion avain.
      * @param newk uusi etäisyysarvio alkuun.
      */
-    public boolean  laskeArvoa(int avain, int newk) {
+    public boolean laskeArvoa(int avain, int newk) {
         if (getPos(avain) == true) {
-            if (newk < keko[index].getAlkuun()) {
-                keko[index].setAlkuun(newk);
-                heapify(index);
-                return true;
+            int adist = keko[index].getEtaisyys();
+            keko[index].setAlkuun(newk);
+            System.out.println("ARvonlasku " + keko[index] + "   " + adist);
+            while (index > 1 && keko[getParent(index)].getAlkuun() > keko[index].getAlkuun()) {
+                swap(index, getParent(index));
+                index = getParent(index);
             }
+
+            System.out.println("Arvonslasku " + keko[index].getEtaisyys());
+            return true;
+
         }
         return false;
     }
@@ -193,11 +217,13 @@ public class Minimikeko {
         }
         return false;
     }
+
     /**
      * getPosin testausta varten.
-     * @return 
+     *
+     * @return
      */
-    public int getIndex(){
+    public int getIndex() {
         return index;
     }
 }

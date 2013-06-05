@@ -6,6 +6,7 @@ package Algoritmit;
 
 import Tietorakenteet.Koordinaatti;
 import Tietorakenteet.Minimikeko;
+import java.util.Stack;
 
 /**
  * Reitinhakualgoritmi
@@ -28,7 +29,7 @@ public class Astar {
      * minimikeon korvike reitinhakua varten.
      */
     Minimikeko keko;
-    private Koordinaatti solmu = new Koordinaatti();
+   // private Koordinaatti solmu = new Koordinaatti();
     private int alkux;
     private int alkuy;
     private int maalix;
@@ -46,10 +47,10 @@ public class Astar {
      * @param maalix maalikoordinaatti
      * @param maaliy lottoapa
      */
-    public Astar(int[][] labyrintti, int aloitusx, int aloitusy, int maalix, int maaliy) {
+    public Astar(int[][] labyrintti, int alkux, int alkuy, int maalix, int maaliy) {
         this.verkko = labyrintti;
-        this.alkux = aloitusx;
-        this.alkuy = aloitusy;
+        this.alkux = alkux;
+        this.alkuy = alkuy;
         this.maalix = maalix;
         this.maaliy = maaliy;
     }
@@ -100,9 +101,11 @@ public class Astar {
 
             }
         }
+//        Koordinaatti asd = sailio[1][2];
+//        Relax(asd);
 //        Koordinaatti crd = keko.removeMin();
 //        while (!keko.isEmpty()) {
-//            System.out.println(crd.getEtaisyys());
+//            System.out.println(crd);
 //            crd = keko.removeMin();
 //        }
     }
@@ -131,7 +134,7 @@ public class Astar {
     private void Relax(Koordinaatti solmu) {
         int x = solmu.getX();
         int y = solmu.getY();
-
+        System.out.println("");
         RelaxVasen(x, y);
         RelaxOikea(x, y);
         RelaxYlos(y, x);
@@ -145,11 +148,10 @@ public class Astar {
      * @param y
      */
     private void RelaxVasen(int x, int y) {
-        int vx;
         if (x - 1 >= 0) {
-            vx = x - 1;
+            int vx = x - 1;
             if (verkko[y][vx] == 0) {
-                RelaxMekaniikka(y, vx, x, y);
+                RelaxMekaniikka(vx, y, x, y);
             }
         }
     }
@@ -161,11 +163,11 @@ public class Astar {
      * @param y
      */
     private void RelaxOikea(int x, int y) {
-        int vx;
         if (x + 1 < verkko[0].length) {
-            vx = x + 1;
+            int vx = x + 1;
             if (verkko[y][vx] == 0) {
-                RelaxMekaniikka(y, vx, x, y);
+                System.out.println("");
+                RelaxMekaniikka(vx, y, x, y);
             }
         }
     }
@@ -177,11 +179,10 @@ public class Astar {
      * @param y
      */
     private void RelaxYlos(int y, int x) {
-        int vy;
         if (y - 1 >= 0) {
-            vy = y - 1;
+            int vy = y - 1;
             if (verkko[vy][x] == 0) {
-                RelaxMekaniikka(vy, x, x, y);
+                RelaxMekaniikka(x, vy, x, y);
             }
         }
     }
@@ -193,11 +194,10 @@ public class Astar {
      * @param y
      */
     private void RelaxAlas(int y, int x) {
-        int vy;
         if (y + 1 < verkko.length) {
-            vy = y + 1;
+            int vy = y + 1;
             if (verkko[vy][x] == 0) {
-                RelaxMekaniikka(vy, x, x, y);
+                RelaxMekaniikka(x, vy, x, y);
             }
         }
     }
@@ -210,13 +210,20 @@ public class Astar {
      * @param x alkup. x-arvo
      * @param y alkup. y-arvo
      */
-    void RelaxMekaniikka(int vy, int vx, int x, int y) {
-        if (sailio[vy][vx].getAlkuun() > sailio[y][x].getAlkuun() + 1) {
-
-            sailio[vy][vx].setAlkuun(sailio[y][x].getAlkuun() + 1);
-            sailio[vy][vx].setPath(sailio[y][x]);
-            polku[vy][vx] = sailio[y][x];
-            keko.laskeArvoa(sailio[vy][vx].getID(), sailio[vy][vx].getAlkuun());
+    void RelaxMekaniikka(int modx, int mody, int origx, int origy) { 
+        Koordinaatti modcrd = sailio[mody][modx];
+        Koordinaatti origcrd = sailio[origy][origx];
+        
+        if(modcrd.getAlkuun() > origcrd.getAlkuun()) {
+            
+            modcrd.setAlkuun(origcrd.getAlkuun() + 1);
+            
+            int uusiAlkuun = modcrd.getAlkuun();
+            System.out.println("lasketaan arvo koordinaatille: " + modcrd);
+            keko.laskeArvoa(modcrd.getID(), uusiAlkuun);
+            
+            modcrd.setPath(origcrd);
+            sailio[mody][modx] = modcrd;
         }
     }
 
@@ -227,7 +234,8 @@ public class Astar {
         Init();
         boolean stoppi = false;
         while (!stoppi) {
-            solmu = keko.removeMin();
+            Koordinaatti solmu = keko.removeMin();
+            System.out.println("removemin " + solmu);
             Relax(solmu);
             stoppi = OllaankoMaalissa(solmu);
         }
@@ -240,10 +248,8 @@ public class Astar {
      * @return
      */
     private boolean OllaankoMaalissa(Koordinaatti solmu) {
-        if (solmu.getX() == maalix) {
-            if (solmu.getY() == maaliy) {
-                return true;
-            }
+        if (solmu.getX() == maalix && solmu.getY() == maaliy) {
+            return true;
         }
         return false;
     }
@@ -255,20 +261,11 @@ public class Astar {
      */
     public void TulostaReitti() {
         Koordinaatti reitti = sailio[maaliy][maalix];
-        System.out.println(reitti);
-//        Stack<Koordinaatti> pino = new Stack();
-////        while (reitti != startti) {
-////            pino.push(reitti);
-////            reitti = polku[reitti.getY()][reitti.getX()];
-////        }
-//        System.out.println(reitti);
-//        while (!pino.empty()) {
-//            reitti = pino.pop();
-//            System.out.println(reitti);
-//        }
+        System.out.println("Eka: " + reitti);
+
         while (reitti != null) {
-            System.out.println(reitti.getPath());
             reitti = reitti.getPath();
+            System.out.println(reitti);
         }
 
 
