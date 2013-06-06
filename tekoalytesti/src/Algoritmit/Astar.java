@@ -29,21 +29,18 @@ public class Astar {
      * minimikeon korvike reitinhakua varten.
      */
     Minimikeko keko;
-    // private Koordinaatti solmu = new Koordinaatti();
     private int alkux;
     private int alkuy;
     private int maalix;
     private int maaliy;
     private int[][] verkko;
-    private Koordinaatti[][] polku = new Koordinaatti[25][25];
-    private Koordinaatti startti;
 
     /**
      * Konstruktori
      *
      * @param labyrintti tutkittava verkko
-     * @param aloitusx aloituskoordinaatti
-     * @param aloitusy aloituskoordinaatti
+     * @param alkux aloituskoordinaatti
+     * @param alkuy aloituskoordinaatti
      * @param maalix maalikoordinaatti
      * @param maaliy lottoapa
      */
@@ -59,7 +56,6 @@ public class Astar {
      * Taulukoiden ja etäisyyksien alustaminen samassa paketissa.
      */
     private void Init() {
-        tarkastaArvot();
         AlustaTaulukot();
         AlustaEtaisyydet();
     }
@@ -90,7 +86,6 @@ public class Astar {
 
                 if (OllaankoStartissa(koord)) {
                     koord.setEtaisyys(0, loppuun);
-                    startti = koord;
                 } else {
                     koord.setEtaisyys(max, loppuun);
                 }
@@ -117,7 +112,7 @@ public class Astar {
      * True, jos tutkittava koordinaatti on aloituskoordinaatti
      *
      * @param crd Tutkittava koordinaatti.
-     * @return
+     * @return true, jos tutkittava solmu on aloitussolmu
      */
     private boolean OllaankoStartissa(Koordinaatti crd) {
         if (crd.getX() == alkux) {
@@ -137,7 +132,6 @@ public class Astar {
     private void Relax(Koordinaatti solmu) {
         int x = solmu.getX();
         int y = solmu.getY();
-        System.out.println("");
         RelaxVasen(x, y);
         RelaxOikea(x, y);
         RelaxYlos(y, x);
@@ -147,8 +141,8 @@ public class Astar {
     /**
      * Operoi tutkittavan solmun vasemmanpuoleisen solmun.
      *
-     * @param x
-     * @param y
+     * @param x relaxoitavan solmun koordinaatit
+     * @param y relaxoitavan solmun koordinaatit
      */
     private void RelaxVasen(int x, int y) {
         if (x - 1 >= 0) {
@@ -162,8 +156,8 @@ public class Astar {
     /**
      * Operoi tutkittavan solmun oikeanpuoleisen solmun.
      *
-     * @param x
-     * @param y
+     * @param x relaxoitavan solmun koordinaatit
+     * @param y relaxoitavan solmun koordinaatit
      */
     private void RelaxOikea(int x, int y) {
         if (x + 1 < verkko[0].length) {
@@ -178,8 +172,8 @@ public class Astar {
     /**
      * Operoi tutkittavan solmun yläpuolella olevan solmun.
      *
-     * @param x
-     * @param y
+     * @param x relaxoitavan solmun koordinaatit
+     * @param y relaxoitavan solmun koordinaatit
      */
     private void RelaxYlos(int y, int x) {
         if (y - 1 >= 0) {
@@ -193,8 +187,8 @@ public class Astar {
     /**
      * Operoi tutkittavan solmun alapuolella olevan solmun.
      *
-     * @param x
-     * @param y
+     * @param x relaxoitavan solmun koordinaatit
+     * @param y relaxoitavan solmun koordinaatit
      */
     private void RelaxAlas(int y, int x) {
         if (y + 1 < verkko.length) {
@@ -218,11 +212,9 @@ public class Astar {
         Koordinaatti origcrd = sailio[origy][origx];
 
         if (modcrd.getAlkuun() > origcrd.getAlkuun() + 1) {
-
             modcrd.setAlkuun(origcrd.getAlkuun() + 1);
 
             int uusiAlkuun = modcrd.getAlkuun();
-//            System.out.println("lasketaan arvo koordinaatille: " + modcrd);
             keko.laskeArvoa(modcrd.getID(), uusiAlkuun);
 
             modcrd.setPath(origcrd);
@@ -231,29 +223,37 @@ public class Astar {
     }
 
     /**
-     * Itse Reitihakualgoritmi. Kaiken pitäisi toimia tästä.
+     * Kasaa kaikki metodit yhteen. Kaiken pitäisi toimia tästä.
+     *
+     * @return true, jos törmätään maalisolmuun (=reitinhaku onnistui)
      */
-    public boolean Reitinhaku() {
-        Init();
-        boolean stoppi = false;
-        while (!stoppi) {
-            Koordinaatti solmu = keko.removeMin();
-            System.out.println("removemin " + solmu);
-            Relax(solmu);
-            stoppi = OllaankoMaalissa(solmu);
-        }
-        if (stoppi) {
-            return true;
-        } else {
+    public boolean Astar() {
+        if (!tarkastaArvot()) {
+            System.out.println("Huonot naatit");
             return false;
+
+        } else {
+
+            Init();
+            boolean stoppi = Reitinhaku();
+
+            if (stoppi) {
+                TulostaReitti();
+                return true;
+            } else {
+                Dijkstra dj = new Dijkstra(verkko, alkux, alkuy, maalix, maaliy);
+                dj.Dijkstra();
+                dj.TulostaReitti();
+                return false;
+            }
         }
     }
 
     /**
-     * True, jos tutkittava solmu on maalisolmu.
+     * Tutkii, onko solmu maalisolmu.
      *
      * @param solmu tutkittava solmu
-     * @return
+     * @return True, jos tutkittava solmu on maalisolmu.
      */
     private boolean OllaankoMaalissa(Koordinaatti solmu) {
         if (solmu.getX() == maalix && solmu.getY() == maaliy) {
@@ -266,14 +266,21 @@ public class Astar {
      * Printtaa reitin koordinaatit. Jossain vaiheessa jopa piirtää ne
      * labyrinttiin.
      *
+     * @return true, jos viimeinen tulostettava solmu on starttisolmu
+     * (=reitinhaku onnistui)
      */
-    public void TulostaReitti() {
+    public boolean TulostaReitti() {
         Koordinaatti reitti = sailio[maaliy][maalix];
         System.out.println("Eka: " + reitti);
 
-        while (reitti != null) {
+        while (reitti.getPath() != null) {
             reitti = reitti.getPath();
             System.out.println(reitti);
+        }
+        if (OllaankoStartissa(reitti)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -291,5 +298,20 @@ public class Astar {
         }
         System.out.println("huonot naatit");
         return false;
+    }
+
+    /**
+     * itse reitinhakualgoritmi
+     *
+     * @return true, jos maalisolmu käsitellään.
+     */
+    boolean Reitinhaku() {
+        boolean stoppi = false;
+        while (!stoppi) {
+            Koordinaatti solmu = keko.removeMin();
+            Relax(solmu);
+            stoppi = OllaankoMaalissa(solmu);
+        }
+        return stoppi;
     }
 }

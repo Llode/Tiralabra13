@@ -53,12 +53,12 @@ public class Tekoalytesti {
         int maalix = 17;
         int maaliy = 19;
 
+        System.out.println("Dijkstra");
         Dijkstra algo = new Dijkstra(labyrintti, aloitusx, aloitusy, maalix, maaliy);
         algo.Dijkstra();
-        algo.TulostaReitti();
 
-//        Astar algo = new Astar(labyrintti, aloitusx, aloitusy, maalix, maaliy);
-//        algo.Reitinhaku();
-//        algo.TulostaReitti();
+        System.out.println("A*");
+        Astar astar = new Astar(labyrintti, aloitusx, aloitusy, maalix, maaliy);
+        astar.Astar();
     }
 }

@@ -101,7 +101,7 @@ public class Koordinaatti {
     /**
      * Etäisyys lähtösolmusta, Dijkstraa varten.
      *
-     * @param v
+     * @return  
      */
     public int getDistance() {
         return Dijkstradistance;

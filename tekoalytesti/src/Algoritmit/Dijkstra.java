@@ -42,8 +42,8 @@ public class Dijkstra {
      * Konstruktori
      *
      * @param labyrintti tutkittava verkko
-     * @param aloitusx aloituskoordinaatti
-     * @param aloitusy aloituskoordinaatti
+     * @param alkux
+     * @param alkuy
      * @param maalix maalikoordinaatti
      * @param maaliy lottoapa
      */
@@ -59,7 +59,6 @@ public class Dijkstra {
      * Taulukoiden ja etäisyyksien alustaminen samassa paketissa.
      */
     private void Init() {
-        tarkastaArvot();
         AlustaTaulukot();
         AlustaEtaisyydet();
     }
@@ -125,7 +124,6 @@ public class Dijkstra {
     private void Relax(Koordinaatti solmu) {
         int x = solmu.getX();
         int y = solmu.getY();
-        System.out.println("");
         RelaxVasen(x, y);
         RelaxOikea(x, y);
         RelaxYlos(y, x);
@@ -216,21 +214,33 @@ public class Dijkstra {
 
     /**
      * Itse Reitihakualgoritmi. Kaiken pitäisi toimia tästä.
+     *
+     * @return True, jos reitinhaku onnistuu
      */
-    public void Dijkstra() {
-        Init();
-        while (!keko.isEmpty()) {
-            Koordinaatti solmu = keko.removeMin();
-            System.out.println("removemin " + solmu);
-            Relax(solmu);
+    public boolean Dijkstra() {
+        if (!tarkastaArvot()) {
+            System.out.println("Huonot naatit");
+            return false;
+
+        } else {
+
+            Init();
+            Reitinhaku();
+            if (TulostaReitti()) {
+                return true;
+            } else {
+                return false;
+            }
+
         }
+
     }
 
     /**
      * True, jos tutkittava solmu on maalisolmu.
      *
      * @param solmu tutkittava solmu
-     * @return
+     * @return true, jos maalisolmu
      */
     private boolean OllaankoMaalissa(Koordinaatti solmu) {
         if (solmu.getX() == maalix && solmu.getY() == maaliy) {
@@ -243,14 +253,21 @@ public class Dijkstra {
      * Printtaa reitin koordinaatit. Jossain vaiheessa jopa piirtää ne
      * labyrinttiin.
      *
+     * @return true, jos viimeinen tulostettava solmu on starttisolmu
      */
-    public void TulostaReitti() {
+    public boolean TulostaReitti() {
         Koordinaatti reitti = sailio[maaliy][maalix];
         System.out.println("Eka: " + reitti);
 
-        while (reitti != null) {
+        while (reitti.getPath() != null) {
             reitti = reitti.getPath();
             System.out.println(reitti);
+        }
+
+        if (OllaankoStartissa(reitti)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -266,7 +283,16 @@ public class Dijkstra {
                 return true;
             }
         }
-        System.out.println("huonot naatit");
         return false;
+    }
+
+    /**
+     * Itse reitinhakualgoritmi.
+     */
+    void Reitinhaku() {
+        while (!keko.isEmpty()) {
+            Koordinaatti solmu = keko.removeMin();
+            Relax(solmu);
+        }
     }
 }

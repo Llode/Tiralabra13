@@ -4,6 +4,7 @@
  */
 package Algoritmit;
 
+import java.util.Random;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -11,15 +12,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import tekoalytesti.Tekoalytesti;
-import java.util.Random;
 
 /**
  *
  * @author Larppa
  */
-public class AstarTest {
+public class DijkstraTest {
 
-    public AstarTest() {
+    public DijkstraTest() {
     }
 
     @BeforeClass
@@ -39,31 +39,7 @@ public class AstarTest {
     }
 
     /**
-     * Test of Astar method, of class Astar.
-     */
-    @Test
-    public void testReitinhaku() {
-        System.out.println("Reitinhaku");
-        Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 10, 1);
-        assertTrue(instance.Astar());
-
-    }
-
-    /**
-     * Test of TulostaReitti method, of class Astar.
-     */
-    @Test
-    public void testTulostaReitti() {
-        System.out.println("TulostaReitti");
-        Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 9, 9);
-        instance.Astar();
-        instance.TulostaReitti();
-        assertTrue(instance.TulostaReitti());
-
-    }
-
-    /**
-     * Test of RelaxMekaniikka method, of class Astar.
+     * Test of RelaxMekaniikka method, of class Dijkstra.
      */
     @Test
     public void testRelaxMekaniikka() {
@@ -72,11 +48,24 @@ public class AstarTest {
         int mody = 0;
         int origx = 0;
         int origy = 0;
-        Astar instance = null;
+        Dijkstra instance = null;
         instance.RelaxMekaniikka(modx, mody, origx, origy);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of Dijkstra method, of class Dijkstra.
+     */
+    @Test
+    public void testDijkstra() {
+        System.out.println("Dijkstra");
+        Dijkstra instance = new Dijkstra(Tekoalytesti.labyrintti, 1, 1, 9, 9);
+        instance.Dijkstra();
+        assertTrue(instance.TulostaReitti());
+
+    }
+
 
     /**
      * Test of tarkastaArvot method, of class Astar.
@@ -101,14 +90,6 @@ public class AstarTest {
     }
 
     @Test
-    public void testaaPisinMatka() {
-        Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 17, 19);
-        instance.Astar();
-        assertTrue(instance.TulostaReitti());
-
-    }
-
-    @Test
     public void testaaSatunnaisia() {
         Random rng = new Random();
         int[][] verkko = Tekoalytesti.labyrintti;
@@ -123,8 +104,8 @@ public class AstarTest {
             maalix = rng.nextInt(19);
             maaliy = rng.nextInt(21);
             if (verkko[alkuy][alkux] == 0 && verkko[maaliy][maalix] == 0) {
-                Astar instance = new Astar(Tekoalytesti.labyrintti, alkux, alkuy, maalix, maaliy);
-                instance.Astar();
+                Dijkstra instance = new Dijkstra(Tekoalytesti.labyrintti, alkux, alkuy, maalix, maaliy);
+                instance.Dijkstra();
                 assertTrue(instance.TulostaReitti());
             }
         }

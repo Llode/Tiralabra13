@@ -73,10 +73,10 @@ public class Minimikeko {
      */
     void swap(int pos1, int pos2) {
         Koordinaatti tmp = keko[pos1];
-        int avain = avaintaulu[tmp.getID()];
-
-        avaintaulu[keko[pos1].getID()] = avaintaulu[keko[pos2].getID()];
-        avaintaulu[keko[pos2].getID()] = avain;
+//        int avain = avaintaulu[tmp.getID()];
+//
+//        avaintaulu[keko[pos1].getID()] = avaintaulu[keko[pos2].getID()];
+//        avaintaulu[keko[pos2].getID()] = avain;
 
         keko[pos1] = keko[pos2];
         keko[pos2] = tmp;
@@ -99,7 +99,7 @@ public class Minimikeko {
         }
         keko[index] = koord;
 
-        avaintaulu[koord.getID()] = index;
+//        avaintaulu[koord.getID()] = index;
     }
 
     /**
@@ -112,9 +112,9 @@ public class Minimikeko {
         if (!isEmpty()) {
             Koordinaatti min = keko[1];
             keko[1] = keko[koko];
-
-            avaintaulu[min.getID()] = -1;
-            avaintaulu[keko[koko].getID()] = 1;
+//
+//            avaintaulu[min.getID()] = -1;
+//            avaintaulu[keko[koko].getID()] = 1;
 
             koko--;
             heapify(1);
@@ -154,8 +154,9 @@ public class Minimikeko {
      * Nostaa alkion arvoa (=koordinaatin etäisyyttä alkuun ja siten sen
      * etäisyysarviota)
      *
-     * @param ID Tutkittavan alkion tunniste.
-     * @param uusiAlkuun uusi etäisyysarvio alkuun.
+     * @param avain 
+     * @param newk
+     * @return  
      */
     public boolean nostaArvoa(int avain, int newk) {
         if (getPos(avain) == true) {
@@ -174,6 +175,7 @@ public class Minimikeko {
      *
      * @param ID Tutkittavan alkion avain.
      * @param newk uusi etäisyysarvio alkuun.
+     * @return  
      */
     public boolean laskeArvoa(int ID, int newk) {
 //        if (getPos(ID) == true) {
@@ -210,7 +212,7 @@ public class Minimikeko {
      * muulloin.
      */
     public boolean getPos(int ID) {
-        index = avaintaulu[ID];
+       // index = avaintaulu[ID];
         if (index == -1) {
             return false;
         } else {
