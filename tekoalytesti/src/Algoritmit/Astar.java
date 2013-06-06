@@ -6,7 +6,6 @@ package Algoritmit;
 
 import Tietorakenteet.Koordinaatti;
 import Tietorakenteet.Minimikeko;
-import java.util.Stack;
 
 /**
  * Reitinhakualgoritmi
@@ -98,7 +97,6 @@ public class Astar {
 
             }
         }
-        System.out.println("");
 
 //        Koordinaatti asd = sailio[1][2];
 //        Relax(asd);
@@ -165,7 +163,6 @@ public class Astar {
         if (x + 1 < verkko[0].length) {
             int vx = x + 1;
             if (verkko[y][vx] == 0) {
-//                System.out.println("");
                 RelaxMekaniikka(vx, y, x, y);
             }
         }
