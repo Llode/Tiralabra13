@@ -8,9 +8,8 @@ import java.util.Comparator;
 
 /**
  * Koordinaattien säilytystä mm. lyhimmän reitin
- * tallentamista/tulostamista/piirtämistä varten.
- * Getterit ja setterit ovat suurelta osin itsestäänselviä,
- * ja tuskin tarvitsevat dokumentointia.
+ * tallentamista/tulostamista/piirtämistä varten. Getterit ja setterit ovat
+ * suurelta osin itsestäänselviä, ja tuskin tarvitsevat dokumentointia.
  *
  * @author Larppa
  */
@@ -24,7 +23,7 @@ public class Koordinaatti {
     private int alkuun;
     private int loppuun;
     private Koordinaatti path;
-
+    private int Dijkstradistance;
 
     /**
      *
@@ -36,6 +35,7 @@ public class Koordinaatti {
         int alkuun = this.alkuun;
         int loppuun = this.loppuun;
         int id = this.id;
+        int Dijkstradistance = this.Dijkstradistance;
         Koordinaatti path = this.path;
     }
 
@@ -52,39 +52,65 @@ public class Koordinaatti {
 //        int alkuun = this.alkuun;
 //        int loppuun = this.loppuun;
 //        Koordinaatti path = this.path; 
-   }
+    }
+
     /**
      * Toivottavasti antaa jokaiselle koordinaatille oman avaimen.
      */
-    private int numeroJuoksee(){
+    private int numeroJuoksee() {
         avain++;
         return avain;
     }
+
     /**
+     * Palauttaa koordinaatin avaimen.
      *
      * @return
      */
-    public int getID(){
+    public int getID() {
         return id;
     }
-/**
- * Path osoittaa aina edeltävään solmuun.
- * @param solmu Solmu, joka johtaa tähän solmuun. 
- */
+
+    /**
+     * Path osoittaa aina edeltävään solmuun.
+     *
+     * @param solmu Solmu, joka johtaa tähän solmuun.
+     */
     public void setPath(Koordinaatti solmu) {
         path = solmu;
     }
+
     /**
+     * palauttaa solmuun johtavan solmun.
      *
      * @return
      */
-    public Koordinaatti getPath(){
+    public Koordinaatti getPath() {
         return path;
     }
+
+    /**
+     * Etäisyys lähtösolmusta, Dijkstraa varten.
+     *
+     * @param v
+     */
+    public void setDistance(int v) {
+        this.Dijkstradistance = v;
+    }
+
+    /**
+     * Etäisyys lähtösolmusta, Dijkstraa varten.
+     *
+     * @param v
+     */
+    public int getDistance() {
+        return Dijkstradistance;
+    }
+
     /**
      * Asettaa koordinaatille etäisyysarviot alku- ja maalikoordinaatteihin.
      * Laskee myös näiden pisteiden etäisyyden.
-     * 
+     *
      * @param alkuun arvioitu etäisyys solmusta lähtösolmuun
      * @param loppuun arvioitu etäisyys solmusta maalisolmuun
      */
@@ -93,14 +119,19 @@ public class Koordinaatti {
         this.loppuun = loppuun;
         laskeEtaisyys();
     }
+
     /**
-     * Asettaa koordinaatille uuden etäisyyden ilman muuta härväämistä. Lähinnä debugaamista varten.
-     * @param etaisyys 
+     * Asettaa koordinaatille uuden etäisyyden ilman muuta härväämistä. Lähinnä
+     * debugaamista varten.
+     *
+     * @param etaisyys
      */
-    public void setEtaisyys(int etaisyys){
+    public void setEtaisyys(int etaisyys) {
         this.etaisyysarvio = etaisyys;
     }
+
     /**
+     * Palauttaa etäisyysarvion
      *
      * @return
      */
@@ -109,13 +140,14 @@ public class Koordinaatti {
     }
 
     /**
-     *
+     * laskee etäisyysarviot alkuun ja loppuun yhteen
      */
     public void laskeEtaisyys() {
         etaisyysarvio = alkuun + loppuun;
     }
 
     /**
+     * asettaa uuden etäisyysarvion alkuun
      *
      * @param alkuun
      */
@@ -125,6 +157,7 @@ public class Koordinaatti {
     }
 
     /**
+     * asettaa uuden etäisyysarvion loppuun
      *
      * @param loppuun
      */
@@ -134,6 +167,7 @@ public class Koordinaatti {
     }
 
     /**
+     * Palauttaa etäisyyden alkusolmuun
      *
      * @return
      */
@@ -142,6 +176,7 @@ public class Koordinaatti {
     }
 
     /**
+     * Palauttaa etäisyyden loppusolmuun.
      *
      * @return
      */
@@ -151,6 +186,7 @@ public class Koordinaatti {
 
     /**
      * ASettaa kaikki koordinaatit!
+     *
      * @param x
      * @param y
      */
@@ -161,6 +197,7 @@ public class Koordinaatti {
 
     /**
      * ASettaa x-koordinaatin
+     *
      * @param x
      */
     public void setX(int x) {
@@ -169,6 +206,7 @@ public class Koordinaatti {
 
     /**
      * asettaa y-koordinaatin
+     *
      * @param y
      */
     public void setY(int y) {
@@ -176,6 +214,7 @@ public class Koordinaatti {
     }
 
     /**
+     * Palauttaa x-koordinaatin
      *
      * @return
      */
@@ -184,6 +223,7 @@ public class Koordinaatti {
     }
 
     /**
+     * Palauttaa y-koordinaatin
      *
      * @return
      */

@@ -5,7 +5,7 @@
 package Algoritmit;
 
 import Tietorakenteet.Koordinaatti;
-import Tietorakenteet.Minimikeko;
+import Tietorakenteet.MinimikekoDijkstra;
 import java.util.Stack;
 
 /**
@@ -13,7 +13,7 @@ import java.util.Stack;
  *
  * @author Larppa
  */
-public class Astar {
+public class Dijkstra {
 
     /**
      * Teoreettinen maksimiarvo, joka annetaan etaisyysAlkuun-taulukon alkioille
@@ -28,7 +28,7 @@ public class Astar {
     /**
      * minimikeon korvike reitinhakua varten.
      */
-    Minimikeko keko;
+    MinimikekoDijkstra keko;
     // private Koordinaatti solmu = new Koordinaatti();
     private int alkux;
     private int alkuy;
@@ -47,7 +47,7 @@ public class Astar {
      * @param maalix maalikoordinaatti
      * @param maaliy lottoapa
      */
-    public Astar(int[][] labyrintti, int alkux, int alkuy, int maalix, int maaliy) {
+    public Dijkstra(int[][] labyrintti, int alkux, int alkuy, int maalix, int maaliy) {
         this.verkko = labyrintti;
         this.alkux = alkux;
         this.alkuy = alkuy;
@@ -71,7 +71,7 @@ public class Astar {
     private void AlustaTaulukot() {
         int keonkoko = verkko.length * verkko[0].length + 1;
         sailio = new Koordinaatti[verkko.length][verkko[0].length];
-        keko = new Minimikeko(keonkoko);
+        keko = new MinimikekoDijkstra(keonkoko);
 
     }
 
@@ -81,18 +81,17 @@ public class Astar {
      */
     private void AlustaEtaisyydet() {
         Koordinaatti koord;
-        int loppuun;
 
         for (int y = 0; y < verkko.length; y++) {
             for (int x = 0; x < verkko[0].length; x++) {
-                loppuun = Math.abs(maaliy - y) + Math.abs(maalix - x);
+
                 koord = new Koordinaatti(x, y);
 
                 if (OllaankoStartissa(koord)) {
-                    koord.setEtaisyys(0, loppuun);
+                    koord.setDistance(0);
                     startti = koord;
                 } else {
-                    koord.setEtaisyys(max, loppuun);
+                    koord.setDistance(max);
                 }
 
                 if (verkko[y][x] == 0) {
@@ -102,15 +101,6 @@ public class Astar {
 
             }
         }
-
-//        Koordinaatti asd = sailio[1][2];
-//        Relax(asd);
-//        Koordinaatti crd = keko.removeMin();
-//        while (!keko.isEmpty()) {
-//            System.out.println(crd);
-//            crd = keko.removeMin();
-//        }
-
     }
 
     /**
@@ -120,10 +110,8 @@ public class Astar {
      * @return
      */
     private boolean OllaankoStartissa(Koordinaatti crd) {
-        if (crd.getX() == alkux) {
-            if (crd.getY() == alkuy) {
-                return true;
-            }
+        if (crd.getX() == alkux && crd.getY() == alkuy) {
+            return true;
         }
         return false;
     }
@@ -169,7 +157,6 @@ public class Astar {
         if (x + 1 < verkko[0].length) {
             int vx = x + 1;
             if (verkko[y][vx] == 0) {
-//                System.out.println("");
                 RelaxMekaniikka(vx, y, x, y);
             }
         }
@@ -217,13 +204,10 @@ public class Astar {
         Koordinaatti modcrd = sailio[mody][modx];
         Koordinaatti origcrd = sailio[origy][origx];
 
-        if (modcrd.getAlkuun() > origcrd.getAlkuun() + 1) {
-
-            modcrd.setAlkuun(origcrd.getAlkuun() + 1);
-
-            int uusiAlkuun = modcrd.getAlkuun();
-//            System.out.println("lasketaan arvo koordinaatille: " + modcrd);
-            keko.laskeArvoa(modcrd.getID(), uusiAlkuun);
+        if (modcrd.getDistance() > origcrd.getDistance() + 1) {
+            modcrd.setDistance(origcrd.getDistance() + 1);
+            int uusiEtaisyys = modcrd.getDistance();
+            keko.laskeArvoa(modcrd.getID(), uusiEtaisyys);
 
             modcrd.setPath(origcrd);
             sailio[mody][modx] = modcrd;
@@ -233,19 +217,12 @@ public class Astar {
     /**
      * Itse Reitihakualgoritmi. Kaiken pitäisi toimia tästä.
      */
-    public boolean Reitinhaku() {
+    public void Dijkstra() {
         Init();
-        boolean stoppi = false;
-        while (!stoppi) {
+        while (!keko.isEmpty()) {
             Koordinaatti solmu = keko.removeMin();
             System.out.println("removemin " + solmu);
             Relax(solmu);
-            stoppi = OllaankoMaalissa(solmu);
-        }
-        if (stoppi) {
-            return true;
-        } else {
-            return false;
         }
     }
 

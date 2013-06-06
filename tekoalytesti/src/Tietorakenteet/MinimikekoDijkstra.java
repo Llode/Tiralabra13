@@ -9,7 +9,7 @@ package Tietorakenteet;
  *
  * @author Larppa
  */
-public class Minimikeko {
+public class MinimikekoDijkstra {
 
     Koordinaatti[] keko;
     /**
@@ -25,13 +25,13 @@ public class Minimikeko {
      *
      * @param max Keon koko.
      */
-    public Minimikeko(int max) {
+    public MinimikekoDijkstra(int max) {
         maxkoko = max;
         keko = new Koordinaatti[maxkoko];
         avaintaulu = new int[maxkoko];
         koko = 0;
         Koordinaatti dummycrd = new Koordinaatti();
-        dummycrd.setEtaisyys(-1);
+        dummycrd.setDistance(-1);
         keko[0] = dummycrd;
     }
 
@@ -93,7 +93,7 @@ public class Minimikeko {
         koko++;
         int index = koko;
 
-        while (index > 1 && keko[getParent(index)].getEtaisyys() > koord.getEtaisyys()) {
+        while (index > 1 && keko[getParent(index)].getDistance() > koord.getDistance()) {
             keko[index] = keko[getParent(index)];
             index = getParent(index);
         }
@@ -134,16 +134,16 @@ public class Minimikeko {
         int smallest;
 
         if (right <= koko) {
-            if (keko[left].getEtaisyys() < keko[right].getEtaisyys()) {
+            if (keko[left].getDistance() < keko[right].getDistance()) {
                 smallest = left;
             } else {
                 smallest = right;
             }
-            if (keko[index].getEtaisyys() > keko[smallest].getEtaisyys()) {
+            if (keko[index].getDistance() > keko[smallest].getDistance()) {
                 swap(index, smallest);
                 heapify(smallest);
             }
-        } else if (left == koko && keko[index].getEtaisyys() > keko[left].getEtaisyys()) {
+        } else if (left == koko && keko[index].getDistance() > keko[left].getDistance()) {
             swap(index, left);
         }
 
@@ -151,16 +151,16 @@ public class Minimikeko {
     }
 
     /**
-     * Nostaa alkion arvoa (=koordinaatin etäisyyttä alkuun ja siten sen
+     * Nostaa alkion arvoa (=koordinaatin etäisyyttä loppuun ja siten sen
      * etäisyysarviota)
      *
      * @param ID Tutkittavan alkion tunniste.
-     * @param uusiAlkuun uusi etäisyysarvio alkuun.
+     * @param uusiAlkuun uusi etäisyysarvio loppuun.
      */
     public boolean nostaArvoa(int avain, int newk) {
         if (getPos(avain) == true) {
-            if (newk > keko[index].getAlkuun()) {
-                keko[index].setAlkuun(newk);
+            if (newk > keko[index].getDistance()) {
+                keko[index].setDistance(newk);
                 heapify(index);
                 return true;
             }
@@ -185,12 +185,12 @@ public class Minimikeko {
         }
         index = i;
         
-        int odist = keko[index].getEtaisyys();
-        keko[index].setAlkuun(newk);
+
+        keko[index].setDistance(newk);
 //        System.out.println("avaintaulu " + avaintaulu[keko[index].getID()]);
 //        System.out.println("ARvonlasku " + keko[index] + "   " + odist);
 
-        while (index > 1 && keko[getParent(index)].getAlkuun() > keko[index].getAlkuun()) {
+        while (index > 1 && keko[getParent(index)].getDistance() > keko[index].getDistance()) {
             swap(index, getParent(index));
             index = getParent(index);
         }
