@@ -125,7 +125,7 @@ public class AstarTest {
 
     @Test
     public void testaaSatunnaisia() {
-        System.out.println("Testataan 5000 satunnaista reittiä");
+        System.out.println("Testataan 100 000 satunnaista reittiä");
         Random rng = new Random();
         int[][] verkko = Tekoalytesti.labyrintti;
         int alkux;
@@ -136,7 +136,7 @@ public class AstarTest {
         
         
         
-        for (int i = 0; i < 5000; i++) {
+        for (int i = 0; i < 100000; i++) {
             alkux = rng.nextInt(19);
             alkuy = rng.nextInt(21);
             maalix = rng.nextInt(19);

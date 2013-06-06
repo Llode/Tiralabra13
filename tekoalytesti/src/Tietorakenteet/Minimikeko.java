@@ -115,8 +115,7 @@ public class Minimikeko {
 //
 //            avaintaulu[min.getID()] = -1;
 //            avaintaulu[keko[koko].getID()] = 1;
-            System.out.println("");
-//            keko[koko] = null;
+            keko[koko] = null;
             koko--;
             heapify(1);
 
@@ -152,24 +151,6 @@ public class Minimikeko {
 
     }
 
-    /**
-     * Nostaa alkion arvoa (=koordinaatin etäisyyttä alkuun ja siten sen
-     * etäisyysarviota). Luultavasti turha metodi tässä harkkatyössä.
-     *
-     * @param avain
-     * @param newk
-     * @return
-     */
-    public boolean nostaArvoa(int avain, int newk) {
-        if (getPos(avain) == true) {
-            if (newk > keko[index].getAlkuun()) {
-                keko[index].setAlkuun(newk);
-                heapify(index);
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * Laskee alkion arvoa (=koordinaatin etäisyyttä alkuun ja siten sen
@@ -183,20 +164,24 @@ public class Minimikeko {
         int index = etsiAlkioKeostaLoopilla(ID);
 
 //        int odist = keko[index].getEtaisyys();
-        keko[index].setAlkuun(newk);
+        if (index < 0) {
+            return false;
+        } else {
+            keko[index].setAlkuun(newk);
 //        System.out.println("avaintaulu " + avaintaulu[keko[index].getID()]);
 //        System.out.println("ARvonlasku " + keko[index] + "   " + odist);
 
-        while (index > 1 && keko[getParent(index)].getAlkuun() > keko[index].getAlkuun()) {
-            swap(index, getParent(index));
-            index = getParent(index);
-        }
+            while (index > 1 && keko[getParent(index)].getAlkuun() > keko[index].getAlkuun()) {
+                swap(index, getParent(index));
+                index = getParent(index);
+            }
 
 //        System.out.println("Arvonslasku " + keko[index].getEtaisyys());
-        return true;
+            return true;
 
 //        }
 //        return false;
+        }
     }
 
     /**
@@ -238,7 +223,7 @@ public class Minimikeko {
     }
 
     int etsiAlkioKeostaLoopilla(int ID) {
-        int etsin = 0;
+        int etsin;
         int i = 0;
         while (i < koko) {
             i++;

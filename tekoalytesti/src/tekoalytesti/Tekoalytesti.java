@@ -48,8 +48,8 @@ public class Tekoalytesti {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        int aloitusx = 3;
-        int aloitusy = 5;
+        int aloitusx = 1;
+        int aloitusy = 1;
         int maalix = 17;
         int maaliy = 19;
 //
