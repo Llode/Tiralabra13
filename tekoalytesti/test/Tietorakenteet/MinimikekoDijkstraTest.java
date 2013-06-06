@@ -4,81 +4,38 @@
  */
 package Tietorakenteet;
 
+import Algoritmit.Dijkstra;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tekoalytesti.Tekoalytesti;
 
 /**
  *
  * @author Larppa
  */
 public class MinimikekoDijkstraTest {
-    
+
     public MinimikekoDijkstraTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
-    }
-
-    /**
-     * Test of getLeft method, of class MinimikekoDijkstra.
-     */
-    @Test
-    public void testGetLeft() {
-        System.out.println("getLeft");
-        int pos = 0;
-        MinimikekoDijkstra instance = null;
-        int expResult = 0;
-        int result = instance.getLeft(pos);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getRight method, of class MinimikekoDijkstra.
-     */
-    @Test
-    public void testGetRight() {
-        System.out.println("getRight");
-        int pos = 0;
-        MinimikekoDijkstra instance = null;
-        int expResult = 0;
-        int result = instance.getRight(pos);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getParent method, of class MinimikekoDijkstra.
-     */
-    @Test
-    public void testGetParent() {
-        System.out.println("getParent");
-        int pos = 0;
-        MinimikekoDijkstra instance = null;
-        int expResult = 0;
-        int result = instance.getParent(pos);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -101,11 +58,12 @@ public class MinimikekoDijkstraTest {
     @Test
     public void testInsert() {
         System.out.println("insert");
-        Koordinaatti koord = null;
-        MinimikekoDijkstra instance = null;
-        instance.insert(koord);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Koordinaatti juttu = new Koordinaatti(1, 0);
+        juttu.setEtaisyys(3, 5);
+        Minimikeko instance = new Minimikeko(10);
+        instance.insert(juttu);
+        boolean avain = instance.getPos(juttu.getID());
+        assertTrue(avain);
     }
 
     /**
@@ -114,12 +72,17 @@ public class MinimikekoDijkstraTest {
     @Test
     public void testRemoveMin() {
         System.out.println("removeMin");
-        MinimikekoDijkstra instance = null;
-        Koordinaatti expResult = null;
+        Minimikeko instance = new Minimikeko(10);
+        for (int i = 0; i < 9; i++) {
+            Koordinaatti juttu = new Koordinaatti();
+            juttu.setEtaisyys(i);
+            instance.insert(juttu);
+        }
+        Koordinaatti expResult = new Koordinaatti();
+        expResult.setEtaisyys(0);
         Koordinaatti result = instance.removeMin();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult.toString(), result.toString());
+
     }
 
     /**
@@ -157,14 +120,32 @@ public class MinimikekoDijkstraTest {
     @Test
     public void testLaskeArvoa() {
         System.out.println("laskeArvoa");
-        int ID = 0;
-        int newk = 0;
-        MinimikekoDijkstra instance = null;
-        boolean expResult = false;
-        boolean result = instance.laskeArvoa(ID, newk);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Minimikeko instance = new Minimikeko(20);
+        Koordinaatti juttu;
+        int expResult = 15;
+
+        for (int i = 0; i < 14; i++) {
+            juttu = new Koordinaatti(1 + i, 2);
+            juttu.setDistance(10 + i);
+            instance.insert(juttu);
+        }
+
+        juttu = new Koordinaatti(20, 20);
+        juttu.setDistance(expResult);
+        int avain = juttu.getID();
+        instance.insert(juttu);
+
+        boolean testi = instance.laskeArvoa(avain, expResult);
+        assertTrue(testi);
+
+        Koordinaatti result = new Koordinaatti();
+        while (true) {
+            result = instance.removeMin();
+            if (result.getID() == avain) {
+                break;
+            }
+        }
+        assertEquals(result.getDistance(), expResult);
     }
 
     /**
@@ -188,25 +169,13 @@ public class MinimikekoDijkstraTest {
     @Test
     public void testIsEmpty() {
         System.out.println("isEmpty");
-        MinimikekoDijkstra instance = null;
-        boolean expResult = false;
+        MinimikekoDijkstra instance = new MinimikekoDijkstra(200);
+        boolean expResult = true;
         boolean result = instance.isEmpty();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
-    /**
-     * Test of getIndex method, of class MinimikekoDijkstra.
-     */
-    @Test
-    public void testGetIndex() {
-        System.out.println("getIndex");
-        MinimikekoDijkstra instance = null;
-        int expResult = 0;
-        int result = instance.getIndex();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Koordinaatti koord = new Koordinaatti();
+        instance.insert(koord);
+        assertFalse(instance.isEmpty());
     }
 }

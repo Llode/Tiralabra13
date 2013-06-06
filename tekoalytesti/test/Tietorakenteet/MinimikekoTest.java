@@ -82,7 +82,7 @@ public class MinimikekoTest {
 
         for (int i = 0; i < 14; i++) {
             juttu = new Koordinaatti(1 + i, 2);
-            juttu.setEtaisyys(i+2, i + 30);
+            juttu.setEtaisyys(i + 2, i + 30);
             instance.insert(juttu);
         }
 
@@ -140,5 +140,21 @@ public class MinimikekoTest {
         int i = instance.getIndex();
         assertEquals(instance.keko[i].getID(), avain);
 
+    }
+
+    /**
+     * Test of isEmpty method, of class MinimikekoDijkstra.
+     */
+    @Test
+    public void testIsEmpty() {
+        System.out.println("isEmpty");
+        Minimikeko instance = new Minimikeko(200);
+        boolean expResult = true;
+        boolean result = instance.isEmpty();
+        assertEquals(expResult, result);
+
+        Koordinaatti koord = new Koordinaatti();
+        instance.insert(koord);
+        assertFalse(instance.isEmpty());
     }
 }

@@ -44,14 +44,24 @@ public class DijkstraTest {
     @Test
     public void testRelaxMekaniikka() {
         System.out.println("RelaxMekaniikka");
-        int modx = 0;
-        int mody = 0;
-        int origx = 0;
-        int origy = 0;
-        Dijkstra instance = null;
+        Dijkstra instance = new Dijkstra(Tekoalytesti.labyrintti, 1, 1, 10, 11);
+        instance.Init();
+        instance.RelaxMekaniikka(2, 1, 1, 1);
+        int result = instance.sailio[1][2].getDistance();
+        int expResult = instance.sailio[1][1].getDistance() + 1;
+        assertEquals(expResult, result);
+
+
+        int modx = 3;
+        int mody = 5;
+        int origx = 4;
+        int origy = 5;
+        instance.sailio[origy][origx].setDistance(7);
         instance.RelaxMekaniikka(modx, mody, origx, origy);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        int result2 = instance.sailio[mody][modx].getDistance();
+        int expResult2 = instance.sailio[origy][origx].getDistance() + 1;
+        assertEquals(expResult2, result2);
     }
 
     /**
@@ -65,7 +75,6 @@ public class DijkstraTest {
         assertTrue(instance.TulostaReitti());
 
     }
-
 
     /**
      * Test of tarkastaArvot method, of class Astar.

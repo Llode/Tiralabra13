@@ -68,14 +68,28 @@ public class AstarTest {
     @Test
     public void testRelaxMekaniikka() {
         System.out.println("RelaxMekaniikka");
-        int modx = 0;
-        int mody = 0;
-        int origx = 0;
-        int origy = 0;
-        Astar instance = null;
+
+        Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 10, 11);
+        instance.Init();
+        instance.RelaxMekaniikka(2, 1, 1, 1);
+
+        int result = instance.sailio[1][2].getEtaisyys();
+        int expResult = instance.sailio[1][1].getEtaisyys();
+        assertEquals(expResult, result);
+
+
+        int modx = 3;
+        int mody = 5;
+        int origx = 4;
+        int origy = 5;
+        instance.sailio[origy][origx].setAlkuun(7);
         instance.RelaxMekaniikka(modx, mody, origx, origy);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        int result2 = instance.sailio[mody][modx].getEtaisyys();
+        int expResult2 = instance.sailio[origy][origx].getAlkuun() + 1
+                + instance.sailio[mody][modx].getLoppuun();
+
+        assertEquals(expResult2, result2);
     }
 
     /**

@@ -24,7 +24,7 @@ public class Astar {
     /**
      * Säilöö koordinaatit tietoinen omille paikoilleen matriisiin.
      */
-    private Koordinaatti[][] sailio;
+    Koordinaatti[][] sailio;
     /**
      * minimikeon korvike reitinhakua varten.
      */
@@ -55,7 +55,7 @@ public class Astar {
     /**
      * Taulukoiden ja etäisyyksien alustaminen samassa paketissa.
      */
-    private void Init() {
+    void Init() {
         AlustaTaulukot();
         AlustaEtaisyydet();
     }

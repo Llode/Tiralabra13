@@ -24,7 +24,7 @@ public class Dijkstra {
     /**
      * Säilöö koordinaatit tietoinen omille paikoilleen matriisiin.
      */
-    private Koordinaatti[][] sailio;
+    Koordinaatti[][] sailio;
     /**
      * minimikeon korvike reitinhakua varten.
      */
@@ -58,7 +58,7 @@ public class Dijkstra {
     /**
      * Taulukoiden ja etäisyyksien alustaminen samassa paketissa.
      */
-    private void Init() {
+    void Init() {
         AlustaTaulukot();
         AlustaEtaisyydet();
     }
