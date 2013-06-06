@@ -71,8 +71,7 @@ public class DijkstraTest {
     public void testDijkstra() {
         System.out.println("Dijkstra");
         Dijkstra instance = new Dijkstra(Tekoalytesti.labyrintti, 1, 1, 9, 9);
-        instance.Dijkstra();
-        assertTrue(instance.TulostaReitti());
+        assertTrue(instance.Dijkstra());
 
     }
 
@@ -100,6 +99,7 @@ public class DijkstraTest {
 
     @Test
     public void testaaSatunnaisia() {
+        System.out.println("Testataan 100 000 satunnaista reittiä");
         Random rng = new Random();
         int[][] verkko = Tekoalytesti.labyrintti;
         int alkux;
@@ -107,15 +107,15 @@ public class DijkstraTest {
         int maalix;
         int maaliy;
 
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 100000; i++) {
             alkux = rng.nextInt(19);
             alkuy = rng.nextInt(21);
             maalix = rng.nextInt(19);
             maaliy = rng.nextInt(21);
             if (verkko[alkuy][alkux] == 0 && verkko[maaliy][maalix] == 0) {
                 Dijkstra instance = new Dijkstra(Tekoalytesti.labyrintti, alkux, alkuy, maalix, maaliy);
-                instance.Dijkstra();
-                assertTrue(instance.TulostaReitti());
+                
+                assertTrue(instance.Dijkstra());
             }
         }
     }

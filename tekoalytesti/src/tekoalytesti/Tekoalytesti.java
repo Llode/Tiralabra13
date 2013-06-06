@@ -48,14 +48,14 @@ public class Tekoalytesti {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        int aloitusx = 1;
-        int aloitusy = 1;
+        int aloitusx = 3;
+        int aloitusy = 5;
         int maalix = 17;
         int maaliy = 19;
-
-        System.out.println("Dijkstra");
-        Dijkstra algo = new Dijkstra(labyrintti, aloitusx, aloitusy, maalix, maaliy);
-        algo.Dijkstra();
+//
+//        System.out.println("Dijkstra");
+//        Dijkstra algo = new Dijkstra(labyrintti, aloitusx, aloitusy, maalix, maaliy);
+//        algo.Dijkstra();
 
         System.out.println("A*");
         Astar astar = new Astar(labyrintti, aloitusx, aloitusy, maalix, maaliy);

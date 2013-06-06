@@ -117,13 +117,15 @@ public class AstarTest {
     @Test
     public void testaaPisinMatka() {
         Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 17, 19);
-        instance.Astar();
+        instance.Init();
+        assertTrue(instance.Reitinhaku());
         assertTrue(instance.TulostaReitti());
 
     }
 
     @Test
     public void testaaSatunnaisia() {
+        System.out.println("Testataan 5000 satunnaista reittiä");
         Random rng = new Random();
         int[][] verkko = Tekoalytesti.labyrintti;
         int alkux;
@@ -131,15 +133,20 @@ public class AstarTest {
         int maalix;
         int maaliy;
 
-        for (int i = 0; i < 500; i++) {
+        
+        
+        
+        for (int i = 0; i < 5000; i++) {
             alkux = rng.nextInt(19);
             alkuy = rng.nextInt(21);
             maalix = rng.nextInt(19);
             maaliy = rng.nextInt(21);
             if (verkko[alkuy][alkux] == 0 && verkko[maaliy][maalix] == 0) {
+                
                 Astar instance = new Astar(Tekoalytesti.labyrintti, alkux, alkuy, maalix, maaliy);
-                instance.Astar();
-                assertTrue(instance.TulostaReitti());
+                instance.Init();
+                System.out.println("Startti: " + instance.sailio[alkuy][alkux] + " Maali: " + instance.sailio[maaliy][maalix]);
+                assertTrue(instance.Astar());
             }
         }
     }

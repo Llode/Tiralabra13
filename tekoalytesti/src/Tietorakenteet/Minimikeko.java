@@ -115,9 +115,11 @@ public class Minimikeko {
 //
 //            avaintaulu[min.getID()] = -1;
 //            avaintaulu[keko[koko].getID()] = 1;
-
+            System.out.println("");
+//            keko[koko] = null;
             koko--;
             heapify(1);
+
             return min;
         }
         return keko[0];
@@ -152,11 +154,11 @@ public class Minimikeko {
 
     /**
      * Nostaa alkion arvoa (=koordinaatin etäisyyttä alkuun ja siten sen
-     * etäisyysarviota)
+     * etäisyysarviota). Luultavasti turha metodi tässä harkkatyössä.
      *
-     * @param avain 
+     * @param avain
      * @param newk
-     * @return  
+     * @return
      */
     public boolean nostaArvoa(int avain, int newk) {
         if (getPos(avain) == true) {
@@ -175,19 +177,12 @@ public class Minimikeko {
      *
      * @param ID Tutkittavan alkion avain.
      * @param newk uusi etäisyysarvio alkuun.
-     * @return  
+     * @return
      */
     public boolean laskeArvoa(int ID, int newk) {
-//        if (getPos(ID) == true) {
-        int etsin = 0;
-        int i = 0;
-        while (ID != etsin && i < koko) {
-            i++;
-            etsin = keko[i].getID();
-        }
-        index = i;
-        
-        int odist = keko[index].getEtaisyys();
+        int index = etsiAlkioKeostaLoopilla(ID);
+
+//        int odist = keko[index].getEtaisyys();
         keko[index].setAlkuun(newk);
 //        System.out.println("avaintaulu " + avaintaulu[keko[index].getID()]);
 //        System.out.println("ARvonlasku " + keko[index] + "   " + odist);
@@ -212,7 +207,7 @@ public class Minimikeko {
      * muulloin.
      */
     public boolean getPos(int ID) {
-       // index = avaintaulu[ID];
+        // index = avaintaulu[ID];
         if (index == -1) {
             return false;
         } else {
@@ -240,5 +235,18 @@ public class Minimikeko {
      */
     public int getIndex() {
         return index;
+    }
+
+    int etsiAlkioKeostaLoopilla(int ID) {
+        int etsin = 0;
+        int i = 0;
+        while (i < koko) {
+            i++;
+            etsin = keko[i].getID();
+            if (etsin == ID) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

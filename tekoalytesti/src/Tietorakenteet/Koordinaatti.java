@@ -92,10 +92,10 @@ public class Koordinaatti {
     /**
      * Etäisyys lähtösolmusta, Dijkstraa varten.
      *
-     * @param v
+     * @param distance uusi etäisyys
      */
-    public void setDistance(int v) {
-        this.Dijkstradistance = v;
+    public void setDistance(int distance) {
+        this.Dijkstradistance = distance;
     }
 
     /**

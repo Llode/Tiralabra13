@@ -34,6 +34,7 @@ public class Astar {
     private int maalix;
     private int maaliy;
     private int[][] verkko;
+    private boolean stoppi;
 
     /**
      * Konstruktori
@@ -97,6 +98,7 @@ public class Astar {
 
             }
         }
+        System.out.println("");
 
 //        Koordinaatti asd = sailio[1][2];
 //        Relax(asd);
@@ -208,17 +210,13 @@ public class Astar {
      * @param y alkup. y-arvo
      */
     void RelaxMekaniikka(int modx, int mody, int origx, int origy) {
-        Koordinaatti modcrd = sailio[mody][modx];
-        Koordinaatti origcrd = sailio[origy][origx];
 
-        if (modcrd.getAlkuun() > origcrd.getAlkuun() + 1) {
-            modcrd.setAlkuun(origcrd.getAlkuun() + 1);
+        if (sailio[mody][modx].getAlkuun() > sailio[origy][origx].getAlkuun() + 1) {
+            sailio[mody][modx].setAlkuun(sailio[origy][origx].getAlkuun() + 1);
+           
+            sailio[mody][modx].setPath(sailio[origy][origx]);
+            keko.laskeArvoa(sailio[mody][modx].getID(), sailio[mody][modx].getAlkuun());
 
-            int uusiAlkuun = modcrd.getAlkuun();
-            keko.laskeArvoa(modcrd.getID(), uusiAlkuun);
-
-            modcrd.setPath(origcrd);
-            sailio[mody][modx] = modcrd;
         }
     }
 
@@ -235,18 +233,34 @@ public class Astar {
         } else {
 
             Init();
-            boolean stoppi = Reitinhaku();
 
-            if (stoppi) {
+            if (Reitinhaku()) {
                 TulostaReitti();
                 return true;
             } else {
-                Dijkstra dj = new Dijkstra(verkko, alkux, alkuy, maalix, maaliy);
-                dj.Dijkstra();
-                dj.TulostaReitti();
+//                Dijkstra dj = new Dijkstra(verkko, alkux, alkuy, maalix, maaliy);
+//                dj.Dijkstra();
+//                dj.TulostaReitti();
                 return false;
             }
         }
+    }
+
+    /**
+     * itse reitinhakualgoritmi
+     *
+     * @return true, jos maalisolmu käsitellään.
+     */
+    boolean Reitinhaku() {
+        while (!keko.isEmpty()) {
+            Koordinaatti solmu = keko.removeMin();
+            Relax(solmu);
+            
+            if (OllaankoMaalissa(solmu)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -256,8 +270,10 @@ public class Astar {
      * @return True, jos tutkittava solmu on maalisolmu.
      */
     private boolean OllaankoMaalissa(Koordinaatti solmu) {
-        if (solmu.getX() == maalix && solmu.getY() == maaliy) {
-            return true;
+        if (solmu.getX() == maalix) {
+            if (solmu.getY() == maaliy) {
+                return true;
+            }
         }
         return false;
     }
@@ -277,6 +293,7 @@ public class Astar {
             reitti = reitti.getPath();
             System.out.println(reitti);
         }
+
         if (OllaankoStartissa(reitti)) {
             return true;
         } else {
@@ -298,20 +315,5 @@ public class Astar {
         }
         System.out.println("huonot naatit");
         return false;
-    }
-
-    /**
-     * itse reitinhakualgoritmi
-     *
-     * @return true, jos maalisolmu käsitellään.
-     */
-    boolean Reitinhaku() {
-        boolean stoppi = false;
-        while (!stoppi) {
-            Koordinaatti solmu = keko.removeMin();
-            Relax(solmu);
-            stoppi = OllaankoMaalissa(solmu);
-        }
-        return stoppi;
     }
 }
