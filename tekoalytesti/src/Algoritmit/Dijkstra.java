@@ -35,8 +35,6 @@ public class Dijkstra {
     private int maalix;
     private int maaliy;
     private int[][] verkko;
-    private Koordinaatti[][] polku = new Koordinaatti[25][25];
-    private Koordinaatti startti;
 
     /**
      * Konstruktori
@@ -88,13 +86,9 @@ public class Dijkstra {
 
                 if (OllaankoStartissa(koord)) {
                     koord.setDistance(0);
-                    startti = koord;
+                    keko.insert(koord);
                 } else {
                     koord.setDistance(max);
-                }
-
-                if (verkko[y][x] == 0) {
-                    keko.insert(koord);
                 }
                 sailio[y][x] = koord;
 
@@ -204,11 +198,11 @@ public class Dijkstra {
 
         if (modcrd.getDistance() > origcrd.getDistance() + 1) {
             modcrd.setDistance(origcrd.getDistance() + 1);
-            int uusiEtaisyys = modcrd.getDistance();
-            keko.laskeArvoa(modcrd.getID(), uusiEtaisyys);
 
             modcrd.setPath(origcrd);
             sailio[mody][modx] = modcrd;
+            keko.insert(sailio[mody][modx]);
+
         }
     }
 
@@ -257,14 +251,17 @@ public class Dijkstra {
      */
     public boolean TulostaReitti() {
         Koordinaatti reitti = sailio[maaliy][maalix];
+        int pituus = 0;
         System.out.println("Eka: " + reitti);
 
         while (reitti.getPath() != null) {
             reitti = reitti.getPath();
             System.out.println(reitti);
+            pituus++;
         }
 
         if (OllaankoStartissa(reitti)) {
+            System.out.println("Reitin pituus: " + pituus);
             return true;
         } else {
             return false;

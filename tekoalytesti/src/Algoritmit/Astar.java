@@ -19,7 +19,7 @@ public class Astar {
      * alussa. Maksimietäisyys (labyrintin korkeus + leveys) on vähennetty,
      * ettei etaisyysAlkuun[y][x]+etaisyysLoppuun[y][x] aiheuttaisi virhettä.
      */
-    private final int max = Integer.MAX_VALUE - (19 + 21);
+    private final int max = Integer.MAX_VALUE - 1000;
     /**
      * Säilöö koordinaatit tietoinen omille paikoilleen matriisiin.
      */
@@ -33,7 +33,6 @@ public class Astar {
     private int maalix;
     private int maaliy;
     private int[][] verkko;
-    private boolean stoppi;
 
     /**
      * Konstruktori
@@ -68,7 +67,6 @@ public class Astar {
         int keonkoko = verkko.length * verkko[0].length + 1;
         sailio = new Koordinaatti[verkko.length][verkko[0].length];
         keko = new Minimikeko(keonkoko);
-
     }
 
     /**
@@ -86,26 +84,36 @@ public class Astar {
 
                 if (OllaankoStartissa(koord)) {
                     koord.setEtaisyys(0, loppuun);
+                    keko.insert(koord);
                 } else {
                     koord.setEtaisyys(max, loppuun);
                 }
-
-                if (verkko[y][x] == 0) {
-                    keko.insert(koord);
-                }
+                
                 sailio[y][x] = koord;
 
             }
         }
+    }
 
-//        Koordinaatti asd = sailio[1][2];
-//        Relax(asd);
-//        Koordinaatti crd = keko.removeMin();
-//        while (!keko.isEmpty()) {
-//            System.out.println(crd);
-//            crd = keko.removeMin();
-//        }
+    /**
+     * Tulostaa keon sisällön pienuusjärjestyksessä. Debugausta varten.
+     */
+    void tulostaKeonSisalto() {
+        Koordinaatti crd = keko.removeMin();
+        while (!keko.isEmpty()) {
+            System.out.println(crd);
+            crd = keko.removeMin();
+        }
+    }
 
+    /**
+     * Palauttaa taulukon, johon koordinaatit tallennetaan. Käytetään
+     * AlustaEtaisyydet()-metodin testaukseen.
+     *
+     * @return sailio
+     */
+    Koordinaatti[][] getSailio() {
+        return sailio;
     }
 
     /**
@@ -210,10 +218,9 @@ public class Astar {
 
         if (sailio[mody][modx].getAlkuun() > sailio[origy][origx].getAlkuun() + 1) {
             sailio[mody][modx].setAlkuun(sailio[origy][origx].getAlkuun() + 1);
-           
-            sailio[mody][modx].setPath(sailio[origy][origx]);
-            keko.laskeArvoa(sailio[mody][modx].getID(), sailio[mody][modx].getAlkuun());
 
+            sailio[mody][modx].setPath(sailio[origy][origx]);
+            keko.insert(sailio[mody][modx]);
         }
     }
 
@@ -224,7 +231,6 @@ public class Astar {
      */
     public boolean Astar() {
         if (!tarkastaArvot()) {
-            System.out.println("Huonot naatit");
             return false;
 
         } else {
@@ -235,9 +241,7 @@ public class Astar {
                 TulostaReitti();
                 return true;
             } else {
-//                Dijkstra dj = new Dijkstra(verkko, alkux, alkuy, maalix, maaliy);
-//                dj.Dijkstra();
-//                dj.TulostaReitti();
+                System.out.println("Reitinhaku epäonnistui.");
                 return false;
             }
         }
@@ -252,7 +256,7 @@ public class Astar {
         while (!keko.isEmpty()) {
             Koordinaatti solmu = keko.removeMin();
             Relax(solmu);
-            
+
             if (OllaankoMaalissa(solmu)) {
                 return true;
             }
@@ -284,16 +288,21 @@ public class Astar {
      */
     public boolean TulostaReitti() {
         Koordinaatti reitti = sailio[maaliy][maalix];
+        int pituus = 0;
+
         System.out.println("Eka: " + reitti);
 
         while (reitti.getPath() != null) {
             reitti = reitti.getPath();
             System.out.println(reitti);
+            pituus++;
         }
 
         if (OllaankoStartissa(reitti)) {
+            System.out.println("Reitin pituus: " + pituus);
             return true;
         } else {
+            System.out.println("Reittiä ei löytynyt");
             return false;
         }
     }
@@ -312,5 +321,14 @@ public class Astar {
         }
         System.out.println("huonot naatit");
         return false;
+    }
+
+    /**
+     * Palauttaa maksimiarvon (MAX_VALUE - n) testejä varten
+     *
+     * @return Maksimiarvo
+     */
+    public int getMax() {
+        return max;
     }
 }

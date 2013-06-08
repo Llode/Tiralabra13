@@ -181,4 +181,28 @@ public class KoordinaattiTest {
         String result = instance.toString();
         assertEquals(expResult, result);
     }
+
+    /**
+     * Test of getID method, of class Koordinaatti.
+     */
+    @Test
+    public void testGetID() {
+        System.out.println("getID");
+        
+        Koordinaatti instance = new Koordinaatti();
+        instance.nollaaIDLaskuri();
+        
+        naatti = new Koordinaatti(1, 1);
+        int expResult = 1;
+        int result = naatti.getID();
+        assertEquals(expResult, result);
+        
+        naatti = new Koordinaatti(2, 2);
+        expResult = 2;
+        result = naatti.getID();
+        assertEquals(expResult, result);
+
+    }
+
+
 }

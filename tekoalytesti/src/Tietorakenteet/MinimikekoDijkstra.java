@@ -18,7 +18,7 @@ public class MinimikekoDijkstra {
     private int[] avaintaulu;
     private int maxkoko;
     private int koko;
-    private int index;
+
 
     /**
      * Konstruktori
@@ -151,76 +151,6 @@ public class MinimikekoDijkstra {
     }
 
     /**
-     * Nostaa alkion arvoa (=koordinaatin etäisyyttä loppuun ja siten sen
-     * etäisyysarviota)
-     *
-     * @param avain 
-     * @param newk 
-     * @return  
-     */
-    public boolean nostaArvoa(int avain, int newk) {
-        if (getPos(avain) == true) {
-            if (newk > keko[index].getDistance()) {
-                keko[index].setDistance(newk);
-                heapify(index);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Laskee alkion arvoa (=koordinaatin etäisyyttä alkuun ja siten sen
-     * etäisyysarviota)
-     *
-     * @param ID Tutkittavan alkion avain.
-     * @param newk uusi etäisyysarvio alkuun.
-     * @return  
-     */
-    public boolean laskeArvoa(int ID, int newk) {
-//        if (getPos(ID) == true) {
-        int etsin = 0;
-        int i = 0;
-        while (ID != etsin && i < koko) {
-            i++;
-            etsin = keko[i].getID();
-        }
-        index = i;
-        
-
-        keko[index].setDistance(newk);
-//        System.out.println("avaintaulu " + avaintaulu[keko[index].getID()]);
-//        System.out.println("ARvonlasku " + keko[index] + "   " + odist);
-
-        while (index > 1 && keko[getParent(index)].getDistance() > keko[index].getDistance()) {
-            swap(index, getParent(index));
-            index = getParent(index);
-        }
-
-//        System.out.println("Arvonslasku " + keko[index].getEtaisyys());
-        return true;
-
-//        }
-//        return false;
-    }
-
-    /**
-     * Etsii avainta vastaavan koordinaatin indeksin aputaulukosta.
-     *
-     * @param ID etsittävän koordinaatin avain.
-     * @return true, jos koordinaatti on vielä keossa ja indeksi löytyy, false
-     * muulloin.
-     */
-    public boolean getPos(int ID) {
-//        index = avaintaulu[ID];
-        if (index == -1) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /**
      * Tarkastaa, onko keko tyhjä. Mikäli keossa on vain 'tyhjä koordinaatti',
      * se palauttaa true.
      *
@@ -231,14 +161,5 @@ public class MinimikekoDijkstra {
             return true;
         }
         return false;
-    }
-
-    /**
-     * getPosin testausta varten.
-     *
-     * @return
-     */
-    public int getIndex() {
-        return index;
     }
 }

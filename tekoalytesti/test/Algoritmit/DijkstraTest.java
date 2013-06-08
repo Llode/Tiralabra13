@@ -81,17 +81,17 @@ public class DijkstraTest {
     @Test
     public void testTarkastaArvot() {
         System.out.println("tarkastaArvot");
-        Astar instance = new Astar(Tekoalytesti.labyrintti, 0, 0, 1, 2);
+        Dijkstra instance = new Dijkstra(Tekoalytesti.labyrintti, 0, 0, 1, 2);
         boolean expResult = false;
         boolean result = instance.tarkastaArvot();
         assertEquals(expResult, result);
 
-        instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 9, 1);
+        instance = new Dijkstra(Tekoalytesti.labyrintti, 1, 1, 9, 1);
         expResult = false;
         result = instance.tarkastaArvot();
         assertEquals(expResult, result);
 
-        instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 10, 1);
+        instance = new Dijkstra(Tekoalytesti.labyrintti, 1, 1, 10, 1);
         expResult = true;
         result = instance.tarkastaArvot();
         assertEquals(expResult, result);
@@ -119,4 +119,5 @@ public class DijkstraTest {
             }
         }
     }
+
 }

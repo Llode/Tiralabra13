@@ -4,6 +4,7 @@
  */
 package Algoritmit;
 
+import Tietorakenteet.Koordinaatti;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -45,7 +46,8 @@ public class AstarTest {
     public void testReitinhaku() {
         System.out.println("Reitinhaku");
         Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 10, 1);
-        assertTrue(instance.Astar());
+        instance.Init();
+        assertTrue(instance.Reitinhaku());
 
     }
 
@@ -123,6 +125,9 @@ public class AstarTest {
 
     }
 
+    /**
+     * Suorittaa reitinhaun 100 000 satunnaiselle maali- ja lähtösolmuparille.
+     */
     @Test
     public void testaaSatunnaisia() {
         System.out.println("Testataan 100 000 satunnaista reittiä");
@@ -132,8 +137,6 @@ public class AstarTest {
         int alkuy;
         int maalix;
         int maaliy;
-
-        
         
         
         for (int i = 0; i < 100000; i++) {
@@ -149,5 +152,51 @@ public class AstarTest {
                 assertTrue(instance.Astar());
             }
         }
+    }
+    /**
+     * Testaa, että etäisyydet tallennetaan oikein taulukkoon
+     * alustaEtaisyydet()-metodissa
+     */
+    @Test
+    public void etaisyyksienAlustaminenToimii() {
+        System.out.println("Init");
+
+        int sx = 1;
+        int sy = 1;
+        int mx = 10;
+        int my = 2;
+
+        Astar instance = new Astar(Tekoalytesti.labyrintti, sx, sy, mx, my);
+        instance.Init();
+        Koordinaatti[][] sailio = instance.getSailio();
+
+        int result;
+        int alkuun;
+        int loppuun;
+
+        int expResult;
+
+        for (int y = 0; y < sailio.length; y++) {
+            for (int x = 0; x < sailio[0].length; x++) {
+                if (Tekoalytesti.labyrintti[y][x] == 0) { //vain lattisolmuilla on etäisyysarvio
+                    Koordinaatti crd = sailio[y][x];
+                    result = crd.getEtaisyys();
+
+                    if (y == sy && x == sx) {
+                        alkuun = 0;
+                    } else {
+                        alkuun = instance.getMax();
+                    }
+                    
+                    loppuun = Math.abs(my - y) + Math.abs(mx - x);
+                    
+                    expResult = alkuun + loppuun;
+                    assertEquals(expResult, result);
+                }
+
+            }
+
+        }
+
     }
 }

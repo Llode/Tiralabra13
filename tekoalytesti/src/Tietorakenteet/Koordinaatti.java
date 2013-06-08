@@ -4,7 +4,7 @@
  */
 package Tietorakenteet;
 
-import java.util.Comparator;
+
 
 /**
  * Koordinaattien säilytystä mm. lyhimmän reitin
@@ -29,14 +29,7 @@ public class Koordinaatti {
      *
      */
     public Koordinaatti() {
-        int x = this.x;
-        int y = this.y;
-        int etaisyysarvio = this.etaisyysarvio;
-        int alkuun = this.alkuun;
-        int loppuun = this.loppuun;
         int id = this.id;
-        int Dijkstradistance = this.Dijkstradistance;
-        Koordinaatti path = this.path;
     }
 
     /**
@@ -61,7 +54,12 @@ public class Koordinaatti {
         avain++;
         return avain;
     }
-
+/**
+ * Nollaa ID-laskurin, testaamista varten.
+ */
+    static void nollaaIDLaskuri(){
+        avain = 0;
+    }
     /**
      * Palauttaa koordinaatin avaimen.
      *
@@ -70,7 +68,9 @@ public class Koordinaatti {
     public int getID() {
         return id;
     }
-
+    public void setID(int id) {
+        id = this.id;
+    }
     /**
      * Path osoittaa aina edeltävään solmuun.
      *

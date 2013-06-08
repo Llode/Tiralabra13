@@ -18,7 +18,6 @@ import static org.junit.Assert.*;
 public class MinimikekoTest {
 
     public MinimikekoTest() {
-        double vertailutarkkuus = 0.00001;
     }
 
     @BeforeClass
@@ -45,10 +44,18 @@ public class MinimikekoTest {
         System.out.println("insert");
         Koordinaatti juttu = new Koordinaatti(1, 0);
         juttu.setEtaisyys(3, 5);
+        
         Minimikeko instance = new Minimikeko(10);
         instance.insert(juttu);
-        boolean avain = instance.getPos(juttu.getID());
-        assertTrue(avain);
+
+       
+        boolean insertOnnistuu = false;
+        if (instance.removeMin() != null) {
+            insertOnnistuu = true;
+        }
+        assertTrue(insertOnnistuu);
+
+
     }
 
     /**
@@ -57,14 +64,16 @@ public class MinimikekoTest {
     @Test
     public void testRemoveMin() {
         System.out.println("removeMin");
-        Minimikeko instance = new Minimikeko(10);
-        for (int i = 0; i < 9; i++) {
-            Koordinaatti juttu = new Koordinaatti();
+
+        Minimikeko instance = new Minimikeko(100);
+
+        for (int i = 1; i < 19; i++) {
+            Koordinaatti juttu = new Koordinaatti(10 + i, i);
             juttu.setEtaisyys(i);
             instance.insert(juttu);
         }
-        Koordinaatti expResult = new Koordinaatti();
-        expResult.setEtaisyys(0);
+        Koordinaatti expResult = new Koordinaatti(11, 1);
+        expResult.setEtaisyys(1);
         Koordinaatti result = instance.removeMin();
         assertEquals(expResult.toString(), result.toString());
 
@@ -77,12 +86,13 @@ public class MinimikekoTest {
     public void testLaskeArvoa() {
         System.out.println("laskeArvoa");
         Minimikeko instance = new Minimikeko(20);
-        Koordinaatti juttu;
+        Koordinaatti juttu = new Koordinaatti();
+        juttu.nollaaIDLaskuri();
         int expResult = 2;
 
-        for (int i = 0; i < 14; i++) {
-            juttu = new Koordinaatti(1 + i, 2);
-            juttu.setEtaisyys(i + 2, i + 30);
+        for (int j = 0; j < 14; j++) {
+            juttu = new Koordinaatti(1 + j, 2);
+            juttu.setEtaisyys(j + 2, j + 30);
             instance.insert(juttu);
         }
 
@@ -111,36 +121,13 @@ public class MinimikekoTest {
     public void testHeapify() {
         System.out.println("heapify");
         int i = 0;
-        Minimikeko instance = null;
+        Minimikeko instance = new Minimikeko(50);
         instance.heapify(i);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of getPos method, of class Minimikeko.
-     */
-    @Test
-    public void testGetPos() {
-        System.out.println("getPos");
-        Minimikeko instance = new Minimikeko(300);
-        Koordinaatti juttu = null;
 
-        for (int i = 0; i < 9; i++) {
-            juttu = new Koordinaatti(1 + i, 2 + i);
-            juttu.setAlkuun(i + 10);
-            instance.insert(juttu);
-        }
-        int avain = juttu.getID();
-
-        boolean expResult = true;
-        boolean result = instance.getPos(avain);
-        assertEquals(expResult, result);
-
-        int i = instance.getIndex();
-        assertEquals(instance.keko[i].getID(), avain);
-
-    }
 
     /**
      * Test of isEmpty method, of class MinimikekoDijkstra.
@@ -156,5 +143,28 @@ public class MinimikekoTest {
         Koordinaatti koord = new Koordinaatti();
         instance.insert(koord);
         assertFalse(instance.isEmpty());
+    }
+
+    /**
+     * Test of swap method, of class Minimikeko.
+     */
+    @Test
+    public void testSwap() {
+        System.out.println("swap");
+        int pos1 = 7;
+        int pos2 = 3;
+        Minimikeko instance = new Minimikeko(50);
+
+        for (int i = 0; i < 15; i++) {
+            Koordinaatti crd = new Koordinaatti(1 + i, 25 - i);
+            instance.insert(crd);
+        }
+
+        Koordinaatti[] keko = instance.getArray();
+        Koordinaatti expResult = keko[pos2];
+        instance.swap(pos1, pos2);        
+        Koordinaatti Result = keko[pos1];
+        assertEquals(expResult, Result);
+
     }
 }
