@@ -4,8 +4,6 @@
  */
 package Tietorakenteet;
 
-
-
 /**
  * Koordinaattien säilytystä mm. lyhimmän reitin
  * tallentamista/tulostamista/piirtämistä varten. Getterit ja setterit ovat
@@ -24,6 +22,7 @@ public class Koordinaatti {
     private int loppuun;
     private Koordinaatti path;
     private int Dijkstradistance;
+    private boolean tutkittu;
 
     /**
      *
@@ -41,6 +40,7 @@ public class Koordinaatti {
         this.x = x;
         this.y = y;
         this.id = numeroJuoksee();
+        tutkittu = false;
 //        int etaisyysarvio = this.etaisyysarvio;
 //        int alkuun = this.alkuun;
 //        int loppuun = this.loppuun;
@@ -54,12 +54,14 @@ public class Koordinaatti {
         avain++;
         return avain;
     }
-/**
- * Nollaa ID-laskurin, testaamista varten.
- */
-    static void nollaaIDLaskuri(){
+
+    /**
+     * Nollaa ID-laskurin, testaamista varten.
+     */
+    static void nollaaIDLaskuri() {
         avain = 0;
     }
+
     /**
      * Palauttaa koordinaatin avaimen.
      *
@@ -68,9 +70,11 @@ public class Koordinaatti {
     public int getID() {
         return id;
     }
+
     public void setID(int id) {
         id = this.id;
     }
+
     /**
      * Path osoittaa aina edeltävään solmuun.
      *
@@ -88,6 +92,19 @@ public class Koordinaatti {
     public Koordinaatti getPath() {
         return path;
     }
+/**
+ * Muuttaa solmun tutkituksi.
+ */
+    public void setTutkittu() {
+        tutkittu = true;
+    }
+/**
+ * Tarkastaa, onko solmu lisätty jo kekoon
+ * @return true, jos on, false muulloin.
+ */
+    public boolean onkoTutkittu() {
+        return tutkittu;
+    }
 
     /**
      * Etäisyys lähtösolmusta, Dijkstraa varten.
@@ -101,7 +118,7 @@ public class Koordinaatti {
     /**
      * Etäisyys lähtösolmusta, Dijkstraa varten.
      *
-     * @return  
+     * @return
      */
     public int getDistance() {
         return Dijkstradistance;

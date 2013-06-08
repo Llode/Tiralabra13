@@ -88,7 +88,7 @@ public class Astar {
                 } else {
                     koord.setEtaisyys(max, loppuun);
                 }
-                
+
                 sailio[y][x] = koord;
 
             }
@@ -220,7 +220,11 @@ public class Astar {
             sailio[mody][modx].setAlkuun(sailio[origy][origx].getAlkuun() + 1);
 
             sailio[mody][modx].setPath(sailio[origy][origx]);
-            keko.insert(sailio[mody][modx]);
+            
+
+                keko.insert(sailio[mody][modx]);
+
+            
         }
     }
 
