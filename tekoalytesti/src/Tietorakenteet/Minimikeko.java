@@ -32,7 +32,7 @@ public class Minimikeko {
      * @param pos tutkittavan solmun indeksi.
      * @return vasemman lapsen sijainti keossa.
      */
-    public int getLeft(int pos) {
+    public int Left(int pos) {
         return 2 * pos;
     }
 
@@ -42,7 +42,7 @@ public class Minimikeko {
      * @param pos tutkittavan solmun indeksi.
      * @return Oikean lapsen sijainti keossa.
      */
-    public int getRight(int pos) {
+    public int Right(int pos) {
         return (2 * pos) + 1;
     }
 
@@ -52,7 +52,7 @@ public class Minimikeko {
      * @param pos Lapsisolmun indeksi.
      * @return Vanhemman sijainti keossa.
      */
-    public int getParent(int pos) {
+    public int Parent(int pos) {
         return pos / 2;
     }
 
@@ -77,9 +77,9 @@ public class Minimikeko {
         koko++;
         int index = koko;
 
-        while (index > 1 && keko[getParent(index)].getEtaisyys() > koord.getEtaisyys()) {
-            keko[index] = keko[getParent(index)];
-            index = getParent(index);
+        while (index > 1 && keko[Parent(index)].getEtaisyys() > koord.getEtaisyys()) {
+            keko[index] = keko[Parent(index)];
+            index = Parent(index);
         }
         keko[index] = koord;
     }
@@ -110,8 +110,8 @@ public class Minimikeko {
      * @param index tarkasteltavan alkion sijainti keossa.
      */
     void heapify(int index) {
-        int left = getLeft(index);
-        int right = getRight(index);
+        int left = Left(index);
+        int right = Right(index);
         int smallest;
 
         if (right <= koko) {
@@ -127,8 +127,15 @@ public class Minimikeko {
         } else if (left == koko && keko[index].getEtaisyys() > keko[left].getEtaisyys()) {
             swap(index, left);
         }
+    }
 
-
+    /**
+     * Rakentaa taulukosta keon. Käytetään testaukseen.
+     */
+    void buildHeap() {
+        for (int i = koko/2 +1; i > 0; i--) {
+            heapify(i);
+        }
     }
 
     /**
@@ -147,9 +154,9 @@ public class Minimikeko {
         } else {
             keko[index].setAlkuun(newk);
 
-            while (index > 1 && keko[getParent(index)].getAlkuun() > keko[index].getAlkuun()) {
-                swap(index, getParent(index));
-                index = getParent(index);
+            while (index > 1 && keko[Parent(index)].getAlkuun() > keko[index].getAlkuun()) {
+                swap(index, Parent(index));
+                index = Parent(index);
             }
             return true;
         }
@@ -177,6 +184,16 @@ public class Minimikeko {
         return keko;
     }
 
+    /**
+     * Antaa keolle uuden listan. Testejä varten.
+     *
+     * @param array keon uusi lista
+     */
+    public void introduceArray(Koordinaatti[] array) {
+        this.keko = array;
+        this.koko = array.length - 1;
+    }
+
     int etsiAlkioKeostaLoopilla(int ID) {
         int etsin;
         int i = 0;
@@ -189,11 +206,13 @@ public class Minimikeko {
         }
         return -1;
     }
+
     /**
      * Palauttaa keon koon. Testejä varten.
+     *
      * @return Keon tämänhetkinen koko.
      */
-    public int getKoko(){
+    public int getKoko() {
         return koko;
     }
 }

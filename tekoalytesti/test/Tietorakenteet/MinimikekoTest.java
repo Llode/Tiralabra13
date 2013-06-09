@@ -119,34 +119,38 @@ public class MinimikekoTest {
      * Test of heapify method, of class Minimikeko.
      */
     @Test
-    public void testHeapifySatunnaisillaTaulukoilla() {
-        System.out.println("heapify 100000 satunnaisella taulukolla");
+    public void testHeapify() {
+        System.out.println("heapify ");
         Random rng = new Random();
-        int i = 1;
+        int keonKoko = 500;
 
-        for (int k = 0; k < 100000; k++) {
+        Minimikeko instance = new Minimikeko(keonKoko);
+        Koordinaatti[] taulu = new Koordinaatti[keonKoko];
 
-            Minimikeko instance = new Minimikeko(500);
+        for (int j = 1; j < keonKoko; j++) {
+            Koordinaatti crd = new Koordinaatti(1 + j, 2 + (2 * j));
+            crd.setEtaisyys(rng.nextInt(2000));
+            taulu[j] = crd;
+        }
 
-            for (int j = 1; j < 500; j++) {
-                Koordinaatti crd = new Koordinaatti(1 + i, 2 + (2 * i));
-                crd.setEtaisyys(rng.nextInt());
-                instance.insert(crd);
+        instance.introduceArray(taulu);
+        instance.buildHeap();
+        
+        Koordinaatti[] keko = instance.getArray();
+        for (int i = 1; i < keonKoko; i++) {
+            System.out.println(keko[i].getEtaisyys());
+        }
+
+        for (int j = 2; j < taulu.length; j++) {
+            if (taulu[1].getEtaisyys() > taulu[j].getEtaisyys()) {
+                fail("Heapify failed");
             }
-
-            instance.heapify(i);
-            Koordinaatti[] taulu = instance.getArray();
-
-            for (int j = 2; j < taulu.length; j++) {
-                if (taulu[i].getEtaisyys() > taulu[j].getEtaisyys()) {
+        }
+        for (int j = 1; j < taulu.length; j++) {
+            int vanhempi = instance.Parent(j);
+            if (taulu[vanhempi] != null) {
+                if (taulu[vanhempi].getEtaisyys() > taulu[j].getEtaisyys()) {
                     fail("Heapify failed");
-                }
-            }
-            for (int j = 1; j < taulu.length; j++) {
-                int vanhempi = instance.getParent(j);
-                if(taulu[vanhempi] != null) {
-                    if(taulu[vanhempi].getEtaisyys() > taulu[j].getEtaisyys())
-                        fail("Heapify failed");
                 }
             }
         }
