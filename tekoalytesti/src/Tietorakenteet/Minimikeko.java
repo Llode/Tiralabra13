@@ -24,10 +24,6 @@ public class Minimikeko {
         maxkoko = max;
         keko = new Koordinaatti[maxkoko];
         koko = 0;
-
-        Koordinaatti dummycrd = new Koordinaatti();
-        dummycrd.setEtaisyys(-1);
-        keko[0] = dummycrd;
     }
 
     /**
@@ -99,7 +95,7 @@ public class Minimikeko {
             Koordinaatti min = keko[1];
             keko[1] = keko[koko];
 
-            keko[koko] = null;
+//            keko[koko] = null;
             koko--;
             heapify(1);
 

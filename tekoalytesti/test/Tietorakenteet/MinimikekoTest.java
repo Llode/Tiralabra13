@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.util.Random;
 
 /**
  *
@@ -44,11 +45,11 @@ public class MinimikekoTest {
         System.out.println("insert");
         Koordinaatti juttu = new Koordinaatti(1, 0);
         juttu.setEtaisyys(3, 5);
-        
+
         Minimikeko instance = new Minimikeko(10);
         instance.insert(juttu);
 
-       
+
         boolean insertOnnistuu = false;
         if (instance.removeMin() != null) {
             insertOnnistuu = true;
@@ -118,16 +119,32 @@ public class MinimikekoTest {
      * Test of heapify method, of class Minimikeko.
      */
     @Test
-    public void testHeapify() {
-        System.out.println("heapify");
-        int i = 0;
-        Minimikeko instance = new Minimikeko(50);
-        instance.heapify(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testHeapifySatunnaisillaTaulukoilla() {
+        System.out.println("heapify 100000 satunnaisella taulukolla");
+        Random rng = new Random();
+        int i = 1;
+     
+        for (int k = 0; k < 100000; k++) {
+
+            Minimikeko instance = new Minimikeko(500);
+
+            for (int j = 1; j < 500; j++) {
+                Koordinaatti crd = new Koordinaatti(1 + i, 2 + (2 * i));
+                crd.setEtaisyys(rng.nextInt());
+                instance.insert(crd);
+            }
+            
+            instance.heapify(i);
+            Koordinaatti[] taulu = instance.getArray();
+
+            for (int j = 2; j < taulu.length; j++) {
+                if (taulu[i].getEtaisyys() > taulu[j].getEtaisyys()) {
+                    fail("Heapify failed");
+                }
+            }
+        }
+
     }
-
-
 
     /**
      * Test of isEmpty method, of class MinimikekoDijkstra.
@@ -162,7 +179,7 @@ public class MinimikekoTest {
 
         Koordinaatti[] keko = instance.getArray();
         Koordinaatti expResult = keko[pos2];
-        instance.swap(pos1, pos2);        
+        instance.swap(pos1, pos2);
         Koordinaatti Result = keko[pos1];
         assertEquals(expResult, Result);
 

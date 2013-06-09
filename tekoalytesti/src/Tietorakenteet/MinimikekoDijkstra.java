@@ -12,10 +12,6 @@ package Tietorakenteet;
 public class MinimikekoDijkstra {
 
     Koordinaatti[] keko;
-    /**
-     * Avaintaulun indeksi on koordinaatin ID ja alkio sen paikka itse keossa.
-     */
-    private int[] avaintaulu;
     private int maxkoko;
     private int koko;
 
@@ -28,7 +24,7 @@ public class MinimikekoDijkstra {
     public MinimikekoDijkstra(int max) {
         maxkoko = max;
         keko = new Koordinaatti[maxkoko];
-        avaintaulu = new int[maxkoko];
+
         koko = 0;
         Koordinaatti dummycrd = new Koordinaatti();
         dummycrd.setDistance(-1);
@@ -73,11 +69,6 @@ public class MinimikekoDijkstra {
      */
     void swap(int pos1, int pos2) {
         Koordinaatti tmp = keko[pos1];
-//        int avain = avaintaulu[tmp.getID()];
-
-//        avaintaulu[keko[pos1].getID()] = avaintaulu[keko[pos2].getID()];
-//        avaintaulu[keko[pos2].getID()] = avain;
-
         keko[pos1] = keko[pos2];
         keko[pos2] = tmp;
 
@@ -98,8 +89,6 @@ public class MinimikekoDijkstra {
             index = getParent(index);
         }
         keko[index] = koord;
-
-//        avaintaulu[koord.getID()] = index;
     }
 
     /**
@@ -112,9 +101,6 @@ public class MinimikekoDijkstra {
         if (!isEmpty()) {
             Koordinaatti min = keko[1];
             keko[1] = keko[koko];
-
-//            avaintaulu[min.getID()] = -1;
-//            avaintaulu[keko[koko].getID()] = 1;
 
             koko--;
             heapify(1);
