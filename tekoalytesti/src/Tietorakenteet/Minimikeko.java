@@ -189,4 +189,11 @@ public class Minimikeko {
         }
         return -1;
     }
+    /**
+     * Palauttaa keon koon. Testejä varten.
+     * @return Keon tämänhetkinen koko.
+     */
+    public int getKoko(){
+        return koko;
+    }
 }

@@ -123,7 +123,7 @@ public class MinimikekoTest {
         System.out.println("heapify 100000 satunnaisella taulukolla");
         Random rng = new Random();
         int i = 1;
-     
+
         for (int k = 0; k < 100000; k++) {
 
             Minimikeko instance = new Minimikeko(500);
@@ -133,7 +133,7 @@ public class MinimikekoTest {
                 crd.setEtaisyys(rng.nextInt());
                 instance.insert(crd);
             }
-            
+
             instance.heapify(i);
             Koordinaatti[] taulu = instance.getArray();
 
@@ -142,8 +142,14 @@ public class MinimikekoTest {
                     fail("Heapify failed");
                 }
             }
+            for (int j = 1; j < taulu.length; j++) {
+                int vanhempi = instance.getParent(j);
+                if(taulu[vanhempi] != null) {
+                    if(taulu[vanhempi].getEtaisyys() > taulu[j].getEtaisyys())
+                        fail("Heapify failed");
+                }
+            }
         }
-
     }
 
     /**
