@@ -5,8 +5,8 @@
 package Algoritmit;
 
 import Tietorakenteet.Koordinaatti;
+import Tietorakenteet.Koordinaattipino;
 import Tietorakenteet.MinimikekoDijkstra;
-import java.util.Stack;
 
 /**
  * Reitinhakualgoritmi
@@ -29,12 +29,12 @@ public class Dijkstra {
      * minimikeon korvike reitinhakua varten.
      */
     MinimikekoDijkstra keko;
-    // private Koordinaatti solmu = new Koordinaatti();
     private int alkux;
     private int alkuy;
     private int maalix;
     private int maaliy;
     private int[][] verkko;
+    private Koordinaattipino pino = new Koordinaattipino(10);
 
     /**
      * Konstruktori
@@ -213,14 +213,14 @@ public class Dijkstra {
      */
     public boolean Dijkstra() {
         if (!tarkastaArvot()) {
-            System.out.println("Huonot naatit");
             return false;
 
         } else {
 
             Init();
             Reitinhaku();
-            if (TulostaReitti()) {
+            if (TallennaReitti()) {
+                TulostaReitti();
                 return true;
             } else {
                 return false;
@@ -244,19 +244,19 @@ public class Dijkstra {
     }
 
     /**
-     * Printtaa reitin koordinaatit. Jossain vaiheessa jopa piirtää ne
+     * Tallentaa reitin koordinaatit pinoon. Jossain vaiheessa jopa piirtää ne
      * labyrinttiin.
      *
-     * @return true, jos viimeinen tulostettava solmu on starttisolmu
+     * @return true, jos viimeinen tallennettava solmu on starttisolmu
      */
-    public boolean TulostaReitti() {
+    public boolean TallennaReitti() {
         Koordinaatti reitti = sailio[maaliy][maalix];
+        pino.push(reitti);
         int pituus = 0;
-        System.out.println("Eka: " + reitti);
 
         while (reitti.getPath() != null) {
             reitti = reitti.getPath();
-            System.out.println(reitti);
+            pino.push(reitti);
             pituus++;
         }
 
@@ -264,7 +264,16 @@ public class Dijkstra {
             System.out.println("Reitin pituus: " + pituus);
             return true;
         } else {
+            System.out.println("Reittiä ei löytynyt");
             return false;
+        }
+    }
+/**
+ * Tulostaa haetun reitin.
+ */
+    public void TulostaReitti() {
+        while (!pino.isEmpty()) {
+            System.out.println(pino.pop());
         }
     }
 
@@ -280,6 +289,7 @@ public class Dijkstra {
                 return true;
             }
         }
+        System.out.println("Huonot naatit");
         return false;
     }
 

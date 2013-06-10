@@ -41,10 +41,6 @@ public class Koordinaatti {
         this.y = y;
         this.id = numeroJuoksee();
         tutkittu = false;
-//        int etaisyysarvio = this.etaisyysarvio;
-//        int alkuun = this.alkuun;
-//        int loppuun = this.loppuun;
-//        Koordinaatti path = this.path; 
     }
 
     /**
@@ -71,6 +67,10 @@ public class Koordinaatti {
         return id;
     }
 
+    /**
+     * Asettaa Koordinaatille halutun IDn. Debugausta varten.
+     * @param id uusi tunnus
+     */
     public void setID(int id) {
         id = this.id;
     }

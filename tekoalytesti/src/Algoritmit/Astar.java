@@ -5,6 +5,7 @@
 package Algoritmit;
 
 import Tietorakenteet.Koordinaatti;
+import Tietorakenteet.Koordinaattipino;
 import Tietorakenteet.Minimikeko;
 
 /**
@@ -33,6 +34,7 @@ public class Astar {
     private int maalix;
     private int maaliy;
     private int[][] verkko;
+    private Koordinaattipino pino = new Koordinaattipino(10);
 
     /**
      * Konstruktori
@@ -93,27 +95,6 @@ public class Astar {
 
             }
         }
-    }
-
-    /**
-     * Tulostaa keon sisällön pienuusjärjestyksessä. Debugausta varten.
-     */
-    void tulostaKeonSisalto() {
-        Koordinaatti crd = keko.removeMin();
-        while (!keko.isEmpty()) {
-            System.out.println(crd);
-            crd = keko.removeMin();
-        }
-    }
-
-    /**
-     * Palauttaa taulukon, johon koordinaatit tallennetaan. Käytetään
-     * AlustaEtaisyydet()-metodin testaukseen.
-     *
-     * @return sailio
-     */
-    Koordinaatti[][] getSailio() {
-        return sailio;
     }
 
     /**
@@ -220,11 +201,11 @@ public class Astar {
             sailio[mody][modx].setAlkuun(sailio[origy][origx].getAlkuun() + 1);
 
             sailio[mody][modx].setPath(sailio[origy][origx]);
-            
 
-                keko.insert(sailio[mody][modx]);
 
-            
+            keko.insert(sailio[mody][modx]);
+
+
         }
     }
 
@@ -242,6 +223,7 @@ public class Astar {
             Init();
 
             if (Reitinhaku()) {
+                TallennaReitti();
                 TulostaReitti();
                 return true;
             } else {
@@ -284,21 +266,20 @@ public class Astar {
     }
 
     /**
-     * Printtaa reitin koordinaatit. Jossain vaiheessa jopa piirtää ne
+     * Tallentaa reitin koordinaatit pinoon. Jossain vaiheessa jopa piirtää ne
      * labyrinttiin.
      *
      * @return true, jos viimeinen tulostettava solmu on starttisolmu
      * (=reitinhaku onnistui)
      */
-    public boolean TulostaReitti() {
+    public boolean TallennaReitti() {
         Koordinaatti reitti = sailio[maaliy][maalix];
+        pino.push(reitti);
         int pituus = 0;
-
-        System.out.println("Eka: " + reitti);
 
         while (reitti.getPath() != null) {
             reitti = reitti.getPath();
-            System.out.println(reitti);
+            pino.push(reitti);
             pituus++;
         }
 
@@ -308,6 +289,14 @@ public class Astar {
         } else {
             System.out.println("Reittiä ei löytynyt");
             return false;
+        }
+    }
+/**
+ * Tulostaa pinoon tallennetun reitin.
+ */
+    public void TulostaReitti() {
+        while (!pino.isEmpty()) {
+            System.out.println(pino.pop());
         }
     }
 
@@ -334,5 +323,26 @@ public class Astar {
      */
     public int getMax() {
         return max;
+    }
+
+    /**
+     * Tulostaa keon sisällön pienuusjärjestyksessä. Debugausta varten.
+     */
+    void tulostaKeonSisalto() {
+        Koordinaatti crd = keko.removeMin();
+        while (!keko.isEmpty()) {
+            System.out.println(crd);
+            crd = keko.removeMin();
+        }
+    }
+
+    /**
+     * Palauttaa taulukon, johon koordinaatit tallennetaan. Käytetään
+     * AlustaEtaisyydet()-metodin testaukseen.
+     *
+     * @return sailio
+     */
+    Koordinaatti[][] getSailio() {
+        return sailio;
     }
 }

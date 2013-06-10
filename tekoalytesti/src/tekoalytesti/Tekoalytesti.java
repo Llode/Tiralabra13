@@ -52,10 +52,10 @@ public class Tekoalytesti {
         int aloitusy = 1;
         int maalix = 17;
         int maaliy = 19;
-//
-//        System.out.println("Dijkstra");
-//        Dijkstra algo = new Dijkstra(labyrintti, aloitusx, aloitusy, maalix, maaliy);
-//        algo.Dijkstra();
+
+        System.out.println("Dijkstra");
+        Dijkstra algo = new Dijkstra(labyrintti, aloitusx, aloitusy, maalix, maaliy);
+        algo.Dijkstra();
 
         System.out.println("A*");
         Astar astar = new Astar(labyrintti, aloitusx, aloitusy, maalix, maaliy);

@@ -52,15 +52,15 @@ public class AstarTest {
     }
 
     /**
-     * Test of TulostaReitti method, of class Astar.
+     * Test of TallennaReitti method, of class Astar.
      */
     @Test
     public void testTulostaReitti() {
         System.out.println("TulostaReitti");
         Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 9, 9);
         instance.Astar();
-        instance.TulostaReitti();
-        assertTrue(instance.TulostaReitti());
+        instance.TallennaReitti();
+        assertTrue(instance.TallennaReitti());
 
     }
 
@@ -121,7 +121,7 @@ public class AstarTest {
         Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 17, 19);
         instance.Init();
         assertTrue(instance.Reitinhaku());
-        assertTrue(instance.TulostaReitti());
+        assertTrue(instance.TallennaReitti());
 
     }
 
