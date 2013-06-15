@@ -6,7 +6,7 @@ package Algoritmit;
 
 import Tietorakenteet.Koordinaatti;
 import Tietorakenteet.Koordinaattipino;
-import Tietorakenteet.MinimikekoDijkstra;
+import Tietorakenteet.Minimikeko;
 
 /**
  * Reitinhakualgoritmi
@@ -28,7 +28,7 @@ public class Dijkstra {
     /**
      * minimikeon korvike reitinhakua varten.
      */
-    MinimikekoDijkstra keko;
+    Minimikeko keko;
     private int alkux;
     private int alkuy;
     private int maalix;
@@ -69,7 +69,7 @@ public class Dijkstra {
     private void AlustaTaulukot() {
         int keonkoko = verkko.length * verkko[0].length + 1;
         sailio = new Koordinaatti[verkko.length][verkko[0].length];
-        keko = new MinimikekoDijkstra(keonkoko);
+        keko = new Minimikeko(keonkoko);
 
     }
 
@@ -86,10 +86,10 @@ public class Dijkstra {
                 koord = new Koordinaatti(x, y);
 
                 if (OllaankoStartissa(koord)) {
-                    koord.setDistance(0);
+                    koord.setEtaisyys(0);
                     keko.insert(koord);
                 } else {
-                    koord.setDistance(max);
+                    koord.setEtaisyys(max);
                 }
                 sailio[y][x] = koord;
 
@@ -197,12 +197,15 @@ public class Dijkstra {
         Koordinaatti modcrd = sailio[mody][modx];
         Koordinaatti origcrd = sailio[origy][origx];
 
-        if (modcrd.getDistance() > origcrd.getDistance() + 1) {
-            modcrd.setDistance(origcrd.getDistance() + 1);
+        if (modcrd.getEtaisyys() > origcrd.getEtaisyys() + 1) {
+            modcrd.setEtaisyys(origcrd.getEtaisyys() + 1);
 
             modcrd.setPath(origcrd);
             sailio[mody][modx] = modcrd;
-            keko.insert(sailio[mody][modx]);
+            if (!sailio[mody][modx].onkoTutkittu()) {
+                sailio[mody][modx].setTutkittu();
+                keko.insert(sailio[mody][modx]);
+            }
 
         }
     }
@@ -232,19 +235,6 @@ public class Dijkstra {
     }
 
     /**
-     * True, jos tutkittava solmu on maalisolmu.
-     *
-     * @param solmu tutkittava solmu
-     * @return true, jos maalisolmu
-     */
-    private boolean OllaankoMaalissa(Koordinaatti solmu) {
-        if (solmu.getX() == maalix && solmu.getY() == maaliy) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Tallentaa reitin koordinaatit pinoon. Jossain vaiheessa jopa piirtää ne
      * labyrinttiin.
      *
@@ -261,7 +251,7 @@ public class Dijkstra {
             pituus++;
         }
         pinonsisalto = pino.getArray();
-        
+
         if (OllaankoStartissa(reitti)) {
             System.out.println("Reitin pituus: " + pituus);
             return true;

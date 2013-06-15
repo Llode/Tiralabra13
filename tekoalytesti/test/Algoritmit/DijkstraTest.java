@@ -4,14 +4,14 @@
  */
 package Algoritmit;
 
+import Kayttoliittyma.Kayttoliittyma;
 import java.util.Random;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import Kayttoliittyma.Kayttoliittyma;
 
 
 /**
@@ -48,8 +48,8 @@ public class DijkstraTest {
         Dijkstra instance = new Dijkstra(Kayttoliittyma.labyrintti, 1, 1, 10, 11);
         instance.Init();
         instance.RelaxMekaniikka(2, 1, 1, 1);
-        int result = instance.sailio[1][2].getDistance();
-        int expResult = instance.sailio[1][1].getDistance() + 1;
+        int result = instance.sailio[1][2].getEtaisyys();
+        int expResult = instance.sailio[1][1].getEtaisyys() + 1;
         assertEquals(expResult, result);
 
 
@@ -57,11 +57,11 @@ public class DijkstraTest {
         int mody = 5;
         int origx = 4;
         int origy = 5;
-        instance.sailio[origy][origx].setDistance(7);
+        instance.sailio[origy][origx].setEtaisyys(7);
         instance.RelaxMekaniikka(modx, mody, origx, origy);
 
-        int result2 = instance.sailio[mody][modx].getDistance();
-        int expResult2 = instance.sailio[origy][origx].getDistance() + 1;
+        int result2 = instance.sailio[mody][modx].getEtaisyys();
+        int expResult2 = instance.sailio[origy][origx].getEtaisyys() + 1;
         assertEquals(expResult2, result2);
     }
 

@@ -87,7 +87,7 @@ public class MinimikekoTest {
     public void testLaskeArvoa() {
         System.out.println("laskeArvoa");
         Minimikeko instance = new Minimikeko(20);
-        Koordinaatti juttu = new Koordinaatti();
+        Koordinaatti juttu;
         Koordinaatti.nollaaIDLaskuri();
         int expResult = 2;
 

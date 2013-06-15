@@ -21,7 +21,6 @@ public class Koordinaatti {
     private int alkuun;
     private int loppuun;
     private Koordinaatti path;
-    private int Dijkstradistance;
     private boolean tutkittu;
 
     /**
@@ -107,24 +106,6 @@ public class Koordinaatti {
     }
 
     /**
-     * Etäisyys lähtösolmusta, Dijkstraa varten.
-     *
-     * @param distance uusi etäisyys
-     */
-    public void setDistance(int distance) {
-        this.Dijkstradistance = distance;
-    }
-
-    /**
-     * Etäisyys lähtösolmusta, Dijkstraa varten.
-     *
-     * @return
-     */
-    public int getDistance() {
-        return Dijkstradistance;
-    }
-
-    /**
      * Asettaa koordinaatille etäisyysarviot alku- ja maalikoordinaatteihin.
      * Laskee myös näiden pisteiden etäisyyden.
      *
@@ -138,8 +119,8 @@ public class Koordinaatti {
     }
 
     /**
-     * Asettaa koordinaatille uuden etäisyyden ilman muuta härväämistä. Lähinnä
-     * debugaamista varten.
+     * Asettaa koordinaatille uuden etäisyyden ilman muuta härväämistä. Dijkstra
+     * käyttää tätä etäisyysarvioihin.
      *
      * @param etaisyys
      */

@@ -95,7 +95,6 @@ public class Minimikeko {
             Koordinaatti min = keko[1];
             keko[1] = keko[koko];
 
-//            keko[koko] = null;
             koko--;
             heapify(1);
 
@@ -194,6 +193,12 @@ public class Minimikeko {
         this.koko = array.length - 1;
     }
 
+    /**
+     * Etsii haettavan alkion keosta syklillä. Ei ole nopein mahdollinen tapa,
+     * mutta toisaalta tätä metodia ei työssä tarvita.
+     * @param ID heittavan solmun tunniste
+     * @return solmun indeksi keossa, jos solmu ei enää ole keossa, palautetaan -1.
+     */
     int etsiAlkioKeostaLoopilla(int ID) {
         int etsin;
         int i = 0;

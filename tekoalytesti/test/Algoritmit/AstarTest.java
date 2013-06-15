@@ -115,7 +115,9 @@ public class AstarTest {
         result = instance.tarkastaArvot();
         assertEquals(expResult, result);
     }
-
+    /**
+     * Testaa reitin sokkelon kulmasta kulmaan
+     */
     @Test
     public void testaaPisinMatka() {
         Astar instance = new Astar(Kayttoliittyma.labyrintti, 1, 1, 17, 19);
@@ -148,11 +150,12 @@ public class AstarTest {
                 
                 Astar instance = new Astar(Kayttoliittyma.labyrintti, alkux, alkuy, maalix, maaliy);
                 instance.Init();
-//                System.out.println("Startti: " + instance.sailio[alkuy][alkux] + " Maali: " + instance.sailio[maaliy][maalix]);
+                System.out.println("Startti: " + instance.sailio[alkuy][alkux] + " Maali: " + instance.sailio[maaliy][maalix]);
                 assertTrue(instance.Astar());
             }
         }
-    }
+    
+}
     /**
      * Testaa, että etäisyydet tallennetaan oikein taulukkoon
      * alustaEtaisyydet()-metodissa

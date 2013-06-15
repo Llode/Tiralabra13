@@ -17,8 +17,8 @@ public class Astar {
 
     /**
      * Teoreettinen maksimiarvo, joka annetaan etaisyysAlkuun-taulukon alkioille
-     * alussa. Maksimietäisyys (labyrintin korkeus + leveys) on vähennetty,
-     * ettei etaisyysAlkuun[y][x]+etaisyysLoppuun[y][x] aiheuttaisi virhettä.
+     * alussa. Lukua on pienennetty hieman,
+     * etaisyysAlkuun[y][x]+etaisyysLoppuun[y][x] aiheuttaisi virhettä.
      */
     private final int max = Integer.MAX_VALUE - 1000;
     /**
@@ -203,10 +203,10 @@ public class Astar {
 
             sailio[mody][modx].setPath(sailio[origy][origx]);
 
-
-            keko.insert(sailio[mody][modx]);
-
-
+            if (!sailio[mody][modx].onkoTutkittu()) {
+                sailio[mody][modx].setTutkittu();
+                keko.insert(sailio[mody][modx]);
+            }
         }
     }
 
@@ -297,11 +297,13 @@ public class Astar {
 
     /**
      * Palauttaa pinoon tallennetun reitin. Käytetään Polun visualisointiin.
+     *
      * @return Koordinaattipino sen ollessa "täysi"
      */
-    public Koordinaatti[] getPolku(){
+    public Koordinaatti[] getPolku() {
         return pinonsisalto;
     }
+
     /**
      * Tulostaa pinoon tallennetun reitin.
      */

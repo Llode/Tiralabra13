@@ -10,7 +10,8 @@ import Tietorakenteet.Koordinaatti;
 import java.util.Scanner;
 
 /**
- * Yksinkertainen komentorivikäyttöliittymä. Käytännössä myös suorittaa ohjelman.
+ * Yksinkertainen komentorivikäyttöliittymä. Käytännössä myös suorittaa
+ * ohjelman.
  *
  * @author Larppa
  */
@@ -167,14 +168,12 @@ public class Kayttoliittyma {
      *
      */
     private void tarkastaArvot() {
+        if (aloitusy > 20 || maaliy > 20 || aloitusx > 18 || maalix > 18) {
+            System.out.println("Annoit liian isoja arvoja. X-max: 18, Y-max: 20");
+            Uusintayritys();
+        }
         if (labyrintti[aloitusy][aloitusx] == 1 || labyrintti[maaliy][maalix] == 1) {
-            System.out.println("Huonot koordinaatit. Syötä 1, jos haluat yrittää uudelleen. 0 lopettaa");
-            int varmistus = skanneri.nextInt();
-            if (varmistus == 1) {
-                kyseleKoordinaatit();
-            } else {
-                jatkuukoSuoritus = false;
-            }
+            Uusintayritys();
         }
     }
 
@@ -183,10 +182,10 @@ public class Kayttoliittyma {
      */
     private void valitseDijkstra() {
         System.out.println("Dijkstra");
-        Dijkstra dijkstra = new Dijkstra(labyrintti, aloitusx, aloitusy, maalix, maaliy);
-        dijkstra.Dijkstra();
+        Dijkstra algo = new Dijkstra(labyrintti, aloitusx, aloitusy, maalix, maaliy);
+        algo.Dijkstra();
 
-        visualisoiD(dijkstra);
+        visualisoiD(algo);
     }
 
     /**
@@ -194,9 +193,21 @@ public class Kayttoliittyma {
      */
     private void valitseAstar() {
         System.out.println("A*");
-        Astar astar = new Astar(labyrintti, aloitusx, aloitusy, maalix, maaliy);
-        astar.Astar();
+        Astar algo = new Astar(labyrintti, aloitusx, aloitusy, maalix, maaliy);
+        algo.Astar();
 
-        visualisoiA(astar);
+        visualisoiA(algo);
+    }
+/**
+ * Suorittaa koordinaattikyselyn uudestaan, jos käyttäjä näin tahtoo.
+ */
+    private void Uusintayritys() {
+        System.out.println("Huonot koordinaatit. Syötä 1, jos haluat yrittää uudelleen. Muut lopettavat");
+        int varmistus = skanneri.nextInt();
+        if (varmistus == 1) {
+            kyseleKoordinaatit();
+        } else {
+            jatkuukoSuoritus = false;
+        }
     }
 }
