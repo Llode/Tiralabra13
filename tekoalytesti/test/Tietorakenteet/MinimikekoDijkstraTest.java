@@ -4,14 +4,12 @@
  */
 package Tietorakenteet;
 
-import Algoritmit.Dijkstra;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import tekoalytesti.Tekoalytesti;
 
 /**
  *
@@ -74,9 +72,6 @@ public class MinimikekoDijkstraTest {
     }
 
 
-
-
-
     /**
      * Test of laskeArvoa method, of class MinimikekoDijkstra.
      */
@@ -128,6 +123,4 @@ public class MinimikekoDijkstraTest {
         instance.insert(koord);
         assertFalse(instance.isEmpty());
     }
-
-
 }

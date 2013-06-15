@@ -88,7 +88,7 @@ public class MinimikekoTest {
         System.out.println("laskeArvoa");
         Minimikeko instance = new Minimikeko(20);
         Koordinaatti juttu = new Koordinaatti();
-        juttu.nollaaIDLaskuri();
+        Koordinaatti.nollaaIDLaskuri();
         int expResult = 2;
 
         for (int j = 0; j < 14; j++) {
@@ -129,7 +129,7 @@ public class MinimikekoTest {
 
         for (int j = 1; j < keonKoko; j++) {
             Koordinaatti crd = new Koordinaatti(1 + j, 2 + (2 * j));
-            crd.setEtaisyys(rng.nextInt(2000));
+            crd.setEtaisyys(rng.nextInt(20000));
             taulu[j] = crd;
         }
 
@@ -143,7 +143,7 @@ public class MinimikekoTest {
 
         for (int j = 2; j < taulu.length; j++) {
             if (taulu[1].getEtaisyys() > taulu[j].getEtaisyys()) {
-                fail("Heapify failed");
+                fail("Ensimmäinen alkio ei ole pienin!");
             }
         }
         for (int j = 1; j < taulu.length; j++) {

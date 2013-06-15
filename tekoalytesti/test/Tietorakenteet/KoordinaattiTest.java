@@ -50,11 +50,6 @@ public class KoordinaattiTest {
     @After
     public void tearDown() {
     }
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
 
     /**
      * Test of setPath method, of class Koordinaatti.
@@ -188,21 +183,19 @@ public class KoordinaattiTest {
     @Test
     public void testGetID() {
         System.out.println("getID");
-        
+
         Koordinaatti instance = new Koordinaatti();
-        instance.nollaaIDLaskuri();
-        
+        Koordinaatti.nollaaIDLaskuri();
+
         naatti = new Koordinaatti(1, 1);
         int expResult = 1;
         int result = naatti.getID();
         assertEquals(expResult, result);
-        
+
         naatti = new Koordinaatti(2, 2);
         expResult = 2;
         result = naatti.getID();
         assertEquals(expResult, result);
 
     }
-
-
 }

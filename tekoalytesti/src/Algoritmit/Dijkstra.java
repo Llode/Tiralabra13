@@ -35,6 +35,7 @@ public class Dijkstra {
     private int maaliy;
     private int[][] verkko;
     private Koordinaattipino pino = new Koordinaattipino(10);
+    private Koordinaatti[] pinonsisalto;
 
     /**
      * Konstruktori
@@ -259,7 +260,8 @@ public class Dijkstra {
             pino.push(reitti);
             pituus++;
         }
-
+        pinonsisalto = pino.getArray();
+        
         if (OllaankoStartissa(reitti)) {
             System.out.println("Reitin pituus: " + pituus);
             return true;
@@ -268,9 +270,10 @@ public class Dijkstra {
             return false;
         }
     }
-/**
- * Tulostaa haetun reitin.
- */
+
+    /**
+     * Tulostaa haetun reitin.
+     */
     public void TulostaReitti() {
         while (!pino.isEmpty()) {
             System.out.println(pino.pop());
@@ -301,5 +304,14 @@ public class Dijkstra {
             Koordinaatti solmu = keko.removeMin();
             Relax(solmu);
         }
+    }
+
+    /**
+     * Palauttaa pinoon tallennetun reitin. Käytetään Polun visualisointiin.
+     *
+     * @return Koordinaattipino sen ollessa "täysi"
+     */
+    public Koordinaatti[] getPolku() {
+        return pinonsisalto;
     }
 }

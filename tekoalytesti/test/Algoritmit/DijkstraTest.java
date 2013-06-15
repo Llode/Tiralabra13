@@ -11,7 +11,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import tekoalytesti.Tekoalytesti;
+import Kayttoliittyma.Kayttoliittyma;
+
 
 /**
  *
@@ -44,7 +45,7 @@ public class DijkstraTest {
     @Test
     public void testRelaxMekaniikka() {
         System.out.println("RelaxMekaniikka");
-        Dijkstra instance = new Dijkstra(Tekoalytesti.labyrintti, 1, 1, 10, 11);
+        Dijkstra instance = new Dijkstra(Kayttoliittyma.labyrintti, 1, 1, 10, 11);
         instance.Init();
         instance.RelaxMekaniikka(2, 1, 1, 1);
         int result = instance.sailio[1][2].getDistance();
@@ -70,7 +71,7 @@ public class DijkstraTest {
     @Test
     public void testDijkstra() {
         System.out.println("Dijkstra");
-        Dijkstra instance = new Dijkstra(Tekoalytesti.labyrintti, 1, 1, 9, 9);
+        Dijkstra instance = new Dijkstra(Kayttoliittyma.labyrintti, 1, 1, 9, 9);
         assertTrue(instance.Dijkstra());
 
     }
@@ -81,17 +82,17 @@ public class DijkstraTest {
     @Test
     public void testTarkastaArvot() {
         System.out.println("tarkastaArvot");
-        Dijkstra instance = new Dijkstra(Tekoalytesti.labyrintti, 0, 0, 1, 2);
+        Dijkstra instance = new Dijkstra(Kayttoliittyma.labyrintti, 0, 0, 1, 2);
         boolean expResult = false;
         boolean result = instance.tarkastaArvot();
         assertEquals(expResult, result);
 
-        instance = new Dijkstra(Tekoalytesti.labyrintti, 1, 1, 9, 1);
+        instance = new Dijkstra(Kayttoliittyma.labyrintti, 1, 1, 9, 1);
         expResult = false;
         result = instance.tarkastaArvot();
         assertEquals(expResult, result);
 
-        instance = new Dijkstra(Tekoalytesti.labyrintti, 1, 1, 10, 1);
+        instance = new Dijkstra(Kayttoliittyma.labyrintti, 1, 1, 10, 1);
         expResult = true;
         result = instance.tarkastaArvot();
         assertEquals(expResult, result);
@@ -101,7 +102,7 @@ public class DijkstraTest {
     public void testaaSatunnaisia() {
         System.out.println("Testataan 100 000 satunnaista reittiä");
         Random rng = new Random();
-        int[][] verkko = Tekoalytesti.labyrintti;
+        int[][] verkko = Kayttoliittyma.labyrintti;
         int alkux;
         int alkuy;
         int maalix;
@@ -113,11 +114,10 @@ public class DijkstraTest {
             maalix = rng.nextInt(19);
             maaliy = rng.nextInt(21);
             if (verkko[alkuy][alkux] == 0 && verkko[maaliy][maalix] == 0) {
-                Dijkstra instance = new Dijkstra(Tekoalytesti.labyrintti, alkux, alkuy, maalix, maaliy);
+                Dijkstra instance = new Dijkstra(Kayttoliittyma.labyrintti, alkux, alkuy, maalix, maaliy);
                 
                 assertTrue(instance.Dijkstra());
             }
         }
     }
-
 }

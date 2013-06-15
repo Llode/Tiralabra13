@@ -69,7 +69,7 @@ public class Koordinaattipino {
      * Palauttaa pinon taulukkona. Testejä varten.
      * @return taulu.
      */
-    Koordinaatti[] getArray() {
+    public Koordinaatti[] getArray() {
         return taulu;
     }
     /**

@@ -4,15 +4,15 @@
  */
 package Algoritmit;
 
+import Kayttoliittyma.Kayttoliittyma;
 import Tietorakenteet.Koordinaatti;
+import java.util.Random;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import tekoalytesti.Tekoalytesti;
-import java.util.Random;
 
 /**
  *
@@ -45,7 +45,7 @@ public class AstarTest {
     @Test
     public void testReitinhaku() {
         System.out.println("Reitinhaku");
-        Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 10, 1);
+        Astar instance = new Astar(Kayttoliittyma.labyrintti, 1, 1, 10, 1);
         instance.Init();
         assertTrue(instance.Reitinhaku());
 
@@ -57,7 +57,7 @@ public class AstarTest {
     @Test
     public void testTulostaReitti() {
         System.out.println("TulostaReitti");
-        Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 9, 9);
+        Astar instance = new Astar(Kayttoliittyma.labyrintti, 1, 1, 9, 9);
         instance.Astar();
         instance.TallennaReitti();
         assertTrue(instance.TallennaReitti());
@@ -71,7 +71,7 @@ public class AstarTest {
     public void testRelaxMekaniikka() {
         System.out.println("RelaxMekaniikka");
 
-        Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 10, 11);
+        Astar instance = new Astar(Kayttoliittyma.labyrintti, 1, 1, 10, 11);
         instance.Init();
         instance.RelaxMekaniikka(2, 1, 1, 1);
 
@@ -100,17 +100,17 @@ public class AstarTest {
     @Test
     public void testTarkastaArvot() {
         System.out.println("tarkastaArvot");
-        Astar instance = new Astar(Tekoalytesti.labyrintti, 0, 0, 1, 2);
+        Astar instance = new Astar(Kayttoliittyma.labyrintti, 0, 0, 1, 2);
         boolean expResult = false;
         boolean result = instance.tarkastaArvot();
         assertEquals(expResult, result);
 
-        instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 9, 1);
+        instance = new Astar(Kayttoliittyma.labyrintti, 1, 1, 9, 1);
         expResult = false;
         result = instance.tarkastaArvot();
         assertEquals(expResult, result);
 
-        instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 10, 1);
+        instance = new Astar(Kayttoliittyma.labyrintti, 1, 1, 10, 1);
         expResult = true;
         result = instance.tarkastaArvot();
         assertEquals(expResult, result);
@@ -118,7 +118,7 @@ public class AstarTest {
 
     @Test
     public void testaaPisinMatka() {
-        Astar instance = new Astar(Tekoalytesti.labyrintti, 1, 1, 17, 19);
+        Astar instance = new Astar(Kayttoliittyma.labyrintti, 1, 1, 17, 19);
         instance.Init();
         assertTrue(instance.Reitinhaku());
         assertTrue(instance.TallennaReitti());
@@ -132,7 +132,7 @@ public class AstarTest {
     public void testaaSatunnaisia() {
         System.out.println("Testataan 100 000 satunnaista reittiä");
         Random rng = new Random();
-        int[][] verkko = Tekoalytesti.labyrintti;
+        int[][] verkko = Kayttoliittyma.labyrintti;
         int alkux;
         int alkuy;
         int maalix;
@@ -146,7 +146,7 @@ public class AstarTest {
             maaliy = rng.nextInt(21);
             if (verkko[alkuy][alkux] == 0 && verkko[maaliy][maalix] == 0) {
                 
-                Astar instance = new Astar(Tekoalytesti.labyrintti, alkux, alkuy, maalix, maaliy);
+                Astar instance = new Astar(Kayttoliittyma.labyrintti, alkux, alkuy, maalix, maaliy);
                 instance.Init();
 //                System.out.println("Startti: " + instance.sailio[alkuy][alkux] + " Maali: " + instance.sailio[maaliy][maalix]);
                 assertTrue(instance.Astar());
@@ -166,7 +166,7 @@ public class AstarTest {
         int mx = 10;
         int my = 2;
 
-        Astar instance = new Astar(Tekoalytesti.labyrintti, sx, sy, mx, my);
+        Astar instance = new Astar(Kayttoliittyma.labyrintti, sx, sy, mx, my);
         instance.Init();
         Koordinaatti[][] sailio = instance.getSailio();
 
@@ -178,7 +178,7 @@ public class AstarTest {
 
         for (int y = 0; y < sailio.length; y++) {
             for (int x = 0; x < sailio[0].length; x++) {
-                if (Tekoalytesti.labyrintti[y][x] == 0) { //vain lattisolmuilla on etäisyysarvio
+                if (Kayttoliittyma.labyrintti[y][x] == 0) { //vain lattisolmuilla on etäisyysarvio
                     Koordinaatti crd = sailio[y][x];
                     result = crd.getEtaisyys();
 

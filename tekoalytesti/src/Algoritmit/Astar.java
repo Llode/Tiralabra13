@@ -35,6 +35,7 @@ public class Astar {
     private int maaliy;
     private int[][] verkko;
     private Koordinaattipino pino = new Koordinaattipino(10);
+    private Koordinaatti[] pinonsisalto;
 
     /**
      * Konstruktori
@@ -283,6 +284,8 @@ public class Astar {
             pituus++;
         }
 
+        pinonsisalto = pino.getArray();
+
         if (OllaankoStartissa(reitti)) {
             System.out.println("Reitin pituus: " + pituus);
             return true;
@@ -291,9 +294,17 @@ public class Astar {
             return false;
         }
     }
-/**
- * Tulostaa pinoon tallennetun reitin.
- */
+
+    /**
+     * Palauttaa pinoon tallennetun reitin. Käytetään Polun visualisointiin.
+     * @return Koordinaattipino sen ollessa "täysi"
+     */
+    public Koordinaatti[] getPolku(){
+        return pinonsisalto;
+    }
+    /**
+     * Tulostaa pinoon tallennetun reitin.
+     */
     public void TulostaReitti() {
         while (!pino.isEmpty()) {
             System.out.println(pino.pop());
